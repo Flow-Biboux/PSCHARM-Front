@@ -7,6 +7,7 @@ import idl from './idl.json';
 import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import FormSub from './formSub';
 
 const wallets = [ getPhantomWallet() ]
 
@@ -26,10 +27,13 @@ const {
 	mintToAccount,
 } = require("./utils");
 
+
+
 function App() {
   const [value, setValue] = useState('');
   const [dataList, setDataList] = useState([]);
   const [input, setInput] = useState('');
+  const [myVar,setMyvar]= useState('');
   const wallet = useWallet()
 
   async function getProvider() {
@@ -93,7 +97,7 @@ function App() {
     const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
     console.log("2 " + mintAccount);
     mintToAccount(provider, mint, mintAccount, 1, provider.wallet.publicKey);
-    setTimeout( function(){console.log("3"); }, 2000);
+    setTimeout( function(){console.log("3"); }, 5000);
     console.log("4");
     const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
     const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
@@ -104,8 +108,23 @@ function App() {
     const [masterEditionAccount, _nonce2] = await web3.PublicKey.findProgramAddress(
     ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer(), "edition"],
     metadataMainAccount);
+      console.log(myVar);
+    await program.rpc.metadata(myVar, {
+      accounts: {
+        payer: provider.wallet.publicKey,
+        mint: mint,
+        mintAuthority: provider.wallet.publicKey,
+        updateAuthority: provider.wallet.publicKey,
+        metadataAccount: metadataAccount,
+        masterEditionAccount: masterEditionAccount,
+        metadataProgram: metadataMainAccount,
+        tokenProgram: TOKEN_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
+        rentProgram: SYSVAR_RENT_PUBKEY,
+      }
+    });
 
-    await program.rpc.metadata("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN", {
+    await program.rpc.edition({
       accounts: {
         payer: provider.wallet.publicKey,
         mint: mint,
@@ -146,6 +165,10 @@ function App() {
                   onChange={e => setInput(e.target.value)}
                   value={input}
                 />
+
+                <FormSub setMyvar={setMyvar} />
+                Myvar : {myVar}
+                
                 <button onClick={update}>Add data</button>
                 <button onClick={mintIt}>Create Mint</button>
               </div>
