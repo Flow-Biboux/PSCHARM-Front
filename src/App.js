@@ -1,3 +1,9 @@
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation 
+} from "react-router-dom";
 import './App.css';
 import { useState } from 'react';
 import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
@@ -35,6 +41,16 @@ const {
   mintToAccount,
 } = require("./utils");
 
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 
 function App() {
@@ -235,75 +251,99 @@ function App() {
     )
   } else {
     return (
-      <div className="App">
-        <div>
+      <Router>
+        <div className="App">
 
 
-          {
-            value ? (
-              <div className='baseee'>
+          <Switch>
+            <Route path="/feed">
+              <ScrollToTop />
+              <Feed />
+            </Route>
+            <Route path="/mint">
+              <ScrollToTop />
+              <Mint />
+            </Route>
+            <Route path="/">
+              <ScrollToTop />              
+              <div>
+                teeeeeeeest
+              </div>
+            </Route>
+          </Switch>
 
-                <FormSub setMyvar={setMyvar} setMyJson={setMyJson} setMyImg={setMyImg} />
 
 
-                {/* /// make Pubkey = file */}
-                {/* <button id="addphoto" onClick={addPhoto(prompt())}> */}
-                {/* Add Photo
-                </button> */}
 
-                {/* <button onClick={() => addPhoto(prompt())} >Create New Album2</button> */}
+          <div>
 
-                <p>
-                  Myvar : {myVar}
+
+            {
+              value ? (
+                <div className='baseee'>
+
+                  <FormSub setMyvar={setMyvar} setMyJson={setMyJson} setMyImg={setMyImg} />
+
+
+                  {/* /// make Pubkey = file */}
+                  {/* <button id="addphoto" onClick={addPhoto(prompt())}> */}
+                  {/* Add Photo
+                  </button> */}
+
+                  {/* <button onClick={() => addPhoto(prompt())} >Create New Album2</button> */}
+
+                  <p>
+                    Myvar : {myVar}
+                    <br />
+                    MyJson : {myJson}
+                    <br /></p>
+
+                  {
+                    myVar ? (
+                      <div>
+                        <button onClick={() => {
+                          const data = myJson
+                          pushArweave(data)
+                        }
+
+                        }
+                        >Upload Json</button>
+                      </div>
+                    ) : (
+                      ' submit values first '
+                    )
+                  }
+
+
+
+
+                  <button onClick={mintIt}>Create Mint</button>
+                  <button onClick={Scroll}>List Img</button>
+                  {/* <div className='showImg' /> */}
+                  {/* <Scroll/> */}
+
+
+                  <p>---------------</p>
+                  <Album />
                   <br />
-                  MyJson : {myJson}
-                  <br /></p>
-
-                {
-                  myVar ? (
-                    <div>
-                      <button onClick={() => {
-                        const data = myJson
-                        pushArweave(data)
-                      }
-
-                      }
-                      >Upload Json</button>
-                    </div>
-                  ) : (
-                    ' submit values first '
-                  )
-                }
-
-
-
-
-                <button onClick={mintIt}>Create Mint</button>
-                <button onClick={Scroll}>List Img</button>
-                {/* <div className='showImg' /> */}
-                {/* <Scroll/> */}
-
-
-                <p>---------------</p>
-                <Album />
-                <br />
-              </div>
-            ) : (
-              <div className='sayyes'>
-                <h3>Click Yes to Enter:</h3>
-                <p>By clicking "Yes" you certify you are over 18 years old and agree to the CHARM terms of use</p>
-                <p>Please aprove the connection to access Charm App :</p>
-              </div>
-            )
-          }
+                </div>
+              ) : (
+                <div className='sayyes'>
+                  <h3>Click Yes to Enter:</h3>
+                  <p>By clicking "Yes" you certify you are over 18 years old and agree to the CHARM terms of use</p>
+                  <p>Please aprove the connection to access Charm App :</p>
+                </div>
+              )
+            }
+            {
+              dataList.map((d, i) => <h4 key={i}>{d}</h4>)
+            }
+          </div>
           {
-            dataList.map((d, i) => <h4 key={i}>{d}</h4>)
+            !value && (<button onClick={initialize} className="bbutton">Yes!</button>)
           }
         </div>
-        {
-          !value && (<button onClick={initialize} className="bbutton">Yes!</button>)
-        }
-      </div>
+        </Router>
     );
   }
 }
