@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@aws-sdk/client-s3": "^3.35.0",
+    "@aws-sdk/credential-provider-cognito-identity": "3.35.0",
     "@project-serum/anchor": "^0.16.2",
     "@project-serum/common": "^0.0.1-beta.3",
     "@solana/wallet-adapter-base": "^0.6.0",
@@ -14,10 +15,14 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "arweave": "^1.10.17",
+    "aws-sdk": "2.1001.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.17.0",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "testweave-sdk": "^0.2.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
