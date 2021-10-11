@@ -16,7 +16,8 @@ export function Scroll() {
         }
 
         var UrlExpireSeconds = 180 * 1;
-console.log('data.Contents Scrolll :',data.Contents);
+        console.log('data.Contents Scrolll :',data.Contents);
+        
         var photos = data.Contents.map(function (photo) {
             var photoKey = photo.Key;
             var params = {
