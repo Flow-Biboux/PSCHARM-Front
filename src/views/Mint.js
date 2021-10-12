@@ -4,6 +4,7 @@ function Mint() {
     return (
         <div>
             Mint Page
+            tartiflette
         </div>
     )
 }
