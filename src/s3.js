@@ -29,11 +29,11 @@
 // snippet-start:[s3.JavaScript.photoAlbumExample.config]
 import AWS from "aws-sdk";
 ///////////////
-const { CognitoIdentityClient } = require("@aws-sdk/client-cognito-identity");
-const {
-  fromCognitoIdentityPool,
-} = require("@aws-sdk/credential-provider-cognito-identity");
-const { S3Client, PutObjectCommand, ListObjectsCommand, DeleteObjectCommand, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
+// const { CognitoIdentityClient } = require("@aws-sdk/client-cognito-identity");
+// const {
+//   fromCognitoIdentityPool,
+// } = require("@aws-sdk/credential-provider-cognito-identity");
+// const { S3Client, PutObjectCommand, ListObjectsCommand, DeleteObjectCommand, DeleteObjectsCommand } = require("@aws-sdk/client-s3");
 //////////////
 var albumBucketName = "charmtokensolana";
 var bucketRegion = "us-east-1";
@@ -212,8 +212,8 @@ function viewAlbum(albumName) {
     }
     // 'this' references the AWS.Response instance that represents the response
     console.log("Viewing elements");
-    var href = this.request.httpRequest.endpoint.href;
-    var bucketUrl = href + albumBucketName + "/";
+    // var href = this.request.httpRequest.endpoint.href;
+    // var bucketUrl = href + albumBucketName + "/";
 
     var UrlExpireSeconds = 180 * 1;
     console.log("data.Contents S3", data.Contents);
@@ -288,7 +288,7 @@ function addPhoto(albumName, mintPubKey) {
   // const extesion = fileName.substring(ext)
   // var photoKey = mint+extesion
   var albumPhotosKey = encodeURIComponent(albumName) + "/";
-  console.log(photoKey);
+  console.log("albumPhotosKey", albumPhotosKey);
 
   const ext = fileName.lastIndexOf(".")
 
