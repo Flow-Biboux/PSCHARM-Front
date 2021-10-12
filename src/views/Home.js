@@ -126,7 +126,7 @@ function Home() {
         console.log('mint.toBase58()', mint.toBase58());
         console.log('provider.publicKey', provider.wallet.publicKey.toBase58());
 
-        addPhoto(mint.toBase58(),provider.wallet.publicKey.toBase58(),'main')
+        addPhoto(mint.toBase58(),provider.wallet.publicKey.toBase58())
         // viewAlbum(provider.wallet.publicKey.toBase58() +"/" +mint.toBase58())
         console.log(5);
 
