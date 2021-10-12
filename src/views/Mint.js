@@ -1,6 +1,9 @@
 import React from 'react'
+import FormSub from '../formSub'
 
 function Mint() {
+    
+    
     return (
         <div className="mint">
 

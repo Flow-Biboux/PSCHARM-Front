@@ -46,11 +46,6 @@ function Home() {
     const wallet = useWallet()
 
 
-    /////////////
-    // function getHtml2(template) {
-    //   return template.join('\n');
-    // }
-    /////////:
     async function getProvider() {
         /* create the provider and return it to the caller */
         /* network set to local network for now */
@@ -131,7 +126,7 @@ function Home() {
         console.log('mint.toBase58()', mint.toBase58());
         console.log('provider.publicKey', provider.wallet.publicKey.toBase58());
 
-        addPhoto(mint.toBase58(),provider.wallet.publicKey.toBase58())
+        addPhoto(mint.toBase58(),provider.wallet.publicKey.toBase58(),'main')
         // viewAlbum(provider.wallet.publicKey.toBase58() +"/" +mint.toBase58())
         console.log(5);
 

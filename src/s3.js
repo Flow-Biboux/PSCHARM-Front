@@ -270,7 +270,7 @@ function viewAlbum(albumName) {
 // snippet-end:[s3.JavaScript.photoAlbumExample.viewAlbum]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.addPhoto]
-function addPhoto(mintPubKey,pubKey) {
+function addPhoto(mintPubKey, pubKey, type) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
@@ -278,12 +278,12 @@ function addPhoto(mintPubKey,pubKey) {
 
   var file = files[0];
   var fileName = file.name;
-var albumName =  pubKey;
-console.log("albumName : ",albumName);
+  var albumName = pubKey;
+  console.log("albumName : ", albumName);
   // const ext = fileName.lastIndexOf(".")
   // const extesion = fileName.substring(ext)
   // var photoKey = mint+extesion
-  var albumPhotosKey =  encodeURIComponent( albumName) + "/";
+  var albumPhotosKey = encodeURIComponent(type) + "/" + encodeURIComponent(albumName) + "/";
   console.log("albumPhotosKey", albumPhotosKey);
 
   const ext = fileName.lastIndexOf(".")

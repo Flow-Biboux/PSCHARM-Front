@@ -88,7 +88,7 @@ function FormSub({ setMyvar, setMyJson, setMyImg}) {
                     id="photoupload"
                     type="file"
                     accept="image/*"
-                    {...register('photoupload', { required: true })}
+                    {...register('photoupload')}
                 />
             </div>
             <p><button>Submit</button></p>
