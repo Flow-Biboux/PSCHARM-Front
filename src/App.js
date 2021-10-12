@@ -5,10 +5,14 @@ import {
   useLocation 
 } from "react-router-dom";
 import './App.css';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import idl from './idl.json';
+
+import Home from "./views/Home";
+import Feed from "./views/Feed";
+import Mint from "./views/Mint";
 
 import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
@@ -266,9 +270,7 @@ function App() {
             </Route>
             <Route path="/">
               <ScrollToTop />              
-              <div>
-                teeeeeeeest
-              </div>
+              <Home />
             </Route>
           </Switch>
 
