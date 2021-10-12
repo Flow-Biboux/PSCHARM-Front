@@ -108,12 +108,14 @@ function Home() {
         const provider = await getProvider();
         const program = new Program(idl, programID, provider);
         const mint = await createMint(provider, provider.wallet.publicKey);
-        console.log("1");
+        console.log("1", mint);
+
         const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
-        console.log("2 " + mintAccount);
+        console.log("2 :mintAccount : " + mintAccount);
+
         mintToAccount(provider, mint, mintAccount, 1, provider.wallet.publicKey);
-        setTimeout(function () { console.log("3"); }, 5000);
         console.log("4");
+
         const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
         const [metadataAccount, _nonce1] = await web3.PublicKey.findProgramAddress(
@@ -126,9 +128,11 @@ function Home() {
 
         console.log("myVar : ", myVar);
         console.log("myImg : ", myImg);
-        console.log('provider.publicKey', mint.toBase58());
-        addPhoto(mint.toBase58(), mint.toBase58())
-        viewAlbum(mint.toBase58())
+        console.log('mint.toBase58()', mint.toBase58());
+        console.log('provider.publicKey', provider.wallet.publicKey.toBase58());
+
+        addPhoto(mint.toBase58(),provider.wallet.publicKey.toBase58())
+        // viewAlbum(provider.wallet.publicKey.toBase58() +"/" +mint.toBase58())
         console.log(5);
 
         await program.rpc.metadata(myVar, {

@@ -132,7 +132,8 @@ function listAlbums() {
       var albums = data.Contents.map(function (Contents) {
         var prefix = Contents.Key;
         var albumName = decodeURIComponent(prefix.replace("/", ""));
-
+        console.log('data : \n', data);
+        console.log('contents : \n', Contents);
         return getHtml([
           "<li>",
           `<button onClick="deleteAlbum('${albumName}')"> -X- </button>`,
@@ -171,7 +172,7 @@ function listAlbums() {
   });
 }
 
-window.listAlbums = listAlbums;
+// window.listAlbums = listAlbums;
 // snippet-end:[s3.JavaScript.photoAlbumExample.listAlbums]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.createAlbum]
@@ -226,21 +227,14 @@ function viewAlbum(albumName) {
       };
 
       var photoUrl = s3.getSignedUrl('getObject', params);
-      console.log('photoUrl S3 : ',photoUrl);
+      console.log('photoUrl S3 : ', photoUrl);
       //var photoUrl = bucketUrl + encodeURIComponent(photoKey);
       return getHtml([
         "<span>",
         "<div>",
-        '<img style="width:128px;height:128px;" src="' + photoUrl + '"/>',
+        '<img style="width:190px;height:128px;" src="' + photoUrl + '"/>',
         "</div>",
         "<div>",
-        "<button onClick=\"deletePhoto('" +
-        albumName +
-        "','" +
-        photoKey +
-        "')\">",
-        "X",
-        "</button>",
         "<span>",
         photoKey.replace(albumPhotosKey, ""),
         "</span>",
@@ -249,7 +243,7 @@ function viewAlbum(albumName) {
       ]);
     });
     var message = photos.length
-      ? "<p>Click on the X to delete the photo</p>"
+      ? "<p>Your NFT :</p>"
       : "<p>You do not have any photos in this album. Please add photos.</p>";
     var htmlTemplate = [
       "<h2>",
@@ -259,13 +253,13 @@ function viewAlbum(albumName) {
       "<div>",
       getHtml(photos),
       "</div>",
-      '<input id="photoupload" type="file" accept="image/*">',
-      /// make Pubkey = file
-      '<button id="addphoto" onClick="addPhoto(\'' + albumName + "')\">",
-      "Add Photo",
-      "</button>",
-      '<button onClick="listAlbums()">',
-      "Back To Albums",
+      // '<input id="photoupload" type="file" accept="image/*">',
+      // /// make Pubkey = file
+      // '<button id="addphoto" onClick="addPhoto(\'' + albumName + "')\">",
+      // "Add Photo",
+      // "</button>",
+      '<button onClick=listAlbums() >',
+      "Exit Minting process",
       "</button>"
     ];
     document.getElementById("album").innerHTML = getHtml(htmlTemplate);
@@ -276,18 +270,20 @@ function viewAlbum(albumName) {
 // snippet-end:[s3.JavaScript.photoAlbumExample.viewAlbum]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.addPhoto]
-function addPhoto(albumName, mintPubKey) {
+function addPhoto(mintPubKey,pubKey) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
   }
+
   var file = files[0];
   var fileName = file.name;
-
+var albumName =  pubKey;
+console.log("albumName : ",albumName);
   // const ext = fileName.lastIndexOf(".")
   // const extesion = fileName.substring(ext)
   // var photoKey = mint+extesion
-  var albumPhotosKey = encodeURIComponent(albumName) + "/";
+  var albumPhotosKey =  encodeURIComponent( albumName) + "/";
   console.log("albumPhotosKey", albumPhotosKey);
 
   const ext = fileName.lastIndexOf(".")
@@ -297,7 +293,7 @@ function addPhoto(albumName, mintPubKey) {
   const key = mintPubKey + extension
 
   var photoKey = albumPhotosKey + key;
-  console.log("photok", photoKey);
+  console.log("photokey", photoKey);
   // Use S3 ManagedUpload class as it supports multipart uploads
   var upload = new AWS.S3.ManagedUpload({
     params: {
@@ -319,7 +315,7 @@ function addPhoto(albumName, mintPubKey) {
     }
   );
 }
-window.addPhoto = addPhoto;
+// window.addPhoto = addPhoto;
 // snippet-end:[s3.JavaScript.photoAlbumExample.addPhoto]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.deletePhoto]

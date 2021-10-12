@@ -6,7 +6,7 @@ function Album() {
     // function getHtml(template) {
     //     return (this.template.join('\n'))
     // }
-    listAlbums()
+    // listAlbums()
 
     return (
 
