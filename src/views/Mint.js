@@ -2,9 +2,9 @@ import React from 'react'
 
 function Mint() {
     return (
-        <div>
-            Mint Page
-            tartiflette
+        <div className="mint">
+
+            <formSub />
         </div>
     )
 }
