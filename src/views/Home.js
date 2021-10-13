@@ -181,16 +181,16 @@ function Home() {
         arrayMyJson.image = 'http://www.mytest111111.com.s3-website-us-east-1.amazonaws.com' + '/' + provider.wallet.publicKey.toBase58() + '/' + mint.toBase58() + '.png';
         console.log(" metadataToAr : \n", arrayMyJson);
 
-        const tempWeave = await pushArweave(arrayMyJson);
+        // const tempWeave = await pushArweave(arrayMyJson);
 
         // if (await tempWeave.length <= 65) {
-        const linkAr = tempWeave + '------'
+        // const linkAr = tempWeave + '------'
 
         // else {
         //     linkAr = tempWeave.padEnd(65, '-')
         // };
-        console.log('linkAr : \n', linkAr);
-        const metadataToMint = myVar + linkAr;
+        // console.log('linkAr : \n', linkAr);
+        const metadataToMint = myVar + '-----------------------------------------------------------------'//linkAr;
 
         console.log('metadataToMint : \n', metadataToMint);
 
