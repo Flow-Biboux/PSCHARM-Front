@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { useForm } from "react-hook-form";
 import mintIt from './App'
 
@@ -14,6 +14,7 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
     })
 
     const onSubmit = (data) => {
+
         let nName = '';
         if (data.name.length < 20) {
             nName = data.name.padEnd(20, '-')
@@ -28,36 +29,30 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
             nSymb = data.symbol.slice(0, 4)
         };
 
-        let nUri = '';
-        if (data.uri.length < 50) {
-            nUri = data.uri.padEnd(50, '-')
+        let nDesc = '';
+        if (data.desc.length < 50) {
+            nDesc = data.desc.padEnd(50, '-')
         } else {
-            nSymb = 'ERROR--URI-TOO-LONG'
+            nDesc = data.desc.slice(0, 50)
         };
 
-        const NNN = nName + nSymb + nUri;
-        const shortData = {...data};
-        delete shortData.photoupload;
-        console.log('data :\n',data);
-        console.log('shortData :\n',shortData);
+        const NNN = nName + nSymb +nDesc;
         setMyvar(NNN);
 
+        console.log('data :\n', data);
+        const shortData = { ...data };
+        delete shortData.photoupload;
+        console.log('shortData :\n', shortData);
+
         const jsondata = JSON.stringify(shortData);
-        setMyJson(jsondata);
+        setMyJson(jsondata)
+     
+        console.log('Stringified Json : \n', jsondata);
+        console.log('NNN :\n', NNN);
 
-        console.log('stringified Json :', jsondata);
-        console.log('with length: ', NNN.length);
-        console.log('NNN :', NNN);
-
-        console.log("ungood", data.photoupload[0].name);
-
-        // const ext = ta.photoupload[0].name.lastIndexOf(".")
+        console.log("ungood :\n", data.photoupload[0].name);
 
         setMyImg(data.photoupload[0])
-        // const extension = str.substring(ext)
-
-        // const key = mint.pubkey + extension
-        // console.log(data.photoupload.);
 
         mintIt()
     }
@@ -69,22 +64,22 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
             <div><label>Name </label><input
                 type="string"
                 name="name"
-                placeholder="Name"
+                placeholder="Name (max 20 char)"
                 {...register('name', { max: 20 })}
             /></div>
 
             <div><label>Symbol </label><input
                 type="string"
                 name="symbol"
-                placeholder="Symbol"
+                placeholder="Symbol (max 4 char)"
                 {...register('symbol', { max: 4 })}
             /></div>
 
-            <div><label>URI </label><input
+            <div><label>Description </label><input
                 type="string"
-                name="uri"
-                placeholder="Uri"
-                {...register('uri', { max: 50 })}
+                name="desc"
+                placeholder="Description (max 50 char)"
+                {...register('desc', { max: 50 })}
             /></div>
             <div>
                 <input

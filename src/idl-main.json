@@ -29,64 +29,18 @@
       ]
     },
     {
-      "name": "setAuthority",
+      "name": "update",
       "accounts": [
         {
-          "name": "signer",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "mint",
+          "name": "baseAccount",
           "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "pda",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "faucet",
-      "accounts": [
-        {
-          "name": "signer",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "pda",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
           "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "bump",
-          "type": "u8"
+          "name": "data",
+          "type": "string"
         }
       ]
     },

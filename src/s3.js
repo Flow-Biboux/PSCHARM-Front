@@ -51,71 +51,17 @@ var s3 = new AWS.S3({
   apiVersion: "2006-03-01",
   params: { Bucket: albumBucketName }
 });
+
+const bluralbumname='www.mytest111111.com';
+
+var s3Blur = new AWS.S3({
+  apiVersion: "2006-03-01",
+  params: { Bucket: bluralbumname }
+});
 // snippet-end:[s3.JavaScript.photoAlbumExample.config]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.listAlbums]
-////////////////////////////////////::
-// A utility function to create HTML
-// function getHtml(template) {
-//   return template.join("\n");
-// }
-// // Make getHTML function available to the browser
-// window.getHTML = getHtml;
 
-// // List the photo albums that exist in the bucket
-// const listAlbums = async () => {
-//   try {
-//     const data = await s3.send(
-//         new ListObjectsCommand({ Delimiter: "/", Bucket: albumBucketName })
-//     );
-// console.log(data);
-//     if (data.CommonPrefixes === undefined) {
-//       const htmlTemplate = [
-//         "<p>You don't have any albums. You need to create an album.</p>",
-//         "<button onclick=\"createAlbum(prompt('Enter album name:'))\">",
-//         "Create new album",
-//         "</button>",
-//       ];
-//       document.getElementById("Album").innerHTML = htmlTemplate;
-//     } else {
-//       var albums = data.CommonPrefixes.map(function (commonPrefix) {
-//         var prefix = commonPrefix.Prefix;
-//         var albumName = decodeURIComponent(prefix.replace("/", ""));
-//         return getHtml([
-//           "<li>",
-//           "<span onclick=\"deleteAlbum('" + albumName + "')\">X</span>",
-//           "<span onclick=\"viewAlbum('" + albumName + "')\">",
-//           albumName,
-//           "</span>",
-//           "</li>",
-//         ]);
-//       });
-//       var message = albums.length
-//           ? getHtml([
-//             "<p>Click an album name to view it.</p>",
-//             "<p>Click the X to delete the album.</p>",
-//           ])
-//           : "<p>You do not have any albums. You need to create an album.";
-//       const htmlTemplate = [
-//         "<h2>Albums</h2>",
-//         message,
-//         "<ul>",
-//         getHtml(albums),
-//         "</ul>",
-//         "<button onclick=\"createAlbum(prompt('Enter Album Name:'))\">",
-//         "Create new Album",
-//         "</button>",
-//       ];
-//       document.getElementById("app").innerHTML = getHtml(htmlTemplate);
-//     }
-//   } catch (err) {
-//     return alert("There was an error listing your albums: " + err.message);
-//   }
-// };
-
-// // Make listAlbums function available to the browser
-// window.listAlbums = listAlbums;
-//////////////////////////////////:
 
 function getHtml(template) {
   return template.join('\n');
@@ -125,7 +71,7 @@ function getHtml(template) {
 
 
 function listAlbums() {
-  s3.listObjects({ Delimiter: "/" }, function (err, data) {
+  s3Blur.listObjects({ Delimiter: "/" }, function (err, data) {
     if (err) {
       return alert("There was an error listing your albums: " + err.message);
     } else {
@@ -207,7 +153,7 @@ window.createAlbum = createAlbum;
 // snippet-start:[s3.JavaScript.photoAlbumExample.viewAlbum]
 function viewAlbum(albumName) {
   var albumPhotosKey = encodeURIComponent(albumName) + "/";
-  s3.listObjects({ Prefix: albumPhotosKey }, function (err, data) {
+  s3Blur.listObjects({ Prefix: albumPhotosKey }, function (err, data) {
     if (err) {
       return alert("There was an error viewing your album: " + err.message);
     }
@@ -221,12 +167,12 @@ function viewAlbum(albumName) {
     var photos = data.Contents.map(function (photo) {
       var photoKey = photo.Key;
       var params = {
-        Bucket: albumBucketName,
+        Bucket: bluralbumname,
         Key: photoKey,
         Expires: UrlExpireSeconds
       };
 
-      var photoUrl = s3.getSignedUrl('getObject', params);
+      var photoUrl = s3Blur.getSignedUrl('getObject', params);
       console.log('photoUrl S3 : ', photoUrl);
       //var photoUrl = bucketUrl + encodeURIComponent(photoKey);
       return getHtml([
@@ -265,12 +211,85 @@ function viewAlbum(albumName) {
     document.getElementById("album").innerHTML = getHtml(htmlTemplate);
   });
 }
+function getLink(albumName, fileName) {
+  var albumPhotosKey = encodeURIComponent(albumName) + "/" + encodeURIComponent(fileName) + ".png";
+  s3.listObjects({ albumPhotosKey }, function (err, data) {
+    if (err) {
+      return alert("There was an error viewing your album: " + err.message);
+    }
+    // 'this' references the AWS.Response instance that represents the response
+    console.log("Viewing elements");
+    // var href = this.request.httpRequest.endpoint.href;
+    // var bucketUrl = href + albumBucketName + "/";
 
+    console.log("data.Contents S3", data.Contents);
+    var photos = data.Contents.map(function (photo) {
+      var photoKey = photo.Key;
+      var params = {
+        Bucket: albumBucketName,
+        Key: photoKey,
+      };
+
+      var photoUrl = s3.getSignedUrl('getObject', params);
+      console.log('photoUrl S3 : ', photoUrl);
+      //var photoUrl = bucketUrl + encodeURIComponent(photoKey);
+
+      return photoUrl
+    });
+
+  });
+}
 
 // snippet-end:[s3.JavaScript.photoAlbumExample.viewAlbum]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.addPhoto]
 function addPhoto(mintPubKey, pubKey) {
+  var files = document.getElementById("photoupload").files;
+  if (!files.length) {
+    return alert("Please choose a file to upload first.");
+  }
+
+  var file = files[0];
+  var fileName = file.name;
+  var albumName = pubKey;
+  console.log("albumName : ", albumName);
+  // const ext = fileName.lastIndexOf(".")
+  // const extesion = fileName.substring(ext)
+  // var photoKey = mint+extesion
+  var albumPhotosKey = encodeURIComponent(albumName) + "/";
+  // console.log("albumPhotosKey", albumPhotosKey);
+
+  const ext = fileName.lastIndexOf(".")
+
+  const extension = fileName.substring(ext)
+
+  const key = mintPubKey + extension
+
+  var photoKey = albumPhotosKey + key;
+  console.log("photokey", photoKey);
+  // Use S3 ManagedUpload class as it supports multipart uploads
+  var upload = new AWS.S3.ManagedUpload({
+    params: {
+      Bucket: albumBucketName,
+      Key: photoKey,
+      Body: file
+    }
+  });
+
+  var promise = upload.promise();
+
+  promise.then(
+    function (data) {
+      alert("Successfully uploaded photo.");
+      console.log('not BLURRRRRRRRRR');
+      viewAlbum(albumName);
+    },
+    function (err) {
+      return alert("There was an error uploading your photo: ", err.message);
+    }
+  );
+}
+function linkAddPhoto(mintPubKey, pubKey) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
@@ -297,23 +316,36 @@ function addPhoto(mintPubKey, pubKey) {
   // Use S3 ManagedUpload class as it supports multipart uploads
   var upload = new AWS.S3.ManagedUpload({
     params: {
-      Bucket: albumBucketName,
+      Bucket: bluralbumname,
       Key: photoKey,
       Body: file
     }
   });
 
-  var promise = upload.promise();
+  var params = {
+    Bucket: bluralbumname,
+    Key: photoKey,
+  };
 
-  promise.then(
-    function (data) {
-      alert("Successfully uploaded photo.");
-      viewAlbum(albumName);
-    },
-    function (err) {
-      return alert("There was an error uploading your photo: ", err.message);
-    }
-  );
+  s3Blur.listObjects({ albumPhotosKey }, function (err, data) {
+    var photoUrl = s3Blur.getSignedUrl('getObject', params);
+    var promise = upload.promise();
+console.log("data : \n", data);
+    promise.then(
+      function (data) {
+        alert("Successfully uploaded photo. and link copied");
+        console.log('BLURRRRRRRRRR');
+        return photoUrl
+      },
+      function (err) {
+        return alert("There was an error uploading your photo: ", err.message);
+      }
+    );
+  });
+
+
+
+
 }
 // window.addPhoto = addPhoto;
 // snippet-end:[s3.JavaScript.photoAlbumExample.addPhoto]
@@ -361,4 +393,4 @@ window.deleteAlbum = deleteAlbum;
 // snippet-end:[s3.JavaScript.photoAlbumExample.complete]
 
 
-export { deleteAlbum, deletePhoto, addPhoto, viewAlbum, createAlbum, listAlbums, getHtml }
+export { deleteAlbum, deletePhoto, addPhoto, viewAlbum, createAlbum, listAlbums, getHtml, getLink, linkAddPhoto }

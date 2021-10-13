@@ -30,14 +30,10 @@ console.log(uploader.toJSON);
 }
 console.log("transaction :",transaction);
 console.log("uploader :",uploader);
-console.log('mik to media : \n www.arweave.net/' ,uploader.transaction.id);
-// const response = await arweave.transactions.post(transaction);
+console.log('link to JSON : \n www.arweave.net/' ,uploader.transaction.id);
+const link="www.arweave.net/"+uploader.transaction.id;
 
-// console.log("response.data :",response.data);
-// console.log("response.status :",response.status);
-
-
-
+return link
 
 }
 
