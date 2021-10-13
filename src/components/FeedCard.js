@@ -1,15 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 function FeedCard({NFTPicture}) {
+
+    const [isBlur, setIsBlur] = useState(true)
+
+    function viewBlurStatus() {
+        console.log(isBlur);
+    }
+
+    function toggleBlur() {
+        setIsBlur(!isBlur)
+    }
+
     return (
         <Container>
-            <Img alt="NFT pic of" />
+            <Img alt="NFT pic of" src={NFTPicture} />
             {/* <Img src={NFTPicture} alt="NFT pic of" /> */}
             
             <div>
-                {NFTPicture}
+                {/* {NFTPicture} */}
             </div>
+
+            <button onClick={toggleBlur}>Toggle Blur</button>
+            <button onClick={viewBlurStatus}>View Blur State</button>
 
             <NFTInfo>
                 <p>List of tags</p>
