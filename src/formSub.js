@@ -1,8 +1,8 @@
-import React from "react";
+import React, {Component} from "react";
 import { useForm } from "react-hook-form";
 import mintIt from './App'
 
-function FormSub({ setMyvar, setMyJson, setMyImg}) {
+function FormSub({ setMyvar, setMyJson, setMyImg }) {
     const { register, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {},
@@ -36,17 +36,20 @@ function FormSub({ setMyvar, setMyJson, setMyImg}) {
         };
 
         const NNN = nName + nSymb + nUri;
-
+        const shortData = {...data};
+        delete shortData.photoupload;
+        console.log('data :\n',data);
+        console.log('shortData :\n',shortData);
         setMyvar(NNN);
 
-        const jsondata = JSON.stringify(data);
+        const jsondata = JSON.stringify(shortData);
         setMyJson(jsondata);
 
-        console.log('stringified Json :', JSON.stringify(data));
+        console.log('stringified Json :', jsondata);
         console.log('with length: ', NNN.length);
         console.log('NNN :', NNN);
 
-        console.log("ungood",data.photoupload[0].name);
+        console.log("ungood", data.photoupload[0].name);
 
         // const ext = ta.photoupload[0].name.lastIndexOf(".")
 
@@ -56,7 +59,7 @@ function FormSub({ setMyvar, setMyJson, setMyImg}) {
         // const key = mint.pubkey + extension
         // console.log(data.photoupload.);
 
-       mintIt()
+        mintIt()
     }
 
     return (
@@ -67,21 +70,21 @@ function FormSub({ setMyvar, setMyJson, setMyImg}) {
                 type="string"
                 name="name"
                 placeholder="Name"
-                {...register('name', {  max: 20 })}
+                {...register('name', { max: 20 })}
             /></div>
 
             <div><label>Symbol </label><input
                 type="string"
                 name="symbol"
                 placeholder="Symbol"
-                {...register('symbol', {  max: 4 })}
+                {...register('symbol', { max: 4 })}
             /></div>
 
             <div><label>URI </label><input
                 type="string"
                 name="uri"
                 placeholder="Uri"
-                {...register('uri', {  max: 50 })}
+                {...register('uri', { max: 50 })}
             /></div>
             <div>
                 <input
