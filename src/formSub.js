@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { useForm } from "react-hook-form";
 import mintIt from './App'
+// import {} from 'react-imageblurloader'
 
 function FormSub({ setMyvar, setMyJson, setMyImg }) {
     const { register, handleSubmit } = useForm({
@@ -36,7 +37,7 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
             nDesc = data.desc.slice(0, 50)
         };
 
-        const NNN = nName + nSymb +nDesc;
+        const NNN = nName + nSymb ;
         setMyvar(NNN);
 
         console.log('data :\n', data);
@@ -53,7 +54,7 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
         console.log("ungood :\n", data.photoupload[0].name);
 
         setMyImg(data.photoupload[0])
-
+        // convert input.jpg -resize 20x20 -quality 70 preview.jpg
         mintIt()
     }
 

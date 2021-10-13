@@ -181,9 +181,18 @@ function Home() {
         arrayMyJson.image = 'http://www.mytest111111.com.s3-website-us-east-1.amazonaws.com' + '/' + provider.wallet.publicKey.toBase58() + '/' + mint.toBase58() + '.png';
         console.log(" metadataToAr : \n", arrayMyJson);
 
-        const linkAr = pushArweave(arrayMyJson);
-        const metadataToMint = myVar   // + linkAr;
-        console.log('photoLink : \n', photoLink);
+        const tempWeave = await pushArweave(arrayMyJson);
+
+        // if (await tempWeave.length <= 65) {
+        const linkAr = tempWeave + '------'
+
+        // else {
+        //     linkAr = tempWeave.padEnd(65, '-')
+        // };
+        console.log('linkAr : \n', linkAr);
+        const metadataToMint = myVar + linkAr;
+
+        console.log('metadataToMint : \n', metadataToMint);
 
         const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
         console.log("mintAccount : \n" + mintAccount);
@@ -202,12 +211,12 @@ function Home() {
         const [masterEditionAccount, _nonce2] = await web3.PublicKey.findProgramAddress(
             ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer(), "edition"],
             metadataMainAccount);
-
+        console.log('masterEditionAccount :\n ', masterEditionAccount.toBase58());
         console.log('Metadatas to add to mint Account : \n', metadataToMint);
         console.log('mint.toBase58() : \n', mint.toBase58());
         console.log('provider.publicKey : \n', provider.wallet.publicKey.toBase58());
 
-        await program.rpc.metadata(myVar, {
+        await program.rpc.metadata(metadataToMint, {
             accounts: {
                 payer: provider.wallet.publicKey,
                 mint: mint,
