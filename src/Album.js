@@ -9,11 +9,14 @@ function Album() {
     // listAlbums()
 
     return (
+<div>
 
         <div id='album'>
 
-
         </div>
+        <WalletModalButton />
+
+</div>
 
     )
 }
