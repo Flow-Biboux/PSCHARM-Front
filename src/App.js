@@ -6,9 +6,10 @@ import {
 } from "react-router-dom";
 import './App.css';
 import React, { useEffect } from 'react';
-import Home from "./views/Home";
-import Feed from "./views/Feed";
+import Home from "./views/Home/index";
+import Feed from "./views/Feed/index";
 import Mint from "./views/Mint";
+import Topbar from "./components/layout/topbar";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -26,17 +27,17 @@ function App() {
   return (
     <Router>
       <div className="App">
-
+        <Topbar></Topbar>
         <Switch>
-          <Route path="/feed">
+          <Route path="/" exact>
             <ScrollToTop />
             <Feed />
           </Route>
-          <Route path="/mint">
+          <Route path="/mint" exact>
             <ScrollToTop />
             <Mint />
           </Route>
-          <Route path="/">
+          <Route path="/createMint" exact>
             <ScrollToTop />              
             <Home />
           </Route>

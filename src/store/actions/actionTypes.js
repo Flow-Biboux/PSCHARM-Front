@@ -1,0 +1,1 @@
+export const FEEDS_LIST = "FEEDS_LIST";

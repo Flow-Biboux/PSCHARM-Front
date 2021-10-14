@@ -3,15 +3,12 @@ import { Scroll } from "../Scroll.js"
 import styled from 'styled-components'
 
 function Feed() {
-
-    // const feedList = Scroll();
-    // console.log("feedList", feedList);
-
     return (
         <Wrap>
-            <button onClick={Scroll}>List Img</button>
 
+            <button onClick={Scroll}>List Img</button>
             <Container id="album" />
+            
         </Wrap>
     )
 }

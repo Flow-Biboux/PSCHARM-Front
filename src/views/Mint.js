@@ -1,5 +1,5 @@
 import React from 'react'
-import FormSub from '../formSub'
+// import FormSub from '../formSub'
 
 function Mint() {
     
@@ -7,7 +7,7 @@ function Mint() {
     return (
         <div className="mint">
 
-            <formSub />
+            {/* <formSub /> */}
         </div>
     )
 }

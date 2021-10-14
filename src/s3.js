@@ -52,7 +52,7 @@ var s3 = new AWS.S3({
   params: { Bucket: albumBucketName }
 });
 
-const bluralbumname='www.mytest111111.com';
+const bluralbumname = 'www.mytest111111.com';
 
 var s3Blur = new AWS.S3({
   apiVersion: "2006-03-01",
@@ -113,7 +113,7 @@ function listAlbums() {
       ];
 
       console.log("1");
-      document.getElementById("album").innerHTML = getHtml(htmlTemplate);
+      // document.getElementById("album").innerHTML = getHtml(htmlTemplate);
     }
   });
 }
@@ -208,7 +208,8 @@ function viewAlbum(albumName) {
       "Exit Minting process",
       "</button>"
     ];
-    document.getElementById("album").innerHTML = getHtml(htmlTemplate);
+    window.location.href="/"
+    // document.getElementById("album").innerHTML = getHtml(htmlTemplate);
   });
 }
 function getLink(albumName, fileName) {
@@ -289,7 +290,7 @@ function addPhoto(mintPubKey, pubKey) {
     }
   );
 }
-function linkAddPhoto(mintPubKey, pubKey) {
+async function linkAddPhoto(mintPubKey, pubKey) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
@@ -312,41 +313,85 @@ function linkAddPhoto(mintPubKey, pubKey) {
   const key = mintPubKey + extension
 
   var photoKey = albumPhotosKey + key;
-  console.log("photokey", photoKey);
-  // Use S3 ManagedUpload class as it supports multipart uploads
-  var upload = new AWS.S3.ManagedUpload({
-    params: {
-      Bucket: bluralbumname,
-      Key: photoKey,
-      Body: file
-    }
-  });
 
-  var params = {
-    Bucket: bluralbumname,
-    Key: photoKey,
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
+
+  reader.onload = () => {
+    var canvas = document.createElement('canvas'),
+    ctx = canvas.getContext('2d');
+   
+    var image = new Image();
+    
+    image.onload = () => {
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      var blurredRect = {
+        x: 80,
+        y: 80,
+        height: 200,
+        width: 200,
+        spread: 10
+      };
+
+      ctx.filter = 'blur(' + blurredRect.spread + 'px)';
+      // draw the canvas over itself, cropping to our required rect.
+
+      ctx.drawImage(image, 10, 10);
+      ctx.drawImage(canvas,
+        blurredRect.x, blurredRect.y, blurredRect.width, blurredRect.height,
+        blurredRect.x, blurredRect.y, blurredRect.width, blurredRect.height
+      );
+      // draw the coloring (white-ish) layer, without blur
+      ctx.filter = 'none'; // remove filter
+      ctx.fillStyle = 'rgba(255,255,255,0.2)';
+
+      let url = canvas.toDataURL('image/jpeg'); 
+      console.log(url);
+      url = Buffer.from(url.replace(/^data:image\/\w+;base64,/, ""),'base64')
+      var upload = new AWS.S3.ManagedUpload({
+        params: {
+          Bucket: bluralbumname,
+          Key: photoKey,
+          Body: url,
+          //Body: buf,
+          ContentEncoding: 'base64',
+          ContentType: 'image/jpeg'
+        }
+      });
+    
+      var params = {
+        Bucket: bluralbumname,
+        Key: photoKey,
+      };
+    
+      s3Blur.listObjects({ albumPhotosKey }, function (err, data) {
+        var photoUrl = s3Blur.getSignedUrl('getObject', params);
+        console.log(photoUrl);
+        var promise = upload.promise();
+        console.log("data : \n", data);
+        promise.then(
+          (data) => {
+            // debugger
+            alert("Successfully uploaded photo. and link copied");
+            console.log('BLURRRRRRRRRR');
+            return photoUrl
+          },
+          (err) => {
+            return alert("There was an error uploading your photo: ", err.message);
+          }
+        );
+      });
+    };
+    
+    image.src = reader.result;
   };
-
-  s3Blur.listObjects({ albumPhotosKey }, function (err, data) {
-    var photoUrl = s3Blur.getSignedUrl('getObject', params);
-    var promise = upload.promise();
-console.log("data : \n", data);
-    promise.then(
-      function (data) {
-        alert("Successfully uploaded photo. and link copied");
-        console.log('BLURRRRRRRRRR');
-        return photoUrl
-      },
-      function (err) {
-        return alert("There was an error uploading your photo: ", err.message);
-      }
-    );
-  });
-
-
-
-
+  reader.onerror = function (error) {
+    console.log('Error: ', error);
+  };
 }
+
 // window.addPhoto = addPhoto;
 // snippet-end:[s3.JavaScript.photoAlbumExample.addPhoto]
 

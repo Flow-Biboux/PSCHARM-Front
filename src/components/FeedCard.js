@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 function FeedCard({NFTPicture}) {
-
+    
     const [isBlur, setIsBlur] = useState(true)
 
     function viewBlurStatus() {
@@ -24,6 +24,7 @@ function FeedCard({NFTPicture}) {
 
             <button onClick={toggleBlur}>Toggle Blur</button>
             <button onClick={viewBlurStatus}>View Blur State</button>
+
 
             <NFTInfo>
                 <p>List of tags</p>
