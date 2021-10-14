@@ -147,7 +147,7 @@ function createAlbum(albumName) {
     });
   });
 }
-window.createAlbum = createAlbum;
+
 // snippet-end:[s3.JavaScript.photoAlbumExample.createAlbum]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.viewAlbum]
@@ -281,16 +281,16 @@ function addPhoto(mintPubKey, pubKey) {
 
   promise.then(
     function (data) {
-      alert("Successfully uploaded photo.");
-      console.log('not BLURRRRRRRRRR');
-      viewAlbum(albumName);
+      // alert("Successfully uploaded photo.");
+      console.log('Clear Img Uploaded');
+      // viewAlbum(albumName);
     },
     function (err) {
       return alert("There was an error uploading your photo: ", err.message);
     }
   );
 }
-async function linkAddPhoto(mintPubKey, pubKey) {
+async function blurAddPhoto(mintPubKey, pubKey) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
@@ -299,12 +299,12 @@ async function linkAddPhoto(mintPubKey, pubKey) {
   var file = files[0];
   var fileName = file.name;
   var albumName = pubKey;
-  console.log("albumName : ", albumName);
+  console.log("albumName : \n", albumName);
   // const ext = fileName.lastIndexOf(".")
   // const extesion = fileName.substring(ext)
   // var photoKey = mint+extesion
   var albumPhotosKey = encodeURIComponent(albumName) + "/";
-  console.log("albumPhotosKey", albumPhotosKey);
+  console.log("albumPhotosKey :\n", albumPhotosKey);
 
   const ext = fileName.lastIndexOf(".")
 
@@ -332,7 +332,7 @@ async function linkAddPhoto(mintPubKey, pubKey) {
         y: 80,
         height: 200,
         width: 200,
-        spread: 10
+        spread: 18
       };
 
       ctx.filter = 'blur(' + blurredRect.spread + 'px)';
@@ -348,7 +348,7 @@ async function linkAddPhoto(mintPubKey, pubKey) {
       ctx.fillStyle = 'rgba(255,255,255,0.2)';
 
       let url = canvas.toDataURL('image/jpeg'); 
-      console.log(url);
+      // console.log(url);
       url = Buffer.from(url.replace(/^data:image\/\w+;base64,/, ""),'base64')
       var upload = new AWS.S3.ManagedUpload({
         params: {
@@ -368,15 +368,15 @@ async function linkAddPhoto(mintPubKey, pubKey) {
     
       s3Blur.listObjects({ albumPhotosKey }, function (err, data) {
         var photoUrl = s3Blur.getSignedUrl('getObject', params);
-        console.log(photoUrl);
+        console.log(" Blured Photo Url : \n",photoUrl);
         var promise = upload.promise();
-        console.log("data : \n", data);
+        // console.log("data from S3Blur: \n", data);
         promise.then(
           (data) => {
             // debugger
-            alert("Successfully uploaded photo. and link copied");
-            console.log('BLURRRRRRRRRR');
-            return photoUrl
+            // alert("Successfully uploaded photo. and link copied");
+            console.log('Blured image uploaded');
+            return 
           },
           (err) => {
             return alert("There was an error uploading your photo: ", err.message);
@@ -438,4 +438,4 @@ window.deleteAlbum = deleteAlbum;
 // snippet-end:[s3.JavaScript.photoAlbumExample.complete]
 
 
-export { deleteAlbum, deletePhoto, addPhoto, viewAlbum, createAlbum, listAlbums, getHtml, getLink, linkAddPhoto }
+export { deleteAlbum, deletePhoto, addPhoto, viewAlbum, createAlbum, listAlbums, getHtml, getLink, blurAddPhoto }

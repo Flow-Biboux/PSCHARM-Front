@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
+import { Button, WalletModal, WalletModalButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
 
 function Feed() {
     return (
@@ -12,6 +14,7 @@ function Feed() {
                 {/* <Anchor href={"/"}>HOME</Anchor>
             <Anchor href={"/"}>WPAPER</Anchor>
             <Anchor href={"/"}>HOW TO BUY</Anchor> */}
+
                 <Link to="/createMint">
                     <SubmitBtn>Create Mint</SubmitBtn>
                 </Link>

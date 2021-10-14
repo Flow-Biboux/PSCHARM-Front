@@ -8,11 +8,13 @@ import { Program, Provider, web3 } from '@project-serum/anchor';
 import { useWallet, } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import FormSub from './formSub';
-import { linkAddPhoto, addPhoto, getLink, viewAlbum } from "../../s3";
+import { blurAddPhoto, addPhoto, getLink, viewAlbum } from "../../s3";
 import { pushArweave } from '../../pushArweave';
 import { connect } from "react-redux";
 import { compose } from 'redux';
 import * as actions from '../../store/actions/index';
+
+import { getMetadataAccount, decodeMetadata } from '../../metadata'
 
 const {
     createMint,
@@ -162,11 +164,11 @@ function Home() {
         const provider = await getProvider();
         const program = new Program(idl, programID, provider);
         const mint = await createMint(provider, provider.wallet.publicKey);
-        console.log("1: create Mint Account : \n", mint);
+        console.log("1: create Mint Account : \n", mint.toBase58());
 
-        const photoLink = linkAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58())
-        addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58())
-        console.log("Link to S3 blurred image : \n", photoLink);
+        // uploading blurred image and clear image
+        await blurAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58())
+        await addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58())
 
 
         console.log(" myJson : \n", myJson);
@@ -240,58 +242,62 @@ function Home() {
             }
         });
 
+        // get metadata account that holds the metadata information
+        const m = await getMetadataAccount(mintAccount) //new PublicKey('EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv'));
+        console.log("metadata acc: ", m);
+
+        // get the account info for that account
+        const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
+        // console.log('accInfomasterEditionAccount : \n',deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
+        console.log('accInfomasterEditionAccount : \n', decodeMetadata(accInfomasterEditionAccount.data));
+
+        // finally, decode metadata
+        // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
 
     }
 
     const submitForm = (data) => {
-            let nName = '';
-            if (data.name.length < 20) {
-                nName = data.name.padEnd(20, '-')
-            } else if (data.name.length > 20) {
-                nName = data.name.slice(0, 20)
-            };
+        let nName = '';
+        if (data.name.length < 20) {
+            nName = data.name.padEnd(20, '-')
+        } else if (data.name.length > 20) {
+            nName = data.name.slice(0, 20)
+        };
 
-            let nSymb = '';
-            if (data.symbol.length < 4) {
-                nSymb = data.symbol.padEnd(4, '-')
-            } else {
-                nSymb = data.symbol.slice(0, 4)
-            };
+        let nSymb = '';
+        if (data.symbol.length < 4) {
+            nSymb = data.symbol.padEnd(4, '-')
+        } else {
+            nSymb = data.symbol.slice(0, 4)
+        };
 
-            let nDesc = '';
-            if (data.desc.length < 50) {
-                nDesc = data.desc.padEnd(50, '-')
-            } else {
-                nDesc = data.desc.slice(0, 50)
-            };
+        const NNN = nName + nSymb;
 
-            const NNN = nName + nSymb;
+        setMyvar(NNN);
 
-            setMyvar(NNN);
+        console.log('data :\n', data);
+        const shortData = { ...data };
+        delete shortData.photoupload;
+        console.log('shortData :\n', shortData);
 
-			console.log('data :\n', data);
-			const shortData = { ...data };
-			delete shortData.photoupload;
-			console.log('shortData :\n', shortData);
+        const jsondata = JSON.stringify(shortData);
+        setMyJson(jsondata)
 
-			const jsondata = JSON.stringify(shortData);
-			setMyJson(jsondata)
+        console.log('Stringified Json : \n', jsondata);
+        console.log('Stringed Name + Symbol :\n', NNN);
 
-			console.log('Stringified Json : \n', jsondata);
-			console.log('NNN :\n', NNN);
+        console.log("File loaded :\n", data.photoupload[0].name);
 
-			console.log("ungood :\n", data.photoupload[0].name);
+        setMyImg(data.photoupload[0])
 
-			setMyImg(data.photoupload[0])
-			
-           
+
     }
 
-	useEffect(()=>{
-		if(myVar && myJson && myImg) {
-		mintIt()
-	}
-	},[myVar, myJson,myImg ])
+    useEffect(() => {
+        if (myVar && myJson && myImg) {
+            mintIt()
+        }
+    }, [myVar, myJson, myImg])
 
 
     if (!wallet.connected) {
@@ -310,34 +316,6 @@ function Home() {
                     {value ? (
                         <div className='baseee'>
                             <FormSub SubmitForm={submitForm} />
-                            {/* <p>
-                                Myvar : {myVar}
-                                <br />
-                                MyJson : {myJson}
-                                <br />
-                            </p> */}
-
-                            {/* {
-                                myVar ? (
-                                    <div>
-                                        <button onClick={() => {
-                                            const data = myJson
-                                            pushArweave(data)
-                                        }
-
-                                        }
-                                        >Upload Json</button>
-                                    </div>
-                                ) : (
-                                    ' submit values first '
-                                )
-                            } */}
-
-                            {/* <button onClick={mintIt}>Create Mint</button> */}
-
-                            {/* <Link to="/feed">List Img</Link> */}
-
-                            {/* <p>---------------</p> */}
                             <div id='album' />
                             <br />
                         </div>
@@ -352,8 +330,8 @@ function Home() {
 
                     {dataList.map((d, i) => <h4 key={i}>{d}</h4>)}
 
-                </div>
                 {!value && (<button onClick={initialize} className="bbutton">Yes!</button>)}
+                </div>
             </div>
         );
     }
@@ -367,7 +345,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return {        
+    return {
     };
 };
 

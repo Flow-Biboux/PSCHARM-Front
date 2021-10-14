@@ -27,10 +27,11 @@ function Feed() {
         let data = [];
         if (feeds && feeds.length) {
             feeds.map((val, index) => {
-                data.push(<tr key={index}>
-                    <td> {val.imageUrl ? <img src={val.imageUrl} height={100} width={150}></img> : "-"}</td>
-                    <td style={{color:"#fff"}}> {val.imageName ? val.imageName : "-"} </td>
-                </tr>)
+                data.push(
+                    <tr key={index}>
+                        <td> {val.imageUrl ? <img src={val.imageUrl} height={100} width={150}></img> : "-"}</td>
+                        <td style={{ color: "#fff" }}> {val.imageName ? val.imageName : "-"} </td>
+                    </tr>)
             })
         }
         return data;
@@ -39,14 +40,9 @@ function Feed() {
 
     return (
         <Wrap>
-            <Button onClick={getFeedItems}><i class="fas fa-sync-alt"></i> Refresh list </Button>
+            <Button onClick={getFeedItems}><i className="fas fa-sync-alt"></i> Refresh list </Button>
 
             <Table>
-                {/* <tr>
-                    <th>Image name</th>
-                    <th>Image</th>
-                    <th></th>
-                </tr> */}
                 {renderFeedList()}
             </Table>
         </Wrap>

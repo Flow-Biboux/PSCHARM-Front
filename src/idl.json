@@ -91,6 +91,108 @@
       ]
     },
     {
+      "name": "proxyTransfer",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "buy",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newMetadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newEditionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "masterEditionAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newMintAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newMintAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccountOwner",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "newMetadataUpdateAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataMint",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "edition",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "metadata",
       "accounts": [
         {
@@ -201,6 +303,32 @@
         },
         {
           "name": "rentProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeOwnership",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "masterEditionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pda",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
         }

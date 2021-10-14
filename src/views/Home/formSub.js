@@ -32,7 +32,7 @@ function FormSub({ SubmitForm }) {
                 {...register('symbol', {  max: 4 })}
             /></FormGroup>
 
-            <FormGroup><FormLabel>URI </FormLabel><Input
+            <FormGroup><FormLabel> Description </FormLabel><Input
                 type="string"
                 name="desc"
                 placeholder="Description (max 50 char)"
