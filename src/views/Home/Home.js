@@ -73,6 +73,7 @@ function Home() {
             // console.log('account: ', account);
             setValue(account.data.toString());
             setDataList(account.dataList);
+            console.log('initialize done');
         } catch (err) {
             console.log("Transaction error: ", err);
         }
@@ -254,6 +255,9 @@ function Home() {
         // finally, decode metadata
         // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
 
+        const linkExploNFT = 'https://explorer.solana.com/address/' + mintAccount.toBase58() + '?cluster=devnet';
+        alert('votre NFT a bien été crée, son nom sur la blockchain est : \n' + mintAccount.toBase58());
+        window.open(linkExploNFT);
     }
 
     const submitForm = (data) => {
@@ -330,7 +334,7 @@ function Home() {
 
                     {dataList.map((d, i) => <h4 key={i}>{d}</h4>)}
 
-                {!value && (<button onClick={initialize} className="bbutton">Yes!</button>)}
+                    {!value && (<button onClick={initialize} className="bbutton">Yes!</button>)}
                 </div>
             </div>
         );
