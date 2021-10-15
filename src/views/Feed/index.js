@@ -58,6 +58,10 @@ function Feed() {
         )
     } else {
 
+        document.addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+          });
+
         return (
             <Wrap>
                 <Container>
