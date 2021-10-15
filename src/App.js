@@ -9,7 +9,14 @@ import React, { useEffect } from 'react';
 import Home from "./views/Home/index";
 import Feed from "./views/Feed/index";
 import Topbar from "./components/layout/topbar";
+import { clusterApiUrl } from '@solana/web3.js';
+import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
+import { WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 
+
+const wallets = [getPhantomWallet()]
+const network = clusterApiUrl('devnet');
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -45,4 +52,14 @@ function App() {
   );  
 }
 
-export default App;
+const AppWithProvider = () => (
+  <ConnectionProvider endpoint={network}>
+      <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+              <App />
+          </WalletModalProvider>
+      </WalletProvider>
+  </ConnectionProvider>
+)
+
+export default AppWithProvider;
