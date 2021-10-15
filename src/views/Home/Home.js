@@ -336,7 +336,7 @@ function Home() {
     // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
 
     const linkExploNFT = "https://explorer.solana.com/address/" + mint.toBase58() + "?cluster=devnet";
-    alert("Your NFT have been created under the name : \n" + mintAccount.toBase58());
+    alert("congratulation, your NFT have been created under the name : \n" + mintAccount.toBase58()+' !');
     window.open(linkExploNFT);
 }
 
@@ -402,6 +402,7 @@ if (!wallet.connected) {
                     <div className="baseee">
                         <FormSub SubmitForm={submitForm} />
                         {/* <button onClick={faucet} > Airdrop yourself from TTUSD </button> */}
+                        <p> Nota: Transaction will fail if auto-aproove isn't activated </p>
                         <div id="album" />
                         <br />
                     </div>
