@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
-import { Button, WalletModal, WalletModalButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-
 
 function Feed() {
     return (
@@ -11,10 +9,6 @@ function Feed() {
                 <ImgContainer src={"/images/bgLogo.jpg"}></ImgContainer>
             </Link>
             <AnchoContainer>
-                {/* <Anchor href={"/"}>HOME</Anchor>
-            <Anchor href={"/"}>WPAPER</Anchor>
-            <Anchor href={"/"}>HOW TO BUY</Anchor> */}
-
                 <Link to="/createMint">
                     <SubmitBtn>Create Mint</SubmitBtn>
                 </Link>
@@ -25,12 +19,15 @@ function Feed() {
 
 export default Feed
 
-
 const Container = styled.div`
     display: flex;
-    background-color:#000;
     justify-content: center;
-    position: relative;    
+    
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    background-color:#000;
 `
 const ImgContainer = styled.img`
     display: grid;
@@ -45,12 +42,6 @@ const AnchoContainer = styled.div`
     top: 50%;
     transform: translateY(-50%);
     
-`
-const Anchor = styled.a`
-    display: grid;  
-    color:#fff ;
-    text-decoration: none;
-    padding: 4px 8px;
 `
 
 const SubmitBtn = styled.button`
