@@ -2,15 +2,22 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getFeeds } from '../../store/actions/Feed';
+import FeedCard from './FeedCard'
+import { clusterApiUrl } from '@solana/web3.js';
+import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
+import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
+import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+const wallets = [getPhantomWallet()]
+const network = clusterApiUrl('devnet');
 
 function Feed() {
     const dispatch = useDispatch();
     const { feedList } = useSelector((state) => state.FeedReducer);
     const [feeds, setFeeds] = useState([])
+    const wallet = useWallet()
 
-    const getFeedItems = () => {
-        dispatch(getFeeds());
-    }
+    // console.log(wallet);
 
     useEffect(() => {
         dispatch(getFeeds());
@@ -28,28 +35,50 @@ function Feed() {
         if (feeds && feeds.length) {
             feeds.map((val, index) => {
                 data.push(
-                    <tr key={index}>
-                        <td> {val.imageUrl ? <img src={val.imageUrl} height={100} width={150}></img> : "-"}</td>
-                        <td style={{ color: "#fff" }}> {val.imageName ? val.imageName : "-"} </td>
-                    </tr>)
+                    <FeedCard 
+                        wallet={wallet}
+                        key={index}
+                        NFTPicture={val.imageName}
+                        url ={val.imageUrl}                    
+                    />                     
+                )
             })
         }
         return data;
     }
 
+    if (!wallet.connected) {
+        return (
+            <div className="divwallet">
+                Please select the wallet you want to use to connect to Charm :
+                <div style={{ marginTop: '30px' }}>
+                    <WalletMultiButton />
+                </div>
+            </div>
+        )
+    } else {
 
-    return (
-        <Wrap>
-            <Button onClick={getFeedItems}><i className="fas fa-sync-alt"></i> Refresh list </Button>
-
-            <Table>
-                {renderFeedList()}
-            </Table>
-        </Wrap>
-    )
+        return (
+            <Wrap>
+                <Container>
+                    {renderFeedList()}
+                </Container>
+            </Wrap>
+        )
+    }
 }
 
-export default Feed
+const FeedWithProvider = () => (
+    <ConnectionProvider endpoint={network}>
+        <WalletProvider wallets={wallets} autoConnect>
+            <WalletModalProvider>
+                <Feed />
+            </WalletModalProvider>
+        </WalletProvider>
+    </ConnectionProvider>
+)
+
+export default FeedWithProvider
 
 const Button = styled.button`
 background-color:#fff;
@@ -65,24 +94,25 @@ border: none;
 `
 
 const Wrap = styled.div`
+    margin-top: 120px;
 `
 
 const Container = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: auto;
     color: white;
     .feed-card { 
         display: flex;
         flex-direction: column;
-        width: 190px;
+        /* width: 190px; */
     }
     .feed-card-img { 
-        height: 80px;
-        width: 190px;
+        /* height: 80px;
+        width: 190px; */
     }
     .text {
-        overflow: hidden;
+        overflow-wrap: break-word;;
     }
 `
 const Table = styled.table`

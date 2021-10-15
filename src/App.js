@@ -8,7 +8,6 @@ import './App.css';
 import React, { useEffect } from 'react';
 import Home from "./views/Home/index";
 import Feed from "./views/Feed/index";
-import Mint from "./views/Mint";
 import Topbar from "./components/layout/topbar";
 
 
@@ -34,10 +33,6 @@ function App() {
           <Route path="/" exact>
             <ScrollToTop />
             <Feed />
-          </Route>
-          <Route path="/mint" exact>
-            <ScrollToTop />
-            <Mint />
           </Route>
           <Route path="/createMint" exact>
             <ScrollToTop />              

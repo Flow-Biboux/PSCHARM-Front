@@ -11,12 +11,19 @@ var value = 0
 export const getFeeds = () => {
   
   // if (value !=0) (
-    return dispatch => {
-      
-      const albumBucketName = 'www.mytest111111.com';
-      const s3 = new AWS.S3({ apiVersion: "2006-03-01", params: { Bucket: albumBucketName } });
+    return dispatch => {      
+
+      const albumBucketNameBlurred='www.mytest111111.com';
+      const s3Blur = new AWS.S3({
+          apiVersion: "2006-03-01",
+          params: { Bucket: albumBucketNameBlurred }
+      });   
+
+
       const items = []
-      s3.listObjects(function (err, data) {
+
+
+      s3Blur.listObjects(function (err, data) {
         if (err) {
           dispatch(getFeedsSucess([]))
           return alert("There was an error viewing your album: " + err.message);
@@ -24,15 +31,17 @@ export const getFeeds = () => {
         const UrlExpireSeconds = 180 * 1;
         data.Contents.map(function (photo) {
           const photoKey = photo.Key;
-          const params = {
-            Bucket: albumBucketName,
+          const paramsBlur = {
+            Bucket: albumBucketNameBlurred,
             Key: photoKey,
             Expires: UrlExpireSeconds
           };
-          const photoUrl = s3.getSignedUrl('getObject', params);
+          
+          const photoUrlBlur = s3Blur.getSignedUrl('getObject', paramsBlur);
+
           items.push({
-            imageUrl: photoUrl,
-            imageName: photoKey.slice(0, 3) + "..." +photoKey.slice(41, 48) + "..."+ photoKey.slice(-7)
+            imageUrl: photoUrlBlur,
+            imageName: photoKey
           })
       });
       dispatch(getFeedsSucess(items))
