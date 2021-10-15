@@ -22,21 +22,21 @@ function FormSub({ SubmitForm }) {
                 type="string"
                 name="name"
                 placeholder="Name (max 20 char)"
-                {...register('name', {  max: 20 })}
+                {...register('name', {  max: 20, required:true })}
             /></FormGroup>
 
             <FormGroup><FormLabel>Symbol </FormLabel><Input
                 type="string"
                 name="symbol"
                 placeholder="Symbol (max 4 char)"
-                {...register('symbol', {  max: 4 })}
+                {...register('symbol', {  max: 4 , required:true})}
             /></FormGroup>
 
             <FormGroup><FormLabel> Description </FormLabel><Input
                 type="string"
-                name="desc"
+                name="description"
                 placeholder="Description (max 50 char)"
-                {...register('desc', { max: 50 })}
+                {...register('description', { max: 50, required:true})}
             /></FormGroup>
             <FormGroup><FormLabel>Upload </FormLabel>
                 <FormRight>
@@ -47,7 +47,7 @@ function FormSub({ SubmitForm }) {
                         id="photoupload"
                         type="file"
                         accept="image/*"
-                        {...register('photoupload')}
+                        {...register('photoupload',{ required:true})}
                     />
                  </FormRight>
                 
