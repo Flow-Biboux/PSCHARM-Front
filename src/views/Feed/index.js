@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getFeeds } from '../../store/actions/Feed';
-import FeedCard from './FeedCard'
-import { clusterApiUrl } from '@solana/web3.js';
-import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
-import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-
-const wallets = [getPhantomWallet()]
-const network = clusterApiUrl('devnet');
+import FeedCard from './FeedCard';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 function Feed() {
     const dispatch = useDispatch();
@@ -72,30 +67,8 @@ function Feed() {
     }
 }
 
-const FeedWithProvider = () => (
-    <ConnectionProvider endpoint={network}>
-        <WalletProvider wallets={wallets} autoConnect>
-            <WalletModalProvider>
-                <Feed />
-            </WalletModalProvider>
-        </WalletProvider>
-    </ConnectionProvider>
-)
 
-export default FeedWithProvider
-
-const Button = styled.button`
-background-color:#fff;
-padding:10px 20px;
-border-radius:5px;
-margin-top:10px;
-margin-left: auto;
-display: block;
-margin-right: 20px;
-background: #eda3a3;
-font-size: 16px;
-border: none;
-`
+export default Feed
 
 const Wrap = styled.div`
     margin-top: 120px;
@@ -117,27 +90,5 @@ const Container = styled.div`
     }
     .text {
         overflow-wrap: break-word;;
-    }
-`
-const Table = styled.table`
-    width:100%;
-    border-spacing: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 30px;
-
-    tr{
-        display: flex;
-        flex-direction: column;
-        flex: 0 0 33%;
-    }
-
-    tr td{
-        padding: 8px 0;
-    }
-    tr td:nth-child(2){
-        border-bottom: 1px solid #744242;
-        margin-bottom: 12px;
-        padding-bottom: 20px;
     }
 `
