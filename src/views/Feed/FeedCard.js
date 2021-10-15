@@ -38,6 +38,7 @@ function FeedCard({NFTPicture, url}) {
     }
 
     async function proxyTransfer() {
+        let transfertSucess = false;
 
         const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
         const provider = await getProvider();
@@ -73,19 +74,26 @@ function FeedCard({NFTPicture, url}) {
         )
         console.log("toAddress :\n", toAddress)
 
-        await program.rpc.proxyTransfer(new BN(10000000), {
-            accounts: {
-                authority: provider.wallet.publicKey,
-                from: fromdAddress[0],
-                to: toAddress[0],
-                tokenProgram: TOKEN_PROGRAM_ID,
-            }
-
-        });
+        try {
+            await program.rpc.proxyTransfer(new BN(10000000), {
+                accounts: {
+                    authority: provider.wallet.publicKey,
+                    from: fromdAddress[0],
+                    to: toAddress[0],
+                    tokenProgram: TOKEN_PROGRAM_ID,
+                }
+    
+            });
+            
+            transfertSucess = true
+        } catch(err) {
+            console.log(err)
+            transfertSucess = false
+        }
 
         console.log("done transfer USD");
 
-        return true;
+        return transfertSucess;
 
     }
 

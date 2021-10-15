@@ -7,7 +7,7 @@ async function pushArweave(Data) {
     port: 443,
     protocol: 'https',
     timeout: 20000,     // Network request timeouts in milliseconds
-    logging: false,     // Enable network request logging
+    logging: true,     // Enable network request logging
   });
 
   const data = JSON.stringify(Data);

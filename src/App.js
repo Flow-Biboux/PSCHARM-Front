@@ -13,6 +13,8 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
 import { WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import SiteHome from './components/SiteHome'
+import AnimatedHeader from './components/AnimatedHeader'
 
 
 const wallets = [getPhantomWallet()]
@@ -34,14 +36,20 @@ function App() {
   return (
 
     <Router>
-      <div className="App">
-        <Topbar></Topbar>
+      <div className="App">        
         <Switch>
           <Route path="/" exact>
+            <Topbar></Topbar>
             <ScrollToTop />
             <Feed />
           </Route>
+          <Route path="/site" exact>
+            <ScrollToTop />
+            <AnimatedHeader />
+            <SiteHome />
+          </Route>
           <Route path="/createMint" exact>
+            <Topbar></Topbar>
             <ScrollToTop />              
             <Home />
           </Route>

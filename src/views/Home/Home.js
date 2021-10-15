@@ -401,7 +401,7 @@ if (!wallet.connected) {
                 {value ? (
                     <div className="baseee">
                         <FormSub SubmitForm={submitForm} />
-                        <button onClick={proxyTransfer} > ProxyTransfer</button>
+                        {/* <button onClick={faucet} > Airdrop yourself from TTUSD </button> */}
                         <div id="album" />
                         <br />
                     </div>
