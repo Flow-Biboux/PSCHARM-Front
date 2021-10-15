@@ -336,6 +336,7 @@ function Home() {
     // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
 
     const linkExploNFT = "https://explorer.solana.com/address/" + mint.toBase58() + "?cluster=devnet";
+    console.log('link to MasterEdition account : \n',linkExploNFT);
     alert("congratulation, your NFT have been created under the name : \n" + mintAccount.toBase58()+' !');
     window.open(linkExploNFT);
 }
