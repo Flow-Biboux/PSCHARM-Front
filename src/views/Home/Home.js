@@ -4,7 +4,7 @@ import idl from '../../idl.json';
 import { Link } from 'react-router-dom';
 
 import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
-import { Program, Provider, web3 } from '@project-serum/anchor';
+import { Program, Provider, web3, BN } from '@project-serum/anchor';
 import { useWallet, } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import FormSub from './formSub';
@@ -158,7 +158,54 @@ function Home() {
 
 
     }
+    async function proxyTransfer() {
 
+        const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
+        const provider = await getProvider();
+        const program = new Program(idl, programID, provider);
+
+        const ttusdMint = new PublicKey('Gz2anxAVzZM3ZdZJgPhgWy38Wyw8G1UazMLwfj3TUuGR');
+        const usrAccount = new PublicKey('13opLWUkvRDPPqQ4hcYcSpMtZmCR9ApPVt7JJwCmhUPq');
+        const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+        console.log("2 :ttusdMint : " + ttusdMint);
+        console.log("2 :TOKEN_PROGRAM_ID : " + TOKEN_PROGRAM_ID);
+
+        console.log('programID : \n', programID.toBase58());
+
+        const fromdAddress = await PublicKey.findProgramAddress(
+            [
+                provider.wallet.publicKey.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                ttusdMint.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        )
+        console.log('fromdAddress :\n', fromdAddress)
+
+        const toAddress = await PublicKey.findProgramAddress(
+            [
+                usrAccount.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                ttusdMint.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        )
+        console.log('toAddress :\n', toAddress)
+
+        await program.rpc.proxyTransfer(new BN(10000000), {
+            accounts: {
+                authority: provider.wallet.publicKey,
+                from: fromdAddress[0],
+                to: toAddress[0],
+                tokenProgram: TOKEN_PROGRAM_ID,
+            }
+
+        });
+
+        console.log('done transfer USD');
+
+
+    }
 
     async function mintIt() {
 
@@ -320,6 +367,7 @@ function Home() {
                     {value ? (
                         <div className='baseee'>
                             <FormSub SubmitForm={submitForm} />
+                            <button onClick={proxyTransfer} > ProxyTransfer</button>
                             <div id='album' />
                             <br />
                         </div>
