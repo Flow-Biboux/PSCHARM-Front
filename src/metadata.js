@@ -1,6 +1,7 @@
 "use strict";
-import { BinaryReader, BinaryWriter, deserializeUnchecked } from "borsh";
+import { BinaryReader, BinaryWriter, deserializeUnchecked, deserialize } from "borsh";
 import { PublicKey } from '@solana/web3.js';
+import { Component } from 'react'
 import base58 from "bs58";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -109,63 +110,38 @@ export function MetadataKey(MetadataKey) {
     MetadataKey[MetadataKey["MasterEditionV2"] = 6] = "MasterEditionV2";
     MetadataKey[MetadataKey["EditionMarker"] = 7] = "EditionMarker";
 }
-var Creator = /** @class */ (function () {
-    function Creator(args) {
+export class Creator extends Component {
+    constructor(args) {
+        super(args);
         this.address = args.address;
         this.verified = args.verified;
         this.share = args.share;
     }
-    return Creator;
-}());
-var Data = /** @class */ (function () {
-    function Data(args) {
+}
+export class Data extends Component {
+    constructor(args) {
+        super(args);
         this.name = args.name;
         this.symbol = args.symbol;
         this.uri = args.uri;
         this.sellerFeeBasisPoints = args.sellerFeeBasisPoints;
         this.creators = args.creators;
     }
-    return Data;
-}());
-var Metadata = /** @class */ (function () {
-    function Metadata(args) {
-        this.key = MetadataKey.MetadataV1;
-        this.updateAuthority = args.updateAuthority;
-        this.mint = args.mint;
-        this.data = args.data;
-        this.primarySaleHappened = args.primarySaleHappened;
-        this.isMutable = args.isMutable;
-        this.editionNonce = args.editionNonce;
+};
+export class Metadata extends Component {
+    constructor(props) {
+        this.key = props.key;
+        this.updateAuthority = props.updateAuthority;
+        this.mint = props.mint;
+        this.data = props.data;
+        this.primarySaleHappened = props.primarySaleHappened;
+        this.isMutable = props.isMutable;
+        this.editionNonce = props.editionNonce;
     }
-    return Metadata;
-}());
+}
 export const METADATA_SCHEMA = new Map([
-    [
-        Data,
-        {
-            kind: "struct",
-            fields: [
-                ["name", "string"],
-                ["symbol", "string"],
-                ["uri", "string"],
-                ["sellerFeeBasisPoints", "u16"],
-                ["creators", { kind: "option", type: [Creator] }],
-            ]
-        },
-    ],
-    [
-        Creator,
-        {
-            kind: "struct",
-            fields: [
-                ["address", "pubkeyAsString"],
-                ["verified", "u8"],
-                ["share", "u8"],
-            ]
-        },
-    ],
-    [
-        Metadata,
+
+    [Metadata,
         {
             kind: "struct",
             fields: [
@@ -175,64 +151,66 @@ export const METADATA_SCHEMA = new Map([
                 ["data", Data],
                 ["primarySaleHappened", "u8"],
                 ["isMutable", "u8"],
+                ["editionNonce", "u8"],
             ]
-        },
-    ],
+        },]
+    ,
+
+    [Data,
+        {
+            kind: "struct",
+            fields: [
+                ["name", "string"],
+                ["symbol", "string"],
+                ["uri", "string"],
+                ["desc", "string"],
+                ["sellerFeeBasisPoints", "u16"],
+                ["creators", { kind: "option", type: [Creator] }],
+            ]
+        },]
+    ,
+    [Creator,
+        {
+            kind: "struct",
+            fields: [
+                ["address", "pubkeyAsString"],
+                ["verified", "u8"],
+                ["share", "u8"],
+            ]
+        },]
+    ,
+
 ]);
 
 export async function getMetadataAccount(
-    tokenMint 
-  ) {
+    tokenMint
+) {
     return (
-      await findProgramAddress(
-        [
-          Buffer.from(METADATA_PREFIX),
-          toPublicKey(METADATA_PROGRAM_ID).toBuffer(),
-          toPublicKey(tokenMint).toBuffer(),
-        ],
-        toPublicKey(METADATA_PROGRAM_ID)
-      )
+        await findProgramAddress(
+            [
+                Buffer.from(METADATA_PREFIX),
+                toPublicKey(METADATA_PROGRAM_ID).toBuffer(),
+                toPublicKey(tokenMint).toBuffer(),
+            ],
+            toPublicKey(METADATA_PROGRAM_ID)
+        )
     )[0];
-  }
+}
 
-// export function getMetadataAccount(tokenMint) {
-//     return __awaiter(this, void 0, void 0, function () {
-//         return __generator(this, function (_a) {
-//             switch (_a.label) {
-//                 case 0: return [4 /*yield*/, findProgramAddress([
-//                     Buffer.from(METADATA_PREFIX),
-//                     toPublicKey(METADATA_PROGRAM_ID).toBuffer(),
-//                     toPublicKey(tokenMint).toBuffer(),
-//                 ], toPublicKey(METADATA_PROGRAM_ID))];
-//                 case 1: return [2 /*return*/, (_a.sent())[0]];
-//             }
-//         });
-//     });
-// }
+
+
 
 var METADATA_REPLACE = new RegExp("\u0000", "g");
-// export function decodeMetadata(buffer) {
-//     var metadata = deserializeUnchecked(METADATA_SCHEMA, Metadata, buffer);
-//     metadata.data.name = metadata.data.name.replace(METADATA_REPLACE, "");
-//     metadata.data.uri = metadata.data.uri.replace(METADATA_REPLACE, "");
-//     metadata.data.symbol = metadata.data.symbol.replace(METADATA_REPLACE, "");
 
-
-//     // metadata.data.name = metadata.data.name.replace(METADATA_REPLACE, "");
-//     // metadata.data.uri = metadata.data.uri.replace(METADATA_REPLACE, "");
-//     // metadata.data.symbol = metadata.data.symbol.replace(METADATA_REPLACE, "");
-//     return metadata;
-// };
-
-export function decodeMetadata (buffer)  {
+export function decodeMetadata(buffer) {
     const metadata = deserializeUnchecked(
-      METADATA_SCHEMA,
-      Metadata,
-      buffer
-    ) ;
-  
+        METADATA_SCHEMA,
+        Metadata,
+        buffer
+    );
+
     metadata.data.name = metadata.data.name.replace(METADATA_REPLACE, "");
     metadata.data.uri = metadata.data.uri.replace(METADATA_REPLACE, "");
     metadata.data.symbol = metadata.data.symbol.replace(METADATA_REPLACE, "");
     return metadata;
-  };
+};
