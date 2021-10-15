@@ -31,7 +31,6 @@ function Feed() {
             feeds.map((val, index) => {
                 data.push(
                     <FeedCard 
-                        wallet={wallet}
                         key={index}
                         NFTPicture={val.imageName}
                         url ={val.imageUrl}                    
