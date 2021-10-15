@@ -31,10 +31,10 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
         };
 
         let nDesc = '';
-        if (data.desc.length < 50) {
-            nDesc = data.desc.padEnd(50, '-')
+        if (data.description.length < 50) {
+            nDesc = data.description.padEnd(50, '-')
         } else {
-            nDesc = data.desc.slice(0, 50)
+            nDesc = data.description.slice(0, 50)
         };
 
         const NNN = nName + nSymb ;
@@ -78,9 +78,9 @@ function FormSub({ setMyvar, setMyJson, setMyImg }) {
 
             <div><label>Description </label><input
                 type="string"
-                name="desc"
+                name="description"
                 placeholder="Description (max 50 char)"
-                {...register('desc', { max: 50 })}
+                {...register('description', { max: 50 })}
             /></div>
             <div>
                 <input
