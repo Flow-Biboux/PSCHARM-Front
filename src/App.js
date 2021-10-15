@@ -11,6 +11,7 @@ import Feed from "./views/Feed/index";
 import Mint from "./views/Mint";
 import Topbar from "./components/layout/topbar";
 
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -25,6 +26,7 @@ function ScrollToTop() {
 function App() {
 
   return (
+
     <Router>
       <div className="App">
         <Topbar></Topbar>
@@ -44,6 +46,7 @@ function App() {
         </Switch>
       </div>
     </Router>
+
   );  
 }
 

@@ -332,7 +332,7 @@ async function blurAddPhoto(mintPubKey, pubKey) {
         y: 80,
         height: 200,
         width: 200,
-        spread: 18
+        spread: 25
       };
 
       ctx.filter = 'blur(' + blurredRect.spread + 'px)';

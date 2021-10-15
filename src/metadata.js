@@ -124,12 +124,14 @@ export class Data extends Component {
         this.name = args.name;
         this.symbol = args.symbol;
         this.uri = args.uri;
+        this.description = args.description
         this.sellerFeeBasisPoints = args.sellerFeeBasisPoints;
         this.creators = args.creators;
     }
 };
 export class Metadata extends Component {
     constructor(props) {
+        super(props);
         this.key = props.key;
         this.updateAuthority = props.updateAuthority;
         this.mint = props.mint;
@@ -163,7 +165,7 @@ export const METADATA_SCHEMA = new Map([
                 ["name", "string"],
                 ["symbol", "string"],
                 ["uri", "string"],
-                ["desc", "string"],
+                ["description", "string"],
                 ["sellerFeeBasisPoints", "u16"],
                 ["creators", { kind: "option", type: [Creator] }],
             ]

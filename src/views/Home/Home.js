@@ -224,10 +224,10 @@ function Home() {
 
         console.log(" myJson : \n", myJson);
         const arrayMyJson = JSON.parse(myJson)
-        // console.log("arrayMyJson : \n", arrayMyJson);
         arrayMyJson.seller_fee_basis_points = 10;
-        arrayMyJson.image = "http://www.mytest111111.com.s3-website-us-east-1.amazonaws.com" + "/" + provider.wallet.publicKey.toBase58() + "/" + mint.toBase58() + ".png";
-        // arrayMyJson.animation_url = "";
+        arrayMyJson.image = "https://images.stakefort.com/" + provider.wallet.publicKey.toBase58() + "/" + mint.toBase58() + ".png";
+        // arrayMyJson.animation_url = arrayMyJson.image;
+        // arrayMyJson.external_url =arrayMyJson.image;
         // arrayMyJson.attributes = [{ "trait_type": "Genre", "value": "Youth" }];
 
         // arrayMyJson.collection = {
@@ -240,34 +240,24 @@ function Home() {
                 [{
                     "uri": arrayMyJson.image,
                     "type": "image/png",
+                    "cdn": true,
                 }],
-
             "category": "image",
-
             "creators":
                 [{
                     "address": provider.wallet.publicKey.toBase58(),
                     "share": 100
                 }]
         }
-    
-
-
-
     console.log(" metadataToAr : \n", arrayMyJson);
 
     const tempWeave = await pushArweave(arrayMyJson);
 
-    // if (await tempWeave.length <= 65) {
     const linkAr = tempWeave;
-    // }
-    // else {
-    //     const linkAr = tempWeave.padEnd(65, "-")
-    // };
-    console.log("linkAr : \n", linkAr);
-    // "-----------------------------------------------------------------"//
+    console.log("Arweave link : \n", linkAr);
+
     const metadataToMint = myVar + linkAr;
-    console.log("metadataToMint : \n", metadataToMint);
+    console.log("metadata To Mint in MetadataAccount: \n", metadataToMint);
 
     const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
     console.log("mintAccount : \n" + mintAccount);
@@ -334,7 +324,7 @@ function Home() {
     console.log("metadata acc: ", m);
 
     // get the account info for that account
-    const accInfomasterEditionAccount = await provider.connection.getAccountInfo(metadataMainAccount);
+    const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
     // ParsedAccountData
     // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
     console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
@@ -347,7 +337,7 @@ function Home() {
     // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
 
     const linkExploNFT = "https://explorer.solana.com/address/" + mint.toBase58() + "?cluster=devnet";
-    alert("votre NFT a bien été crée, son nom sur la blockchain est : \n" + mintAccount.toBase58());
+    alert("Your NFT have been created under the name : \n" + mintAccount.toBase58());
     window.open(linkExploNFT);
 }
 
@@ -396,6 +386,7 @@ useEffect(() => {
 
 
 if (!wallet.connected) {
+    
     return (
         <div className="divwallet">
             Please select the wallet you want to use to connect to Charm :
