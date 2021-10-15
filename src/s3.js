@@ -244,7 +244,7 @@ function getLink(albumName, fileName) {
 // snippet-end:[s3.JavaScript.photoAlbumExample.viewAlbum]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.addPhoto]
-function addPhoto(mintPubKey, pubKey) {
+async function addPhoto(mintPubKey, pubKey) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
