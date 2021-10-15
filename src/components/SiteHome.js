@@ -51,16 +51,16 @@ function SiteHome() {
                     <Title>Features</Title>
 
                     <FeaturesText>
-                    Ga. Icid mi, te niendi blaborest que<br/>
-                    quia veroris cienderum sit eum<br/>
-                    atum restion pelit landita tectem<br/>
-                    enes inihilicit aut quis eossum<br/>
-                    liquide rferessequi blaut est dolupta<br/>
-                    tecusantia denisci magnias sunturem<br/>
-                    est, utas accae latquas ea nonsequos<br/>
-                    exped quostoritio quodipsa aceperfero<br/>
-                    quibusam eossit, con pores maximus<br/>
-                    nonsed maximagnam ipidipi.
+                    CHARM is a censorship-free platform<br/>
+                    that provides a safe and true ownership<br/>
+                    around erotism and sexuality.<br/>
+                    It enables anyone to create and <br/>
+                    upload some explicit media to be<br/>
+                    viewed, liked and bought worldwide.<br/>
+                    Explore your unconfessed fantasy<br/>
+                    with like-minded people<br/>
+                    and start crating your economic freedom, <br/>
+                    rather you're gentle or fierce!
                     </FeaturesText>
 
                 </FeaturesTextWrapper>
