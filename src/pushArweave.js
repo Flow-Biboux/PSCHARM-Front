@@ -11,22 +11,17 @@ async function pushArweave(Data) {
   });
 
   const data = JSON.stringify(Data);
-
+  console.log('JSON data : \n', data);
   let transaction = await arweave.createTransaction({ data: data });
-
+  transaction.addTag('Content-Type', 'text/html');
   await arweave.transactions.sign(transaction);
 
-  let uploader = await arweave.transactions.getUploader(transaction);
-
-  while (!uploader.isComplete) {
-    await uploader.uploadChunk();
-    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
-    console.log(uploader.toJSON);
-  }
+  const response = await arweave.transactions.post(transaction);
 
   console.log("transaction :\n", transaction);
-  console.log("uploader :\n", uploader);
-  const link = "www.arweave.net/" + uploader.transaction.id;
+  console.log("response  :\n", response);
+  console.log("response status :\n", response.status);
+  const link = "www.arweave.net/" + transaction.id;
   console.log('link to JSON : \n ', link);
 
   return link
