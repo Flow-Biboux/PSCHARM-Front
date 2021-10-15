@@ -107,13 +107,15 @@ function FeedCard({NFTPicture, url}) {
         let transaction = false;
 
         try {
-            if (proxyTransfer())
-                transaction = true
+            if ( await proxyTransfer() == true){
+                transaction = true;
+            }
+              
         } catch(err) {
             console.log(err)
         }
 
-        if (transaction) {
+        if (transaction==true) {
             s3.listObjects({
                 Prefix: NFTPicture,
             },function (err, data) {
