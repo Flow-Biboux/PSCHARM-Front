@@ -207,7 +207,6 @@ function Home() {
 
         console.log("done transfer USD");
 
-
     }
 
     async function mintIt() {

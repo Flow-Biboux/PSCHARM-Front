@@ -2,11 +2,18 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import AWS from "aws-sdk";
 import NFT from '../NFT/index'
+import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
+import { Program, Provider, web3, BN } from "@project-serum/anchor";
+import { useWallet } from '@solana/wallet-adapter-react';
+import idl from "../../idl.json";
 
+const opts = {
+    preflightCommitment: "processed"
+}
+const programID = new PublicKey(idl.metadata.address);
+const network = clusterApiUrl("devnet");
 
-
-function FeedCard({wallet, NFTPicture, url}) {
-    const [isBlur, setIsBlur] = useState(true)
+function FeedCard({NFTPicture, url}) {    
     const [picture, setPicture] = useState(url)
     const [buttonPopup, setButtonPopup] = useState(false)
     
@@ -16,6 +23,72 @@ function FeedCard({wallet, NFTPicture, url}) {
         params: { Bucket: albumBucketName } 
     });
 
+    const wallet = useWallet()
+
+    async function getProvider() {
+        /* create the provider and return it to the caller */
+        /* network set to local network for now */
+
+        const connection = new Connection(network, opts.preflightCommitment);
+
+        const provider = new Provider(
+            connection, wallet, opts.preflightCommitment,
+        );
+        return provider;
+    }
+
+    async function proxyTransfer() {
+
+        const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
+        const provider = await getProvider();
+        const program = new Program(idl, programID, provider);
+
+        const ttusdMint = new PublicKey("Gz2anxAVzZM3ZdZJgPhgWy38Wyw8G1UazMLwfj3TUuGR");
+
+        const end = NFTPicture.lastIndexOf('/')
+        const usrAccount = new PublicKey(NFTPicture.substring(0, end));
+        const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+        console.log("2 :ttusdMint : " + ttusdMint);
+        console.log("2 :TOKEN_PROGRAM_ID : " + TOKEN_PROGRAM_ID);
+
+        console.log("programID : \n", programID.toBase58());
+
+        const fromdAddress = await PublicKey.findProgramAddress(
+            [
+                provider.wallet.publicKey.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                ttusdMint.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        )
+        console.log("fromdAddress :\n", fromdAddress)
+
+        const toAddress = await PublicKey.findProgramAddress(
+            [
+                usrAccount.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                ttusdMint.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        )
+        console.log("toAddress :\n", toAddress)
+
+        await program.rpc.proxyTransfer(new BN(10000000), {
+            accounts: {
+                authority: provider.wallet.publicKey,
+                from: fromdAddress[0],
+                to: toAddress[0],
+                tokenProgram: TOKEN_PROGRAM_ID,
+            }
+
+        });
+
+        console.log("done transfer USD");
+
+        return true;
+
+    }
+
 
     function buyNFT() {        
         console.log("coming soon");
@@ -23,30 +96,35 @@ function FeedCard({wallet, NFTPicture, url}) {
     }
 
     async function likeNFT() {
-        setIsBlur(!isBlur)
+        let transaction = false;
 
-        s3.listObjects({
-            Prefix: NFTPicture,
-        },function (err, data) {
-            if (err) {          
-              return alert("There was an error viewing your object: " + err.message);
-            }
-            // console.log("data", data)       
-            
-            // 15 minutes
-            const UrlExpireSeconds = 60 * 15 * 1;
-    
-            const photoUrl = s3.getSignedUrl('getObject', {
-                Bucket: albumBucketName,
-                Key: NFTPicture,
-                Expires: UrlExpireSeconds
-            });
+        try {
+            if (proxyTransfer())
+                transaction = true
+        } catch(err) {
+            console.log(err)
+        }
+
+        if (transaction) {
+            s3.listObjects({
+                Prefix: NFTPicture,
+            },function (err, data) {
+                if (err) {          
+                  return alert("There was an error viewing your object: " + err.message);
+                }   
                 
-            setPicture(photoUrl)            
-        });
-
-
-        // picture === url[0] ? setPicture(url[1]) : setPicture(url[0])
+                // 15 minutes
+                const UrlExpireSeconds = 60 * 15 * 1;
+        
+                const photoUrl = s3.getSignedUrl('getObject', {
+                    Bucket: albumBucketName,
+                    Key: NFTPicture,
+                    Expires: UrlExpireSeconds
+                });
+                    
+                setPicture(photoUrl)            
+            });
+        }
     }
 
     return (
