@@ -1,9 +1,9 @@
 import '../../App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import idl from '../../idl.json';
 import { Link } from 'react-router-dom';
 
-import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
+import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY , decodeUnchecked} from '@solana/web3.js';
 import { Program, Provider, web3, BN } from '@project-serum/anchor';
 import { useWallet, } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
@@ -13,8 +13,11 @@ import { pushArweave } from '../../pushArweave';
 import { connect } from "react-redux";
 import { compose } from 'redux';
 import * as actions from '../../store/actions/index';
-
-import { getMetadataAccount, decodeMetadata } from '../../metadata'
+  
+import {Buffer} from 'buffer';
+import {serialize, deserialize, deserializeUnchecked} from 'borsh';
+import { getMetadataAccount, decodeMetadata, MetadataKey, METADATA_SCHEMA,METADATA_SCHEMA2 , Metadata, Data} from '../../metadata'
+import { decode } from '@project-serum/anchor/dist/cjs/utils/bytes/bs58';
 
 const {
     createMint,
@@ -215,8 +218,8 @@ function Home() {
         console.log("1: create Mint Account : \n", mint.toBase58());
 
         // uploading blurred image and clear image
-        await blurAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58())
-        await addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58())
+        await blurAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58());
+        await addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58());
 
 
         console.log(" myJson : \n", myJson);
@@ -225,17 +228,17 @@ function Home() {
         arrayMyJson.image = 'http://www.mytest111111.com.s3-website-us-east-1.amazonaws.com' + '/' + provider.wallet.publicKey.toBase58() + '/' + mint.toBase58() + '.png';
         console.log(" metadataToAr : \n", arrayMyJson);
 
-        // const tempWeave = await pushArweave(arrayMyJson);
+        const tempWeave = await pushArweave(arrayMyJson);
 
         // if (await tempWeave.length <= 65) {
-        // const linkAr = tempWeave + '------'
-
+        const linkAr = tempWeave + '------';
+        // }
         // else {
-        //     linkAr = tempWeave.padEnd(65, '-')
+        //     const linkAr = tempWeave.padEnd(65, '-')
         // };
-        // console.log('linkAr : \n', linkAr);
-        const metadataToMint = myVar + '-----------------------------------------------------------------'//linkAr;
-
+        console.log('linkAr : \n', linkAr);
+     // '-----------------------------------------------------------------'//
+        const metadataToMint = myVar + linkAr;
         console.log('metadataToMint : \n', metadataToMint);
 
         const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
@@ -257,6 +260,7 @@ function Home() {
             metadataMainAccount);
         console.log('masterEditionAccount :\n ', masterEditionAccount.toBase58());
         console.log('Metadatas to add to mint Account : \n', metadataToMint);
+        console.log('metadataMainAccount : \n', metadataMainAccount.toBase58());
         console.log('mint.toBase58() : \n', mint.toBase58());
         console.log('provider.publicKey : \n', provider.wallet.publicKey.toBase58());
 
@@ -295,9 +299,14 @@ function Home() {
         console.log("metadata acc: ", m);
 
         // get the account info for that account
-        const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
+        const accInfomasterEditionAccount = await provider.connection.getAccountInfo(metadataMainAccount);
+        // ParsedAccountData
         // console.log('accInfomasterEditionAccount : \n',deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
-        console.log('accInfomasterEditionAccount : \n', decodeMetadata(accInfomasterEditionAccount.data));
+        console.log('accInfomasterEditionAccount : \n', accInfomasterEditionAccount);
+        console.log('accInfomasterEditionAccount.data : \n', accInfomasterEditionAccount.data);
+        // console.log('accInfomasterEditionAccountdeser : \n', deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
+        // console.log('accInfomasterEditionAccountdeco : \n', decodeMetadata(accInfomasterEditionAccount.data));
+        
 
         // finally, decode metadata
         // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
