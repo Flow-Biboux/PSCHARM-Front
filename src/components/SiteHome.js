@@ -69,12 +69,66 @@ function SiteHome() {
 
             <Tokenomics />
 
-            <Section 
-                id="road-map"
-                backgroundImg="Charm_03.jpg"
-            />
+            {/* <RoadMapWrapper id="road-map">
+                <RoadMapTitle>Road Map</RoadMapTitle>
 
-            <Section id="team" />
+                <RoadMapContent>                  
+
+                    <RoadMapQ3>
+                        <h3>Q3</h3>
+                        <p>
+                            Conceptualization Charm Token
+                            Social Media Launch (Telegram, Discord, Instagram, Twitter)
+                            CHARM App V1 (Devnet)features:
+                            •	Mint your private picture NFT 
+                            •	Random scrolling, NFT feeds page
+                        </p>
+                    </RoadMapQ3>
+
+                    <RoadMapQ4>
+                        <h3>Q4</h3>
+
+                        <p>
+                            Website Launch V1 
+                            Hackathon Solana
+                            CHARM App V2 (Devnet)features:
+                            •	user and creator subscription
+                            •	NFT Bomb 
+                            •	Chat (private message)
+                            •	Mint Audio/ Video NFT
+                            Major Marketing Campaign (Event and Partnership)
+                            Public sale: Launch Charm Token
+
+                        </p>
+
+                    </RoadMapQ4>                   
+
+                    <RoadMapQ1>
+                        <h3>Q1</h3>
+
+                        <p>
+                            CHARM App V3 (Closed Beta)features:
+                            •	live streaming 
+                            Decentralized Exchange listing
+                            Website V2 updates
+                        </p>
+
+                    </RoadMapQ1>
+
+                    <RoadMapQ2>
+                        <h3>Q2</h3>
+
+                        <p>
+                            Centralized Exchange listing
+                            Website V3 updates
+                            CHARM App V4 (live)
+                        </p>
+
+                    </RoadMapQ2>
+
+                </RoadMapContent>
+
+            </RoadMapWrapper> */}
 
         </Container>
     )
@@ -238,4 +292,47 @@ const FeaturesTextWrapper = styled(AboutUsTextWrapper)`
 `
 const FeaturesText = styled.p`
     /* font-size: 22px; */
+`
+
+const RoadMapWrapper = styled.div`
+    background-image: url("/images/Charm_03.jpg");
+    background-color: rgb(43, 0, 0);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+    width: 100%;
+    height: 100vh;
+    min-height: 640px;
+    
+    color: white;
+
+    @media screen and (max-width: ${smallBreakPoint}) {                
+        background-position-x: -484px;
+        background-position-y: -8px;
+    }
+`
+
+const RoadMapTitle = styled.h2`
+    text-transform: uppercase;
+    font-size: 104px;
+`
+const RoadMapContent = styled.div`
+    display: flex;
+`
+const RoadMapQ3 = styled.div`
+    max-width: 25vw;
+`
+const RoadMapQ4 = styled.div`
+    max-width: 25vw;
+`
+const RoadMapQ1 = styled.div`
+    max-width: 25vw;
+`
+const RoadMapQ2 = styled.div`
+    max-width: 25vw;
 `
