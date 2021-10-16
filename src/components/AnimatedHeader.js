@@ -291,7 +291,7 @@ const NavContainer = styled.div`
 const LiWithSub = styled.li`
     position: relative;
 
-    &:hover {
+    :hover {
         .sub-menu {
             display: flex;
             flex-direction: column;
@@ -395,7 +395,7 @@ const SpanBurgerThree = styled(SpanBurgerOne)`
 const SubMenu = styled.ul`    
     display: none;
     position: absolute;
-    top: 120%;
+    top: 100%;
     left: -20px;
     background-color: black;
     padding: 0 20px 20px;
