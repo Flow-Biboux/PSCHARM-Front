@@ -42,10 +42,6 @@ function AnimatedHeader() {
                 <Icon 
                     iconLink="https://instagram.com/charm_token"
                     iconImg="/images/icons/Instagram_01.svg" 
-                />                
-                <Icon 
-                    iconLink="#"
-                    iconImg="/images/icons/GitHub.svg" 
                 />
                 <Icon 
                     iconLink="https://discord.gg/m84xh3zW"
@@ -88,8 +84,8 @@ function AnimatedHeader() {
 
                         <li className="main-li"><a href="/">Wpaper</a></li>
                         <li className="main-li">
-                            {/* <a href="/">How to buy</a> */}
-                            <Link to="/how-to-buy">How to buy</Link>
+                            <a href="#">How to buy</a>
+                            {/* <Link to="/how-to-buy">How to buy</Link> */}
                         
                         </li>
                         <li className="main-li app-button">

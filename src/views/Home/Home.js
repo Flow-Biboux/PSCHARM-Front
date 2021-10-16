@@ -451,7 +451,7 @@ function Home() {
             )
         } else {
             return (
-                <div className="home">
+                <div className="app-home">
                     <div>
                         {value ? (
                             <div className="baseee">
