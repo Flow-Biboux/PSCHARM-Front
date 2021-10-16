@@ -55,6 +55,47 @@
       "args": []
     },
     {
+      "name": "createAssociatedAccount",
+      "accounts": [
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rentProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "faucet",
       "accounts": [
         {
@@ -404,6 +445,13 @@
           }
         ]
       }
+    }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient Balance"
     }
   ],
   "metadata": {
