@@ -7,12 +7,18 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 function Feed() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();    
     const { feedList } = useSelector((state) => state.FeedReducer);
     const [feeds, setFeeds] = useState([])
     const wallet = useWallet()
 
     // console.log(wallet);
+
+    const toggleSelectWallet = () => {
+        const selectWallet = document.querySelector("#select-wallet");
+
+        selectWallet.classList.contains("select-wallet-active") ? selectWallet.classList.remove("select-wallet-active") : selectWallet.classList.add("select-wallet-active")
+    }
 
     useEffect(() => {
         dispatch(getFeeds());
@@ -41,20 +47,34 @@ function Feed() {
         return data;
     }
 
+    
     if (!wallet.connected) {
         return (
             <div className="divwallet">
-                Please select the wallet you want to use to connect to Charm :
-                <div style={{ marginTop: '30px' }}>
-                    <WalletMultiButton />
+                <p>
+                    By ticking "Yes" I certify I'm over 18 years old.
+                </p>
+                <div>
+                    <YesBox 
+                        id="yes" 
+                        type="checkbox"                            
+                        onClick={toggleSelectWallet}
+                    />
+                    <label>Yes</label>
+                    
                 </div>
+                
+                <SelectWalletWrapper id="select-wallet" className="select-wallet">
+                    <SelectWalletLegend>(click "Select wallet to connect to your wallet")</SelectWalletLegend>
+                    <WalletMultiButton />
+                </SelectWalletWrapper>
             </div>
         )
     } else {
 
         document.addEventListener("contextmenu", (event) => {
             event.preventDefault();
-          });
+        });
 
         return (
             <Wrap>
@@ -90,4 +110,17 @@ const Container = styled.div`
     .text {
         overflow-wrap: break-word;;
     }
+`
+const SelectWalletWrapper = styled.div`
+    display: none;
+
+    &.select-wallet-active {
+        display: block;
+    }
+`
+const SelectWalletLegend = styled.p`
+    margin-bottom: 30px;
+`
+const YesBox = styled.input`
+    margin: 30px 0;
 `

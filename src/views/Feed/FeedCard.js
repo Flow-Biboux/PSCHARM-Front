@@ -48,6 +48,8 @@ function FeedCard({ NFTPicture, url }) {
 
         const end = NFTPicture.lastIndexOf('/')
         const usrAccount = new PublicKey(NFTPicture.substring(0, end));
+        console.log("usrAccount", usrAccount)
+        console.log("NFTPicture.substring(0, end)", NFTPicture.substring(0, end))
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
         console.log("2 :ttusdMint : " + ttusdMint);
         console.log("2 :TOKEN_PROGRAM_ID : " + TOKEN_PROGRAM_ID);
@@ -100,7 +102,6 @@ function FeedCard({ NFTPicture, url }) {
 
     function buyNFT() {
         console.log("coming soon");
-        console.log(wallet);
     }
 
     async function likeNFT() {
