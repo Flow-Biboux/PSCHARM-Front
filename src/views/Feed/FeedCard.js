@@ -73,7 +73,7 @@ function FeedCard({ NFTPicture, url }) {
         )
         console.log("toAddress :\n", toAddress)
 
-        const amnt = 10 ** 5 * 10 ** 0;
+        const amnt = 10 ** 6 * 10 ** (-1);
         try {
             await program.rpc.proxyTransfer(new BN(amnt), {
                 accounts: {
