@@ -13,14 +13,14 @@ const opts = {
 const programID = new PublicKey(idl.metadata.address);
 const network = clusterApiUrl("devnet");
 
-function FeedCard({NFTPicture, url}) {    
+function FeedCard({ NFTPicture, url }) {
     const [picture, setPicture] = useState(url)
     const [buttonPopup, setButtonPopup] = useState(false)
-    
+
     const albumBucketName = 'charmtokensolana';
     const s3 = new AWS.S3({
-        apiVersion: "2006-03-01", 
-        params: { Bucket: albumBucketName } 
+        apiVersion: "2006-03-01",
+        params: { Bucket: albumBucketName }
     });
 
     const wallet = useWallet()
@@ -51,7 +51,6 @@ function FeedCard({NFTPicture, url}) {
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
         console.log("2 :ttusdMint : " + ttusdMint);
         console.log("2 :TOKEN_PROGRAM_ID : " + TOKEN_PROGRAM_ID);
-
         console.log("programID : \n", programID.toBase58());
 
         const fromdAddress = await PublicKey.findProgramAddress(
@@ -74,31 +73,32 @@ function FeedCard({NFTPicture, url}) {
         )
         console.log("toAddress :\n", toAddress)
 
+        const amnt = 10 ** 5 * 10 ** 0;
         try {
-            await program.rpc.proxyTransfer(new BN(10000000), {
+            await program.rpc.proxyTransfer(new BN(amnt), {
                 accounts: {
                     authority: provider.wallet.publicKey,
                     from: fromdAddress[0],
                     to: toAddress[0],
                     tokenProgram: TOKEN_PROGRAM_ID,
                 }
-    
+
             });
-            
+
+            console.log("Like done, ", amnt / 10 ** 6, " transfer USD");
             transfertSucess = true
-        } catch(err) {
+        } catch (err) {
             console.log(err)
             transfertSucess = false
+            console.log("Like rejected, try putting your heart or more tokens! \n Go to Mint page to airdrop yourself some TTUSD (Devnet only)");
         }
-
-        console.log("done transfer USD");
 
         return transfertSucess;
 
     }
 
 
-    function buyNFT() {        
+    function buyNFT() {
         console.log("coming soon");
         console.log(wallet);
     }
@@ -107,32 +107,32 @@ function FeedCard({NFTPicture, url}) {
         let transaction = false;
 
         try {
-            if ( await proxyTransfer() == true){
+            if (await proxyTransfer() == true) {
                 transaction = true;
             }
-              
-        } catch(err) {
+
+        } catch (err) {
             console.log(err)
         }
 
-        if (transaction==true) {
+        if (transaction == true) {
             s3.listObjects({
                 Prefix: NFTPicture,
-            },function (err, data) {
-                if (err) {          
-                  return alert("There was an error viewing your object: " + err.message);
-                }   
-                
+            }, function (err, data) {
+                if (err) {
+                    return alert("There was an error viewing your object: " + err.message);
+                }
+
                 // 15 minutes
                 const UrlExpireSeconds = 60 * 15 * 1;
-        
+
                 const photoUrl = s3.getSignedUrl('getObject', {
                     Bucket: albumBucketName,
                     Key: NFTPicture,
                     Expires: UrlExpireSeconds
                 });
-                    
-                setPicture(photoUrl)            
+
+                setPicture(photoUrl)
             });
         }
     }
@@ -140,16 +140,16 @@ function FeedCard({NFTPicture, url}) {
     return (
         <Container className="feed-card">
 
-            <Img 
+            <Img
                 onClick={() => setButtonPopup(true)}
                 className="feed-card-img"
-                src={picture} 
-                alt={"NFT pic of " + NFTPicture.slice(0, 4) + "..." + NFTPicture.slice(-8)}             
-            />   
-            <NFT trigger={buttonPopup} setTrigger={setButtonPopup} >                
-                <ImgPopup 
-                    src={picture} 
-                    alt={"NFT pic of " + NFTPicture.slice(0, 4) + "..." + NFTPicture.slice(-8)} 
+                src={picture}
+                alt={"NFT pic of " + NFTPicture.slice(0, 4) + "..." + NFTPicture.slice(-8)}
+            />
+            <NFT trigger={buttonPopup} setTrigger={setButtonPopup} >
+                <ImgPopup
+                    src={picture}
+                    alt={"NFT pic of " + NFTPicture.slice(0, 4) + "..." + NFTPicture.slice(-8)}
                 />
                 <ActionButton>
                     <button className="fa fa-heart" onClick={likeNFT}></button>
