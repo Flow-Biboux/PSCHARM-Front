@@ -108,15 +108,22 @@ function AnimatedHeader() {
                                         Tokenomics
                                     </HashLink>
                                 </li>
-                                <li><HashLink 
+                                {/* <li><HashLink 
                                         smooth 
                                         to="/#road-map"
                                         scroll={el => scrollWithOffset(el)}
                                     >
                                         Road Map
                                     </HashLink>
-                                </li>
-                                {/* <li><HashLink smooth to="/#team">Team</HashLink></li> */}
+                                </li> */}
+                                {/* <li><HashLink 
+                                        smooth 
+                                        to="/#team"
+                                        scroll={el => scrollWithOffset(el)}
+                                    >
+                                        Team
+                                    </HashLink>
+                                </li> */}
                             </SubMenu>     
 
                         </LiWithSub>
