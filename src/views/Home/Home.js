@@ -457,7 +457,6 @@ function Home() {
                             <div className="baseee">
                                 <FormSub SubmitForm={submitForm} />
                                 <button onClick={faucet} > Airdrop yourself from TTUSD </button>
-                                <button onClick={pushArweave}>upload to Ar </button>
                                 <p> Nota: Transaction will fail if auto-approve isn't activated </p>
                                 <div id="album" />
                                 <br />
