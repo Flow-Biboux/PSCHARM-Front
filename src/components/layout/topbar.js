@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Feed() {
     return (
         <Container id="album">
-            <Link to="/">
+            <Link to="/feed">
                 <ImgContainer src={"/images/bgLogo.jpg"}></ImgContainer>
             </Link>
             <AnchoContainer>

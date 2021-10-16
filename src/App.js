@@ -38,12 +38,12 @@ function App() {
     <Router>
       <div className="App">        
         <Switch>
-          <Route path="/" exact>
+          <Route path="/feed" exact>
             <Topbar></Topbar>
             <ScrollToTop />
             <Feed />
           </Route>
-          <Route path="/site" exact>
+          <Route path="/" exact>
             <ScrollToTop />
             <AnimatedHeader />
             <SiteHome />

@@ -89,7 +89,7 @@ function AnimatedHeader() {
                         
                         </li>
                         <li className="main-li app-button">
-                            <HashLink smooth target="_blank" to="/app" className="charm-app">
+                            <HashLink smooth target="_blank" to="/feed" className="charm-app">
                                 Charm
                             </HashLink>
                         </li>
@@ -291,10 +291,11 @@ const NavContainer = styled.div`
 const LiWithSub = styled.li`
     position: relative;
 
-    :hover {
+    &:hover {
         .sub-menu {
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
         }
     }
 
@@ -394,7 +395,7 @@ const SpanBurgerThree = styled(SpanBurgerOne)`
 const SubMenu = styled.ul`    
     display: none;
     position: absolute;
-    top: 100%;
+    top: 120%;
     left: -20px;
     background-color: black;
     padding: 0 20px 20px;
