@@ -306,13 +306,11 @@ const HeadTitle = styled.p`
     line-height: 36px;    
     
     position: absolute;
-    top: 22px;
     
     @media screen and (max-width: ${smallBreakPoint}) {       
         font-size: 32px;
         line-height: 33px;    
 
-        top: 24px;
     }
 `
 
