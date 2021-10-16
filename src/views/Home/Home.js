@@ -457,7 +457,7 @@ function Home() {
                             <div className="baseee">
                                 <FormSub SubmitForm={submitForm} />
                                 <button onClick={faucet} > Airdrop yourself from TTUSD </button>
-                                <p> Nota: Transaction will fail if auto-approve isn't activated </p>
+                                <p> Nota: Mint will fail if auto-approve isn't activated </p>
                                 <div id="album" />
                                 <br />
                             </div>
