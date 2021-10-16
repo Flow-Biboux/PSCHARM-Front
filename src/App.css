@@ -38,30 +38,28 @@
 		animation: App-logo-spin infinite 20s linear;
 	}
 }
+
 .divwallet {
   width: auto;
-height: auto;
-/* padding: 11px 10px 10px; */
-    /* -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box; */
-    margin: 10% 30%;
-    padding: 30px;
-    border: 3px solid rgb(255, 255, 255);
-    -webkit-border-radius: 41px;
-    border-radius: 41px;
-    font: normal 25px/1 "Monoton", Helvetica, sans-serif;
-    color: rgba(255,255,255,1);
-    text-align: center;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    /* text-shadow: 0 0 10px rgb(255,255,255) , 0 0 20px rgb(255,255,255) , 0 0 30px rgb(255,255,255) , 0 0 40px rgba(255,17,17,1) , 0 0 70px rgba(255,17,17,1) , 0 0 80px rgba(255,17,17,1) , 0 0 100px rgba(255,17,17,1) , 0 0 150px rgba(255,17,17,1) ; */
-    -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-    -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-    -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-    transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
-    text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 0 30px rgba(255,255,255,1) , 0 0 40px #a30026 , 0 0 70px #a30026 , 0 0 80px #a30026 , 0 0 100px #a30026 ;
-  }
+  height: auto;
+  margin: 10% 30%;
+  margin-top: 20vh;
+  padding: 30px;
+  border: 3px solid rgb(255, 255, 255);
+  -webkit-border-radius: 41px;
+  border-radius: 41px;
+  font: normal 25px/1 "Monoton", Helvetica, sans-serif;
+  color: rgba(255,255,255,1);
+  text-align: center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  /* text-shadow: 0 0 10px rgb(255,255,255) , 0 0 20px rgb(255,255,255) , 0 0 30px rgb(255,255,255) , 0 0 40px rgba(255,17,17,1) , 0 0 70px rgba(255,17,17,1) , 0 0 80px rgba(255,17,17,1) , 0 0 100px rgba(255,17,17,1) , 0 0 150px rgba(255,17,17,1) ; */
+  -webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 0 30px rgba(255,255,255,1) , 0 0 40px #a30026 , 0 0 70px #a30026 , 0 0 80px #a30026 , 0 0 100px #a30026 ;
+}
   
   .divwallet:hover {
     /* text-shadow: 0 0 5px rgb(255,255,255) , 0 0 10px rgb(255,255,255) , 0 0 15px rgb(255,255,255) , 0 0 20px rgba(255,17,17,1) , 0 0 35px rgba(255,17,17,1) , 0 0 40px rgba(255,17,17,1) , 0 0 50px rgba(255,17,17,1) , 0 0 75px rgba(255,17,17,1) ; */
@@ -70,8 +68,14 @@ height: auto;
   }
 
 .sayyes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   text-shadow: 0 0 10px rgba(255,255,255,1) , 0 0 20px rgba(255,255,255,1) , 0 0 30px rgba(255,255,255,1) , 0 0 40px rgba(255,0,0,1) , 0 0 70px #ff0000 , 0 0 80px #ff0000 , 0 0 100px #ff0000 ;
   margin: 10% 20%;
+  margin-top: 140px;
+  
   color: rgba(255,255,255,1);
   padding: 30px;
   border: 3px solid rgb(255, 255, 255);
@@ -186,6 +190,8 @@ height: auto;
 
 .bbutton {
 	display: inline-block;
+  margin-top: 20px;
+
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;

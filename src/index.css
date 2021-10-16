@@ -10,8 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background:rgb( 43, 0, 0);
   position: relative;
-  height: 100%;
-  
+    
 }
 
 body::after{
@@ -34,7 +33,7 @@ code {
 }
 
 .app-home {
-  margin-top: 120px;
+  margin-top: 100px;
 }
 
 .wallet-adapter-modal{
