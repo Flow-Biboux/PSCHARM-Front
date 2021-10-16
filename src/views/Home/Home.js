@@ -1,7 +1,7 @@
 import "../../App.css";
 import React, { useState, useEffect, Component } from "react";
 import idl from "../../idl.json";
-import { Link } from "react-router-dom";
+import styled from 'styled-components'
 
 import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY, decodeUnchecked } from "@solana/web3.js";
 import { Program, Provider, web3, BN } from "@project-serum/anchor";
@@ -34,10 +34,7 @@ const programID = new PublicKey(idl.metadata.address);
 const network = clusterApiUrl("devnet");
 
 
-function Home() {
-    const [value, setValue] = useState("");
-    const [dataList, setDataList] = useState([]);
-    const [input, setInput] = useState("");
+function Home() {        
     const [myVar, setMyvar] = useState("");
     const [myJson, setMyJson] = useState("");
     const [myImg, setMyImg] = useState("");
@@ -45,6 +42,11 @@ function Home() {
 
     const arweave = Arweave.init({});
 
+    const toggleSelectWallet = () => {
+        const selectWallet = document.querySelector("#select-wallet");
+
+        selectWallet.classList.contains("select-wallet-active") ? selectWallet.classList.remove("select-wallet-active") : selectWallet.classList.add("select-wallet-active")
+    }
 
     async function getProvider() {
         /* create the provider and return it to the caller */
@@ -58,47 +60,28 @@ function Home() {
         return provider;
     }
 
-    async function initialize() {
-        const provider = await getProvider();
-        /* create the program interface combining the idl, program ID, and provider */
-        const program = new Program(idl, programID, provider);
-        try {
-            /* interact with the program via rpc */
-            await program.rpc.initialize("----", {
-                accounts: {
-                    baseAccount: baseAccount.publicKey,
-                    user: provider.wallet.publicKey,
-                    systemProgram: SystemProgram.programId,
-                },
-                signers: [baseAccount]
-            });
+    // async function initialize() {
+    //     const provider = await getProvider();
+    //     /* create the program interface combining the idl, program ID, and provider */
+    //     const program = new Program(idl, programID, provider);
+    //     try {
+    //         /* interact with the program via rpc */
+    //         await program.rpc.initialize("----", {
+    //             accounts: {
+    //                 baseAccount: baseAccount.publicKey,
+    //                 user: provider.wallet.publicKey,
+    //                 systemProgram: SystemProgram.programId,
+    //             },
+    //             signers: [baseAccount]
+    //         });
 
-            const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-            // console.log("account: ", account);
-            setValue(account.data.toString());
-            setDataList(account.dataList);
-            console.log("initialize done");
-        } catch (err) {
-            console.log("Transaction error: ", err);
-        }
-    }
-
-    async function update() {
-        if (!input) return
-        const provider = await getProvider();
-        const program = new Program(idl, programID, provider);
-        await program.rpc.update(input, {
-            accounts: {
-                baseAccount: baseAccount.publicKey
-            }
-        });
-
-        const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-        console.log("account: ", account);
-        setValue(account.data.toString());
-        setDataList(account.dataList);
-        setInput("");
-    }
+    //         const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+    //         // console.log("account: ", account);
+    //         console.log("initialize done");
+    //     } catch (err) {
+    //         console.log("Transaction error: ", err);
+    //     }
+    // }
 
     async function mintUSDT() {
 
@@ -443,36 +426,37 @@ function Home() {
 
             return (
                 <div className="divwallet">
-                    Please select the wallet you want to use to connect to Charm :
-                    <div style={{ marginTop: "30px" }}>
-                        <WalletMultiButton />
+                    <p>
+                        By ticking "Yes" I certify I'm over 18 years old.
+                    </p>
+                    <div>
+                        <YesBox 
+                            id="yes" 
+                            type="checkbox"                            
+                            onClick={toggleSelectWallet}
+                        />
+                        <label>Yes</label>
+                        
                     </div>
+                    
+                    <SelectWalletWrapper id="select-wallet" className="select-wallet">
+                        <SelectWalletLegend>(click "Select wallet to connect to your wallet")</SelectWalletLegend>
+                        <WalletMultiButton />
+                    </SelectWalletWrapper>
                 </div>
             )
         } else {
             return (
                 <div className="app-home">
                     <div>
-                        {value ? (
-                            <div className="baseee">
-                                <FormSub SubmitForm={submitForm} />
-                                <button onClick={faucet} > Airdrop yourself from TTUSD </button>
-                                <p> Nota: Mint will fail if auto-approve isn't activated </p>
-                                <div id="album" />
-                                <br />
-                            </div>
-                        ) : (
-                            <div className="sayyes">
-                                <h3>Click Yes to Enter:</h3>
-                                <p>By clicking "Yes" you certify you are over 18 years old and agree to the CHARM terms of use</p>
-                                <p>Please aprove the connection to access Charm App :</p>
-                            </div>
-                        )
-                        }
+                        <div className="baseee">
+                            <FormSub SubmitForm={submitForm} />
+                            <Button onClick={faucet}> Airdrop yourself from TTUSD </Button>
+                            <Nota> Nota: Mint will fail if auto-approve isn't activated </Nota>
+                            <div id="album" />
+                            <br />
+                        </div>
 
-                        {dataList.map((d, i) => <h4 key={i}>{d}</h4>)}
-
-                        {!value && (<button onClick={initialize} className="bbutton">Yes!</button>)}
                     </div>
                 </div>
             );
@@ -492,3 +476,30 @@ function Home() {
     };
 
     export default compose(connect(mapStateToProps, mapDispatchToProps))(Home);
+
+const Button = styled.button`
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+    margin-left: 90px;
+    font-size: 20px;
+    border-radius: 12px;
+    padding: 2px 16px 4px;
+    border: 2px solid #832e2e;
+`
+const Nota = styled.p`
+    margin-left: 90px;
+`
+
+const SelectWalletWrapper = styled.div`
+    display: none;
+
+    &.select-wallet-active {
+        display: block;
+    }
+`
+const SelectWalletLegend = styled.p`
+    margin-bottom: 30px;
+`
+const YesBox = styled.input`
+    margin: 30px 0;
+`
