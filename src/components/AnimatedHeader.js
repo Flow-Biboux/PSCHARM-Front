@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 import styled from 'styled-components'
 import Icon from './Icon'
@@ -21,6 +21,12 @@ function AnimatedHeader() {
         const menu = document.getElementById("nav-menu");
 
         menu.classList.contains('mobile-menu-active') ? menu.classList.remove("mobile-menu-active") : menu.classList.add("mobile-menu-active")
+    }
+
+    const scrollWithOffset = (el) => {
+        const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+        const yOffset = 126; 
+        window.scrollTo({ top: yCoordinate - yOffset, behavior: 'smooth' }); 
     }
 
     useEffect(() => {
@@ -72,17 +78,50 @@ function AnimatedHeader() {
                         <LiWithSub className="with-sub main-li">
                             <Link className="home" to="/"><Span>Home</Span></Link>
                             <SubMenu className="sub-menu">
-                                <li><HashLink smooth to="/#about">About</HashLink></li>
-                                <li><HashLink smooth to="/#sale">Sale</HashLink></li>
-                                <li><HashLink smooth to="/#features">Features</HashLink></li>
-                                <li><HashLink smooth to="/#tokenomics">Tokenomics</HashLink></li>
-                                <li><HashLink smooth to="/#road-map">Road Map</HashLink></li>
-                                <li><HashLink smooth to="/#team">Team</HashLink></li>
+                                <li><HashLink 
+                                        smooth  
+                                        to="/#about"
+                                        scroll={el => scrollWithOffset(el)}
+                                    >
+                                        About
+                                    </HashLink></li>
+                                <li><HashLink 
+                                        smooth 
+                                        to="/#sale"
+                                        scroll={el => scrollWithOffset(el)}
+                                    >
+                                        Sale
+                                    </HashLink>
+                                </li>
+                                <li><HashLink smooth 
+                                        to="/#features"
+                                        scroll={el => scrollWithOffset(el)}
+                                    >
+                                        Features
+                                    </HashLink>
+                                </li>
+                                <li><HashLink 
+                                        smooth 
+                                        to="/#tokenomics"
+                                        scroll={el => scrollWithOffset(el)}
+                                    >
+                                        Tokenomics
+                                    </HashLink>
+                                </li>
+                                <li><HashLink 
+                                        smooth 
+                                        to="/#road-map"
+                                        scroll={el => scrollWithOffset(el)}
+                                    >
+                                        Road Map
+                                    </HashLink>
+                                </li>
+                                {/* <li><HashLink smooth to="/#team">Team</HashLink></li> */}
                             </SubMenu>     
 
                         </LiWithSub>
 
-                        <li className="main-li"><a href="/">Wpaper</a></li>
+                        <li className="main-li"><a href="#">Wpaper</a></li>
                         <li className="main-li">
                             <a href="#">How to buy</a>
                             {/* <Link to="/how-to-buy">How to buy</Link> */}
