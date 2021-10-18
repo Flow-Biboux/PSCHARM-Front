@@ -245,9 +245,10 @@ function Home() {
         await blurAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58(), arrayMyJson.name);
         await addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58(), arrayMyJson.name);
 
-        arrayMyJson.image = "https://images.stakefort.com/" + provider.wallet.publicKey.toBase58() + "/" + mint.toBase58() + '-' + arrayMyJson.name + ".png";
+        arrayMyJson.image = "https://images.stakefort.com/" + provider.wallet.publicKey.toBase58() + "/" + mint.toBase58() + '-' + encodeURIComponent(arrayMyJson.name) + ".png";
         // arrayMyJson.animation_url = arrayMyJson.image;
         // arrayMyJson.external_url =arrayMyJson.image;
+        console.log("arrayMyJson.image :", arrayMyJson.image);
         // arrayMyJson.attributes = [{ "trait_type": "Genre", "value": "Youth" }];
 
         // arrayMyJson.collection = {

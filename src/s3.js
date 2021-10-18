@@ -264,9 +264,9 @@ async function addPhoto(mintPubKey, pubKey, name) {
 
   const extension = fileName.substring(ext)
 
-  const key = mintPubKey + '-' + name+ extension 
+  const key = mintPubKey + '-' + name + extension
 
-  var photoKey = albumPhotosKey + key;
+  var photoKey = albumPhotosKey + encodeURIComponent(key);
   console.log("photokey", photoKey);
   // Use S3 ManagedUpload class as it supports multipart uploads
   var upload = new AWS.S3.ManagedUpload({
@@ -310,9 +310,9 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
 
   const extension = fileName.substring(ext)
 
-  const key = mintPubKey + '-' + name+ extension
+  const key = mintPubKey + '-' + name + extension
 
-  var photoKey = albumPhotosKey + key ;
+  var photoKey = albumPhotosKey + encodeURIComponent(key);
 
   var reader = new FileReader();
   reader.readAsDataURL(file);
@@ -376,7 +376,7 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
             // debugger
             // alert("Successfully uploaded photo. and link copied");
             console.log('Blured image uploaded');
-            return
+            return photoKey  
           },
           (err) => {
             return alert("There was an error uploading your photo: ", err.message);
