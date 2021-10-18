@@ -34,7 +34,7 @@ const programID = new PublicKey(idl.metadata.address);
 const network = clusterApiUrl("devnet");
 
 
-function Home() {        
+function Home() {
     const [myVar, setMyvar] = useState("");
     const [myJson, setMyJson] = useState("");
     const [myImg, setMyImg] = useState("");
@@ -154,7 +154,7 @@ function Home() {
         // }
         if (dataas == 0) {
 
-            await program.rpc.createAssociatedAccount( {
+            await program.rpc.createAssociatedAccount({
                 accounts: {
                     signer: provider.wallet.publicKey,
                     mint: ttusdMint,
@@ -182,300 +182,300 @@ function Home() {
 
         }
     }
-        async function proxyTransfer() {
+    async function proxyTransfer() {
 
-            const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
-            const provider = await getProvider();
-            const program = new Program(idl, programID, provider);
+        const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
+        const provider = await getProvider();
+        const program = new Program(idl, programID, provider);
 
-            const ttusdMint = new PublicKey("Gz2anxAVzZM3ZdZJgPhgWy38Wyw8G1UazMLwfj3TUuGR");
-            const usrAccount = new PublicKey("13opLWUkvRDPPqQ4hcYcSpMtZmCR9ApPVt7JJwCmhUPq");
-            const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
-            console.log("2 :ttusdMint : " + ttusdMint);
-            console.log("2 :TOKEN_PROGRAM_ID : " + TOKEN_PROGRAM_ID);
+        const ttusdMint = new PublicKey("Gz2anxAVzZM3ZdZJgPhgWy38Wyw8G1UazMLwfj3TUuGR");
+        const usrAccount = new PublicKey("13opLWUkvRDPPqQ4hcYcSpMtZmCR9ApPVt7JJwCmhUPq");
+        const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+        console.log("2 :ttusdMint : " + ttusdMint);
+        console.log("2 :TOKEN_PROGRAM_ID : " + TOKEN_PROGRAM_ID);
 
-            console.log("programID : \n", programID.toBase58());
+        console.log("programID : \n", programID.toBase58());
 
-            const fromdAddress = await PublicKey.findProgramAddress(
-                [
-                    provider.wallet.publicKey.toBuffer(),
-                    TOKEN_PROGRAM_ID.toBuffer(),
-                    ttusdMint.toBuffer(),
-                ],
-                SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
-            )
-            console.log("fromdAddress :\n", fromdAddress)
+        const fromdAddress = await PublicKey.findProgramAddress(
+            [
+                provider.wallet.publicKey.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                ttusdMint.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        )
+        console.log("fromdAddress :\n", fromdAddress)
 
-            const toAddress = await PublicKey.findProgramAddress(
-                [
-                    usrAccount.toBuffer(),
-                    TOKEN_PROGRAM_ID.toBuffer(),
-                    ttusdMint.toBuffer(),
-                ],
-                SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
-            )
-            console.log("toAddress :\n", toAddress)
+        const toAddress = await PublicKey.findProgramAddress(
+            [
+                usrAccount.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                ttusdMint.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        )
+        console.log("toAddress :\n", toAddress)
 
-            await program.rpc.proxyTransfer(new BN(10000000000), {
-                accounts: {
-                    authority: provider.wallet.publicKey,
-                    from: fromdAddress[0],
-                    to: toAddress[0],
-                    tokenProgram: TOKEN_PROGRAM_ID,
-                }
-
-            });
-
-            console.log("done transfer USD");
-
-        }
-
-        async function mintIt() {
-
-            const provider = await getProvider();
-            const program = new Program(idl, programID, provider);
-            const mint = await createMint(provider, provider.wallet.publicKey);
-            console.log("1: create Mint Account : \n", mint.toBase58());
-
-            // uploading blurred image and clear image
-            await blurAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58());
-            await addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58());
-
-
-            console.log(" myJson : \n", myJson);
-            const arrayMyJson = JSON.parse(myJson)
-            arrayMyJson.seller_fee_basis_points = 10;
-            arrayMyJson.image = "https://images.stakefort.com/" + provider.wallet.publicKey.toBase58() + "/" + mint.toBase58() + ".png";
-            // arrayMyJson.animation_url = arrayMyJson.image;
-            // arrayMyJson.external_url =arrayMyJson.image;
-            // arrayMyJson.attributes = [{ "trait_type": "Genre", "value": "Youth" }];
-
-            // arrayMyJson.collection = {
-            //     "name": "CHARM Collection",
-            //     "family": "CHARM family"
-            // };
-
-            arrayMyJson.properties = {
-                "files":
-                    [{
-                        "uri": arrayMyJson.image,
-                        "type": "image/png",
-                        "cdn": true,
-                    }],
-                "category": "image",
-                "creators":
-                    [{
-                        "address": provider.wallet.publicKey.toBase58(),
-                        "share": 100
-                    }]
-            }
-            console.log(" metadataToAr : \n", arrayMyJson);
-
-            const tempWeave = await pushArweave(arrayMyJson);
-
-            const linkAr = tempWeave;
-            console.log("Arweave link : \n", linkAr);
-
-            const metadataToMint = myVar + linkAr;
-            console.log("metadata To Mint in MetadataAccount: \n", metadataToMint);
-
-            const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
-            console.log("mintAccount : \n" + mintAccount);
-
-            mintToAccount(provider, mint, mintAccount, 1, provider.wallet.publicKey);
-            console.log("4: Minted to mintAccount");
-
-
-
-            const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
-            const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
-            const [metadataAccount, _nonce1] = await web3.PublicKey.findProgramAddress(
-                ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer()],
-                metadataMainAccount
-            );
-            const [masterEditionAccount, _nonce2] = await web3.PublicKey.findProgramAddress(
-                ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer(), "edition"],
-                metadataMainAccount);
-            console.log("masterEditionAccount :\n ", masterEditionAccount.toBase58());
-            console.log("Metadatas to add to mint Account : \n", metadataToMint);
-            console.log("metadataMainAccount : \n", metadataMainAccount.toBase58());
-            console.log("mint.toBase58() : \n", mint.toBase58());
-            console.log("provider.publicKey : \n", provider.wallet.publicKey.toBase58());
-
-            await program.rpc.metadata(metadataToMint, {
-                accounts: {
-                    payer: provider.wallet.publicKey,
-                    mint: mint,
-                    mintAuthority: provider.wallet.publicKey,
-                    updateAuthority: provider.wallet.publicKey,
-                    metadataAccount: metadataAccount,
-                    masterEditionAccount: masterEditionAccount,
-                    metadataProgram: metadataMainAccount,
-                    tokenProgram: TOKEN_PROGRAM_ID,
-                    systemProgram: SystemProgram.programId,
-                    rentProgram: SYSVAR_RENT_PUBKEY,
-                }
-            });
-
-            await program.rpc.edition({
-                accounts: {
-                    payer: provider.wallet.publicKey,
-                    mint: mint,
-                    mintAuthority: provider.wallet.publicKey,
-                    updateAuthority: provider.wallet.publicKey,
-                    metadataAccount: metadataAccount,
-                    masterEditionAccount: masterEditionAccount,
-                    metadataProgram: metadataMainAccount,
-                    tokenProgram: TOKEN_PROGRAM_ID,
-                    systemProgram: SystemProgram.programId,
-                    rentProgram: SYSVAR_RENT_PUBKEY,
-                }
-            });
-            await program.rpc.puffMetadata({
-                accounts: {
-                    signer: provider.wallet.publicKey,
-                    metadataAccount: metadataAccount,
-                    mint: mint,
-                    metadataProgram: metadataMainAccount,
-                }
-            });
-            // get metadata account that holds the metadata information
-            const m = await getMetadataAccount(mintAccount) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
-            console.log("metadata acc: ", m);
-
-            // get the account info for that account
-            const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
-            // ParsedAccountData
-            // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
-            console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
-            console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
-            // console.log("accInfomasterEditionAccountdeser : \n", deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
-            // console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
-
-
-            // finally, decode metadata
-            // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
-
-            const linkExploNFT = "https://explorer.solana.com/address/" + mint.toBase58() + "?cluster=devnet";
-            console.log('link to MasterEdition account : \n', linkExploNFT);
-            alert("congratulation, your NFT have been created under the name : \n" + mintAccount.toBase58() + ' !');
-            window.open(linkExploNFT);
-        }
-
-        const submitForm = (data) => {
-            let nName = "";
-            if (data.name.length < 20) {
-                nName = data.name.padEnd(20, "-")
-            } else if (data.name.length > 20) {
-                nName = data.name.slice(0, 20)
-            };
-
-            let nSymb = "";
-            if (data.symbol.length < 4) {
-                nSymb = data.symbol.padEnd(4, "-")
-            } else {
-                nSymb = data.symbol.slice(0, 4)
-            };
-
-            const NNN = nName + nSymb;
-
-            setMyvar(NNN);
-
-            console.log("data :\n", data);
-            const shortData = { ...data };
-            delete shortData.photoupload;
-            console.log("shortData :\n", shortData);
-
-            const jsondata = JSON.stringify(shortData);
-            setMyJson(jsondata)
-
-            console.log("Stringified Json : \n", jsondata);
-            console.log("Stringed Name + Symbol :\n", NNN);
-
-            console.log("File loaded :\n", data.photoupload[0].name);
-
-            setMyImg(data.photoupload[0])
-
-
-        }
-
-
-        function createArkey() {
-            {
-                arweave.wallets.generate().then((key) => {
-                    console.log(key);
-
-
-
-                    arweave.wallets.jwkToAddress(key).then((address) => {
-                        console.log(address);
-                        //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
-                    });
-                });
+        await program.rpc.proxyTransfer(new BN(10000000000), {
+            accounts: {
+                authority: provider.wallet.publicKey,
+                from: fromdAddress[0],
+                to: toAddress[0],
+                tokenProgram: TOKEN_PROGRAM_ID,
             }
 
+        });
+
+        console.log("done transfer USD");
+
+    }
+
+    async function mintIt() {
+
+        const provider = await getProvider();
+        const program = new Program(idl, programID, provider);
+        const mint = await createMint(provider, provider.wallet.publicKey);
+        console.log("1: create Mint Account : \n", mint.toBase58());
+
+        console.log(" myJson : \n", myJson);
+        const arrayMyJson = JSON.parse(myJson)
+        arrayMyJson.seller_fee_basis_points = 10;
+
+        // uploading blurred image and clear image
+        await blurAddPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58(), arrayMyJson.name);
+        await addPhoto(mint.toBase58(), provider.wallet.publicKey.toBase58(), arrayMyJson.name);
+
+        arrayMyJson.image = "https://images.stakefort.com/" + provider.wallet.publicKey.toBase58() + "/" + mint.toBase58() + ".png";
+        // arrayMyJson.animation_url = arrayMyJson.image;
+        // arrayMyJson.external_url =arrayMyJson.image;
+        // arrayMyJson.attributes = [{ "trait_type": "Genre", "value": "Youth" }];
+
+        // arrayMyJson.collection = {
+        //     "name": "CHARM Collection",
+        //     "family": "CHARM family"
+        // };
+
+        arrayMyJson.properties = {
+            "files":
+                [{
+                    "uri": arrayMyJson.image,
+                    "type": "image/png",
+                    "cdn": true,
+                }],
+            "category": "image",
+            "creators":
+                [{
+                    "address": provider.wallet.publicKey.toBase58(),
+                    "share": 100
+                }]
         }
-        useEffect(() => {
-            if (myVar && myJson && myImg) {
-                mintIt()
+        console.log(" metadataToAr : \n", arrayMyJson);
+
+        const tempWeave = await pushArweave(arrayMyJson);
+
+        const linkAr = tempWeave;
+        console.log("Arweave link : \n", linkAr);
+
+        const metadataToMint = myVar + linkAr;
+        console.log("metadata To Mint in MetadataAccount: \n", metadataToMint);
+
+        const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
+        console.log("mintAccount : \n" + mintAccount);
+
+        mintToAccount(provider, mint, mintAccount, 1, provider.wallet.publicKey);
+        console.log("4: Minted to mintAccount");
+
+
+
+        const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
+        const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+        const [metadataAccount, _nonce1] = await web3.PublicKey.findProgramAddress(
+            ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer()],
+            metadataMainAccount
+        );
+        const [masterEditionAccount, _nonce2] = await web3.PublicKey.findProgramAddress(
+            ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer(), "edition"],
+            metadataMainAccount);
+        console.log("masterEditionAccount :\n ", masterEditionAccount.toBase58());
+        console.log("Metadatas to add to mint Account : \n", metadataToMint);
+        console.log("metadataMainAccount : \n", metadataMainAccount.toBase58());
+        console.log("mint.toBase58() : \n", mint.toBase58());
+        console.log("provider.publicKey : \n", provider.wallet.publicKey.toBase58());
+
+        await program.rpc.metadata(metadataToMint, {
+            accounts: {
+                payer: provider.wallet.publicKey,
+                mint: mint,
+                mintAuthority: provider.wallet.publicKey,
+                updateAuthority: provider.wallet.publicKey,
+                metadataAccount: metadataAccount,
+                masterEditionAccount: masterEditionAccount,
+                metadataProgram: metadataMainAccount,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                systemProgram: SystemProgram.programId,
+                rentProgram: SYSVAR_RENT_PUBKEY,
             }
-        }, [myVar, myJson, myImg])
+        });
+
+        await program.rpc.edition({
+            accounts: {
+                payer: provider.wallet.publicKey,
+                mint: mint,
+                mintAuthority: provider.wallet.publicKey,
+                updateAuthority: provider.wallet.publicKey,
+                metadataAccount: metadataAccount,
+                masterEditionAccount: masterEditionAccount,
+                metadataProgram: metadataMainAccount,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                systemProgram: SystemProgram.programId,
+                rentProgram: SYSVAR_RENT_PUBKEY,
+            }
+        });
+        await program.rpc.puffMetadata({
+            accounts: {
+                signer: provider.wallet.publicKey,
+                metadataAccount: metadataAccount,
+                mint: mint,
+                metadataProgram: metadataMainAccount,
+            }
+        });
+        // get metadata account that holds the metadata information
+        const m = await getMetadataAccount(mintAccount) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
+        console.log("metadata acc: ", m);
+
+        // get the account info for that account
+        const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
+        // ParsedAccountData
+        // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
+        console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
+        console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
+        // console.log("accInfomasterEditionAccountdeser : \n", deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
+        // console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
 
 
-        if (!wallet.connected) {
+        // finally, decode metadata
+        // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
 
-            return (
-                <div className="divwallet">
-                    <p>
-                        By ticking "Yes" I certify I'm over 18 years old.
-                    </p>
-                    <div>
-                        <YesBox 
-                            id="yes" 
-                            type="checkbox"                            
-                            onClick={toggleSelectWallet}
-                        />
-                        <label>Yes</label>
-                        
-                    </div>
-                    
-                    <SelectWalletWrapper id="select-wallet" className="select-wallet">
-                        <SelectWalletLegend>(click "Select wallet to connect to your wallet")</SelectWalletLegend>
-                        <WalletMultiButton />
-                    </SelectWalletWrapper>
-                </div>
-            )
+        const linkExploNFT = "https://explorer.solana.com/address/" + mint.toBase58() + "?cluster=devnet";
+        console.log('link to MasterEdition account : \n', linkExploNFT);
+        alert("congratulation, your NFT have been created under the name : \n" + mintAccount.toBase58() + ' !');
+        window.open(linkExploNFT);
+    }
+
+    const submitForm = (data) => {
+        let nName = "";
+        if (data.name.length < 20) {
+            nName = data.name.padEnd(20, "-")
+        } else if (data.name.length > 20) {
+            nName = data.name.slice(0, 20)
+        };
+
+        let nSymb = "";
+        if (data.symbol.length < 4) {
+            nSymb = data.symbol.padEnd(4, "-")
         } else {
-            return (
-                <div className="app-home">
-                    <div>
-                        <div className="baseee">
-                            <FormSub SubmitForm={submitForm} />
-                            <Button onClick={faucet}> Airdrop yourself from TTUSD </Button>
-                            <Nota> Nota: Mint will fail if auto-approve isn't activated </Nota>
-                            <div id="album" />
-                            <br />
-                        </div>
+            nSymb = data.symbol.slice(0, 4)
+        };
 
-                    </div>
-                </div>
-            );
-        }
+        const NNN = nName + nSymb;
+
+        setMyvar(NNN);
+
+        console.log("data :\n", data);
+        const shortData = { ...data };
+        delete shortData.photoupload;
+        console.log("shortData :\n", shortData);
+
+        const jsondata = JSON.stringify(shortData);
+        setMyJson(jsondata)
+
+        console.log("Stringified Json : \n", jsondata);
+        console.log("Stringed Name + Symbol :\n", NNN);
+
+        console.log("File loaded :\n", data.photoupload[0].name);
+
+        setMyImg(data.photoupload[0])
+
+
     }
 
 
-    const mapStateToProps = state => {
-        return {
-            state: state
-        };
-    };
+    function createArkey() {
+        {
+            arweave.wallets.generate().then((key) => {
+                console.log(key);
 
-    const mapDispatchToProps = dispatch => {
-        return {
-        };
-    };
 
-    export default compose(connect(mapStateToProps, mapDispatchToProps))(Home);
+
+                arweave.wallets.jwkToAddress(key).then((address) => {
+                    console.log(address);
+                    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+                });
+            });
+        }
+
+    }
+    useEffect(() => {
+        if (myVar && myJson && myImg) {
+            mintIt()
+        }
+    }, [myVar, myJson, myImg])
+
+
+    if (!wallet.connected) {
+
+        return (
+            <div className="divwallet">
+                <p>
+                    By ticking "Yes" I certify I'm over 18 years old.
+                </p>
+                <div>
+                    <YesBox
+                        id="yes"
+                        type="checkbox"
+                        onClick={toggleSelectWallet}
+                    />
+                    <label>Yes</label>
+
+                </div>
+
+                <SelectWalletWrapper id="select-wallet" className="select-wallet">
+                    <SelectWalletLegend>(click "Select wallet to connect to your wallet")</SelectWalletLegend>
+                    <WalletMultiButton />
+                </SelectWalletWrapper>
+            </div>
+        )
+    } else {
+        return (
+            <div className="app-home">
+                <div>
+                    <div className="baseee">
+                        <FormSub SubmitForm={submitForm} />
+                        <Button onClick={faucet}> Airdrop yourself from TTUSD </Button>
+                        <Nota> Nota: Mint will fail if auto-approve isn't activated </Nota>
+                        <div id="album" />
+                        <br />
+                    </div>
+
+                </div>
+            </div>
+        );
+    }
+}
+
+
+const mapStateToProps = state => {
+    return {
+        state: state
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+    };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Home);
 
 const Button = styled.button`
     font-family: 'Playfair Display', serif;

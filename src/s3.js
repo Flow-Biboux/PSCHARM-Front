@@ -244,7 +244,7 @@ function getLink(albumName, fileName) {
 // snippet-end:[s3.JavaScript.photoAlbumExample.viewAlbum]
 
 // snippet-start:[s3.JavaScript.photoAlbumExample.addPhoto]
-async function addPhoto(mintPubKey, pubKey) {
+async function addPhoto(mintPubKey, pubKey, name) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
@@ -264,7 +264,7 @@ async function addPhoto(mintPubKey, pubKey) {
 
   const extension = fileName.substring(ext)
 
-  const key = mintPubKey + extension
+  const key = mintPubKey + extension + name
 
   var photoKey = albumPhotosKey + key;
   console.log("photokey", photoKey);
@@ -290,7 +290,7 @@ async function addPhoto(mintPubKey, pubKey) {
     }
   );
 }
-async function blurAddPhoto(mintPubKey, pubKey) {
+async function blurAddPhoto(mintPubKey, pubKey, name) {
   var files = document.getElementById("photoupload").files;
   if (!files.length) {
     return alert("Please choose a file to upload first.");
@@ -312,7 +312,7 @@ async function blurAddPhoto(mintPubKey, pubKey) {
 
   const key = mintPubKey + extension
 
-  var photoKey = albumPhotosKey + key;
+  var photoKey = albumPhotosKey + key +name;
 
   var reader = new FileReader();
   reader.readAsDataURL(file);
