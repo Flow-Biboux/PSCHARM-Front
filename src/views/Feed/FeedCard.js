@@ -102,6 +102,7 @@ function FeedCard({ NFTPicture, url }) {
 
     function buyNFT() {
         console.log("coming soon");
+        alert("coming soon")
     }
 
     async function likeNFT() {
