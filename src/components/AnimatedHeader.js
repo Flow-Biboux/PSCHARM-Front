@@ -17,22 +17,50 @@ function AnimatedHeader() {
         }
     }
 
-    const toggleMenu = () => {
+    const toggleMobileMenu = () => {
         const menu = document.getElementById("nav-menu");
-
-        menu.classList.contains('mobile-menu-active') ? menu.classList.remove("mobile-menu-active") : menu.classList.add("mobile-menu-active")
+        
+        if (menu.classList.contains('mobile-menu-active')) {
+            menu.classList.remove("mobile-menu-active")
+        } else {
+            menu.classList.add("mobile-menu-active")
+            if (window.scrollY === 0)
+                menu.classList.add("mobile-menu-active-top")
+        } 
+            
     }
 
     const scrollWithOffset = (el) => {
         const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-        const yOffset = 126; 
+        let yOffset = 126; 
+        if (window.innerWidth <= 500)
+            yOffset = 90; 
+
         window.scrollTo({ top: yCoordinate - yOffset, behavior: 'smooth' }); 
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', changeHeader);    
+        window.addEventListener('scroll', changeHeader);  
         return () => {
             window.removeEventListener('scroll', changeHeader);    
+        }
+    }, [])
+
+    useEffect(() => {
+        if (window.innerWidth <= 500) {
+            window.onscroll = function() {                
+                const mobileMenu = document.getElementById("nav-menu");            
+                let inputBox = document.getElementsByClassName("burger-box");
+    
+                if (mobileMenu.classList.contains('mobile-menu-active')) {
+                    inputBox[0].checked = false
+                    
+                    mobileMenu.classList.remove("mobile-menu-active")
+                } else {
+                    if (inputBox[0].checked === true)
+                        inputBox[0].checked = false
+                }
+            }
         }
     }, [])
 
@@ -67,12 +95,13 @@ function AnimatedHeader() {
                 </LogoContainer>
 
                 <NavContainer>
-                    <MobileMenu id="hamburger" className="mobile-menu" onClick={toggleMenu}>
-                        <Input type="checkbox" />
+                    <MobileMenu id="hamburger" className="mobile-menu" onClick={toggleMobileMenu}>
+                    {/* <MobileMenu id="hamburger" className="mobile-menu" > */}
+                        <Input type="checkbox" className="burger-box" />
 
-                        <SpanBurgerOne />
-                        <SpanBurgerTwo />
-                        <SpanBurgerThree />
+                        <SpanBurgerOne className="span-one" />
+                        <SpanBurgerTwo className="span-two" />
+                        <SpanBurgerThree className="span-tree" />
                     </MobileMenu>
                     <ul id="nav-menu" className={ header ? 'nav-menu-active' : 'nav-menu' }>
                         <LiWithSub className="with-sub main-li">
@@ -128,9 +157,9 @@ function AnimatedHeader() {
 
                         </LiWithSub>
 
-                        <li className="main-li"><a href="#">Wpaper</a></li>
+                        <li className="main-li"><a href="/">Wpaper</a></li>
                         <li className="main-li">
-                            <a href="#">How to buy</a>
+                            <a href="/">How to buy</a>
                             {/* <Link to="/how-to-buy">How to buy</Link> */}
                         
                         </li>
@@ -225,6 +254,10 @@ const LogoContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media screen and (max-width: ${smallBreakPoint}) {        
+        z-index: 2;
+    }
 `
 
 const Logo = styled.img`
@@ -299,7 +332,7 @@ const NavContainer = styled.div`
         padding: 0;
         
         .nav-menu-active {
-            display: none;
+            display:none;    
 
             position: relative;
             /* display: flex;     */
@@ -307,6 +340,7 @@ const NavContainer = styled.div`
             align-items: flex-end;
             
             top: 85px;
+
             width: 100%;
             background-color: black;            
         }
@@ -320,8 +354,13 @@ const NavContainer = styled.div`
             align-items: flex-end;
             
             top: 85px;
+
             width: 100%;
-            background-color: black;         
+            background-color: black;
+        }
+
+        .mobile-menu-active-top {
+            top: 125px;
         }
 
         .app-button {
@@ -330,6 +369,7 @@ const NavContainer = styled.div`
 
         .main-li {
             margin-bottom: 15px;      
+            align-items: flex-end;
         }
     }
 `
@@ -346,6 +386,11 @@ const LiWithSub = styled.li`
     }
 
     @media screen and (max-width: ${smallBreakPoint}) {
+        :hover {
+            .sub-menu {
+                align-items: flex-end;
+            }
+        }
     }
 
 `
@@ -395,20 +440,25 @@ const Input = styled.input`
     
     -webkit-touch-callout: none;
 
-    &:checked ~ span {
+    &:checked ~ .span-one {
         opacity: 1;
         transform: rotate(45deg) translate(-2px, -1px);
         background: white;
     }
 
-    &:checked ~ span:nth-last-child(3) {
-        opacity: 0;
-        transform: rotate(0deg) scale(0.2, 0.2);
+    &:checked ~ .span-two {
+        opacity: 0;          
+        transform: rotate(0deg) scale(0.2, 0.2);        
+        background: white;   
     }
 
-    &:checked ~ span:nth-last-child(2) {
-        transform: rotate(-45deg) translate(0, -1px);
+    &:checked ~ .span-tree {
+        opacity: 1;
+        transform: rotate(-45deg) translate(0, -1px);   
+        background: white;   
     }
+
+    
 `
 
 const SpanBurgerOne = styled.span`
@@ -423,6 +473,7 @@ const SpanBurgerOne = styled.span`
     
     z-index: 1;
     
+    transform-origin: 0% 0%;
     transform-origin: 4px 0px;
     
     transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
@@ -430,12 +481,44 @@ const SpanBurgerOne = styled.span`
                 opacity 0.55s ease;
 `
 
-const SpanBurgerTwo = styled(SpanBurgerOne)`
+const SpanBurgerTwo = styled.span`
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
     
+    background: #cdcdcd;
+    border-radius: 3px;
+    
+    z-index: 1;
+    
+    transform-origin: 4px 0px;
+    transform-origin: 0% 0%;
+    
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                opacity 0.55s ease;
 `
 
-const SpanBurgerThree = styled(SpanBurgerOne)`
+const SpanBurgerThree = styled.span`
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    
+    background: #cdcdcd;
+    border-radius: 3px;
+    
+    z-index: 1;
+    
     transform-origin: 0% 100%;
+    
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                opacity 0.55s ease;
+    
 `
 
 const SubMenu = styled.ul`    

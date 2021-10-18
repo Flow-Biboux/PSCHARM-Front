@@ -20,8 +20,8 @@ function SaleSection({title, price, textFirstLine, textSecondLine, bar, barStatu
                 
                 <BarProgress id="determinate"  value={barStatus} max="100"></BarProgress>
 
-                <BarStatus>     
-                    {barStatus === "0" ? "sold" : barStatus + "%"}
+                <BarStatus>
+                    {barStatus === "soon" ? "soon" : barStatus + "%"}
                 </BarStatus>                
 
             </BarSettings>

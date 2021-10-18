@@ -79,6 +79,7 @@ const Container = styled.div`
     width: 100%;
     /* height: 100vh; */ /* EDIT LATER ? */
     margin-bottom: 40px; /* EDIT LATER ? */
+    padding-bottom: 40px;
     min-height: 800px;
 
     display: flex;

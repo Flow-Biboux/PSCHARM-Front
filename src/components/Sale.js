@@ -12,21 +12,23 @@ function Sale() {
                 textFirstLine={"1% of total supply available"}
                 textSecondLine={"capped to 2 SOL per Wallet"}                
                 barStatus={"0"}
-                closed={true}        
+                closed={false}        
             />
             <SaleSection 
                 title={"Private Sale"}
                 price={"$0.005"}
                 textFirstLine={"5% of total supply available capped to"}
                 textSecondLine={"20 SOL per wallet. To reduce volatility"}                
-                barStatus={"47"}
+                barStatus={"soon"}
+                closed={true}
             />
             <SaleSection 
                 title={"Public Sale"}
                 price={"$0.01"}
                 textFirstLine={"10% of total supply available with"}
                 textSecondLine={"no cap per wallet"}                
-                barStatus={"75"}
+                barStatus={"soon"}
+                closed={true}
             />
         </Container>
     )
