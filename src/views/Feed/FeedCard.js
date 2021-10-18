@@ -181,6 +181,7 @@ const Container = styled.div`
 const Img = styled.img`
     /* height: 80px; */
     /* max-width: 30vw; */
+    cursor: pointer;
 `
 
 const ActionButton = styled.div`
