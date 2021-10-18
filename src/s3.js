@@ -264,7 +264,7 @@ async function addPhoto(mintPubKey, pubKey, name) {
 
   const extension = fileName.substring(ext)
 
-  const key = mintPubKey + extension + '-' + name
+  const key = mintPubKey + '-' + name+ extension 
 
   var photoKey = albumPhotosKey + key;
   console.log("photokey", photoKey);
@@ -310,9 +310,9 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
 
   const extension = fileName.substring(ext)
 
-  const key = mintPubKey + extension
+  const key = mintPubKey + '-' + name+ extension
 
-  var photoKey = albumPhotosKey + key + '-' + name;
+  var photoKey = albumPhotosKey + key ;
 
   var reader = new FileReader();
   reader.readAsDataURL(file);
