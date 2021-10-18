@@ -208,7 +208,7 @@ function viewAlbum(albumName) {
       "Exit Minting process",
       "</button>"
     ];
-    window.location.href="/"
+    window.location.href = "/"
     // document.getElementById("album").innerHTML = getHtml(htmlTemplate);
   });
 }
@@ -264,7 +264,7 @@ async function addPhoto(mintPubKey, pubKey, name) {
 
   const extension = fileName.substring(ext)
 
-  const key = mintPubKey + extension + name
+  const key = mintPubKey + extension + '-' + name
 
   var photoKey = albumPhotosKey + key;
   console.log("photokey", photoKey);
@@ -312,17 +312,17 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
 
   const key = mintPubKey + extension
 
-  var photoKey = albumPhotosKey + key +name;
+  var photoKey = albumPhotosKey + key + '-' + name;
 
   var reader = new FileReader();
   reader.readAsDataURL(file);
 
   reader.onload = () => {
     var canvas = document.createElement('canvas'),
-    ctx = canvas.getContext('2d');
-   
+      ctx = canvas.getContext('2d');
+
     var image = new Image();
-    
+
     image.onload = () => {
       canvas.width = image.width;
       canvas.height = image.height;
@@ -347,9 +347,9 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
       ctx.filter = 'none'; // remove filter
       ctx.fillStyle = 'rgba(255,255,255,0.2)';
 
-      let url = canvas.toDataURL('image/jpeg'); 
+      let url = canvas.toDataURL('image/jpeg');
       // console.log(url);
-      url = Buffer.from(url.replace(/^data:image\/\w+;base64,/, ""),'base64')
+      url = Buffer.from(url.replace(/^data:image\/\w+;base64,/, ""), 'base64')
       var upload = new AWS.S3.ManagedUpload({
         params: {
           Bucket: bluralbumname,
@@ -360,15 +360,15 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
           ContentType: 'image/jpeg'
         }
       });
-    
+
       var params = {
         Bucket: bluralbumname,
         Key: photoKey,
       };
-    
+
       s3Blur.listObjects({ albumPhotosKey }, function (err, data) {
         var photoUrl = s3Blur.getSignedUrl('getObject', params);
-        console.log(" Blured Photo Url : \n",photoUrl);
+        console.log(" Blured Photo Url : \n", photoUrl);
         var promise = upload.promise();
         // console.log("data from S3Blur: \n", data);
         promise.then(
@@ -376,7 +376,7 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
             // debugger
             // alert("Successfully uploaded photo. and link copied");
             console.log('Blured image uploaded');
-            return 
+            return
           },
           (err) => {
             return alert("There was an error uploading your photo: ", err.message);
@@ -384,7 +384,7 @@ async function blurAddPhoto(mintPubKey, pubKey, name) {
         );
       });
     };
-    
+
     image.src = reader.result;
   };
   reader.onerror = function (error) {
