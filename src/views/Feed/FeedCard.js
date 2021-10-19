@@ -139,6 +139,18 @@ function FeedCard({ NFTPicture, url }) {
         }
     }
 
+    function filterImgName(imgName) {
+        imgName = decodeURIComponent(imgName)
+        imgName = imgName.substring(imgName.indexOf('-') + 1, imgName.lastIndexOf('.'))
+
+        // quick fix to delete when s3 uploads will be clean
+        if (imgName.includes("png")) {
+            imgName = decodeURIComponent(NFTPicture).substring(0, NFTPicture.lastIndexOf('.'))
+        }
+
+        return imgName
+    }
+
     return (
         <Container className="feed-card">
 
@@ -160,7 +172,7 @@ function FeedCard({ NFTPicture, url }) {
             </NFT>
 
             <div className="text">
-                {NFTPicture}
+                {filterImgName(NFTPicture)}
             </div>
 
         </Container>
