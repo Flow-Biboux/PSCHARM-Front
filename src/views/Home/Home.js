@@ -397,7 +397,7 @@ function Home() {
 
         setMyImg(data.photoupload[0])
 
-
+// await mintIt()
     }
 
 
