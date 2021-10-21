@@ -237,7 +237,7 @@ function Home() {
         const mint = await createMint(provider, provider.wallet.publicKey);
         console.log("1: create Mint Account : \n", mint.toBase58());
 
-        console.log(" myJson : \n", myJson);
+        // console.log(" myJson : \n", myJson);
         const arrayMyJson = JSON.parse(myJson)
         arrayMyJson.seller_fee_basis_points = 10;
 
@@ -270,7 +270,7 @@ function Home() {
                     "share": 100
                 }]
         }
-        console.log(" metadataToAr : \n", arrayMyJson);
+        // console.log(" metadataToAr : \n", arrayMyJson);
 
         const tempWeave = await pushArweave(arrayMyJson);
 
@@ -284,7 +284,7 @@ function Home() {
         console.log("mintAccount : \n" + mintAccount);
 
         mintToAccount(provider, mint, mintAccount, 1, provider.wallet.publicKey);
-        console.log("4: Minted to mintAccount");
+        // console.log("4: Minted to mintAccount");
 
 
 
@@ -298,10 +298,10 @@ function Home() {
             ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer(), "edition"],
             metadataMainAccount);
         console.log("masterEditionAccount :\n ", masterEditionAccount.toBase58());
-        console.log("Metadatas to add to mint Account : \n", metadataToMint);
+        // console.log("Metadatas to add to mint Account : \n", metadataToMint);
         console.log("metadataMainAccount : \n", metadataMainAccount.toBase58());
-        console.log("mint.toBase58() : \n", mint.toBase58());
-        console.log("provider.publicKey : \n", provider.wallet.publicKey.toBase58());
+        console.log("mint Public Key : \n", mint.toBase58());
+        // console.log("provider.publicKey : \n", provider.wallet.publicKey.toBase58());
 
         await program.rpc.metadata(metadataToMint, {
             accounts: {
@@ -348,8 +348,8 @@ function Home() {
         const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
         // ParsedAccountData
         // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
-        console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
-        console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
+        // console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
+        // console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
         // console.log("accInfomasterEditionAccountdeser : \n", deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
         // console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
 
@@ -382,10 +382,10 @@ function Home() {
 
         setMyvar(NNN);
 
-        console.log("data :\n", data);
+        // console.log("data :\n", data);
         const shortData = { ...data };
         delete shortData.photoupload;
-        console.log("shortData :\n", shortData);
+        // console.log("shortData :\n", shortData);
 
         const jsondata = JSON.stringify(shortData);
         setMyJson(jsondata)
@@ -395,32 +395,33 @@ function Home() {
 
         console.log("File loaded :\n", data.photoupload[0].name);
 
-        setMyImg(data.photoupload[0])
+        setMyImg(data.photoupload[0]);
 
-// await mintIt()
+        mintIt()
     }
 
 
-    function createArkey() {
-        {
-            arweave.wallets.generate().then((key) => {
-                console.log(key);
+    // function createArkey() {
+    //     {
+    //         arweave.wallets.generate().then((key) => {
+    //             console.log(key);
 
 
 
-                arweave.wallets.jwkToAddress(key).then((address) => {
-                    console.log(address);
-                    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
-                });
-            });
-        }
+    //             arweave.wallets.jwkToAddress(key).then((address) => {
+    //                 console.log(address);
+    //                 //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+    //             });
+    //         });
+    //     }
 
-    }
-    useEffect(() => {
-        if (myVar && myJson && myImg) {
-            mintIt()
-        }
-    }, [myVar, myJson, myImg])
+    // }
+
+    // useEffect(() => {
+    //     if (myImg) {
+    //         mintIt()
+    //     }
+    // }, [myVar, myJson, myImg])
 
 
     if (!wallet.connected) {
