@@ -129,11 +129,11 @@ async function createMintToAccountInstrs(
   ];
 }
 
-module.exports = {
-  TOKEN_PROGRAM_ID,
-  sleep,
-  getTokenAccount,
-  createMint,
-  createTokenAccount,
-  mintToAccount,
-};
+export { TOKEN_PROGRAM_ID }
+export {
+    sleep,
+    getTokenAccount,
+    createMint,
+    createTokenAccount,
+    mintToAccount,
+}
