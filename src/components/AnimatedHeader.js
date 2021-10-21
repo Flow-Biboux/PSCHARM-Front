@@ -33,7 +33,7 @@ function AnimatedHeader() {
     const scrollWithOffset = (el) => {
         const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
         let yOffset = 126; 
-        if (window.innerWidth <= 500)
+        if (window.innerWidth <= 640)
             yOffset = 90; 
 
         window.scrollTo({ top: yCoordinate - yOffset, behavior: 'smooth' }); 
@@ -47,7 +47,7 @@ function AnimatedHeader() {
     }, [])
 
     useEffect(() => {
-        if (window.innerWidth <= 500) {
+        if (window.innerWidth <= 640) {
             window.onscroll = function() {                
                 const mobileMenu = document.getElementById("nav-menu");            
                 let inputBox = document.getElementsByClassName("burger-box");
@@ -157,7 +157,7 @@ function AnimatedHeader() {
 
                         </LiWithSub>
 
-                        <li className="main-li"><a href="/">Wpaper</a></li>
+                        <li className="main-li"><a href="/documents/Charm_White_Paper_PDF.pdf">Wpaper</a></li>
                         <li className="main-li">
                             <a href="/">How to buy</a>
                             {/* <Link to="/how-to-buy">How to buy</Link> */}
@@ -247,6 +247,14 @@ const LogoNavWrap = styled.div`
 
     width: 100%;
     transition: 0.3s ease-in-out;
+
+    &.logo-nav {
+        min-height: 136px;
+    }
+
+    &.logo-nav-active {
+        min-height: 90px;
+    }    
 `
 
 const LogoContainer = styled.div`
@@ -254,9 +262,36 @@ const LogoContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 
-    @media screen and (max-width: ${smallBreakPoint}) {        
-        z-index: 2;
+    &.logo {
+        height: 136px;
+        transition: 0.3s ease-in-out;
+    }
+
+    &.logo-active {
+        height: 90px;
+        transition: 0.3s ease-in-out;
+    }
+
+    @media screen and (max-width: ${largeBreakPoint}) { 
+        &.logo-active {
+            position: inherit;
+            margin: 0 auto;
+        }         
+    }
+
+    @media screen and (max-width: ${mediumBreakPoint}) { 
+        &.logo-active {
+            position: inherit;
+            margin: 0 auto;
+        }
+    }
+    
+    @media screen and (max-width: ${smallBreakPoint}) { 
+        &.logo-active {
+            position: absolute;           
+        }
     }
 `
 
@@ -321,15 +356,27 @@ const NavContainer = styled.div`
     }
 
     @media screen and (max-width: ${largeBreakPoint}) {
+        width: unset;
+        max-width: 66vw;
         
+        .nav-menu-active {
+            max-width: 66vw;
+        }
     }
 
     @media screen and (max-width: ${mediumBreakPoint}) {
-        
+        width: unset;
+        max-width: 67vw;
+
+        .nav-menu-active {
+            max-width: 66vw;
+        }
     }
 
     @media screen and (max-width: ${smallBreakPoint}) {   
         padding: 0;
+        max-width: unset;
+        width: 100%;
         
         .nav-menu-active {
             display:none;    
@@ -342,6 +389,7 @@ const NavContainer = styled.div`
             top: 85px;
 
             width: 100%;
+            max-width: unset;
             background-color: black;            
         }
 
