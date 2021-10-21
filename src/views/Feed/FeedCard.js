@@ -99,10 +99,98 @@ function FeedCard({ NFTPicture, url }) {
 
     }
 
-
-    function buyNFT() {
+    async function buyNFT() {
         console.log("coming soon");
         alert("coming soon")
+
+        // const provider = await getProvider();
+        // console.log("provider", provider);
+        // const program = new Program(idl, programID, provider);
+
+        // const mint = await createMint(provider, provider.wallet.publicKey);
+        // const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);  
+        
+        // const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
+        // const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+        
+        // // const start = NFTPicture.lastIndexOf('/') + 1
+        // // const end = NFTPicture.lastIndexOf('.')
+        // const metadataMint = new PublicKey("4ZG7KR6TQE9moTxm42N3Zidjo3nw43WFp5TQLC5811Eb")
+        // // const metadataMint = new PublicKey("BZ6p9Erg7Cut3GYL5GjCRipPuTCA5F8H5Wfe2b6QFJ1h")
+        // // const metadataMint = new PublicKey(NFTPicture.substring(start, end))
+
+        // const [charmPDA, _nonce0] = await web3.PublicKey.findProgramAddress(
+        //     ["charmpda"],
+        //     programID
+        // );
+        
+        // const [newMetadataAccount, _nonce1] = await web3.PublicKey.findProgramAddress(
+        //     ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer()],
+        //     metadataMainAccount
+        // );
+        // const [metadataAccount, _nonce2] = await web3.PublicKey.findProgramAddress(
+        //     ["metadata", metadataMainAccount.toBuffer(), metadataMint.toBuffer()],
+        //     metadataMainAccount
+        // );
+        // const [newMasterEditionAccount, _nonce3] = await web3.PublicKey.findProgramAddress(
+        //     ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer(), "edition"],
+        //     metadataMainAccount
+        //     );
+        // const [masterEditionAccount, _nonce4] = await web3.PublicKey.findProgramAddress(
+        //     ["metadata", metadataMainAccount.toBuffer(), metadataMint.toBuffer(), "edition"],
+        //     metadataMainAccount
+        //     );
+        // const [masterEditionAccountTemp, _nonce5] = await web3.PublicKey.findProgramAddress(
+        //     ["metadata", metadataMainAccount.toBuffer(), metadataMint.toBuffer(), "edition", "0"],
+        //     metadataMainAccount
+        //     );
+       
+        // console.log("until here it's ok");
+        // console.log(charmPDA.toBase58());
+        // console.log(provider.wallet.publicKey.toBase58());
+        // console.log(metadataMainAccount.toBase58());
+        // console.log(newMetadataAccount.toBase58());
+        // console.log(newMasterEditionAccount.toBase58());
+        // console.log(masterEditionAccount.toBase58());
+        // console.log(mint.toBase58());
+        // console.log(mintAccount.toBase58());
+        // console.log(metadataAccount.toBase58());
+        // console.log(metadataMint.toBase58());
+        // console.log(SystemProgram.programId.toBase58());
+        // console.log(SYSVAR_RENT_PUBKEY.toBase58());
+        // console.log("masterEditionAccountTemp",masterEditionAccountTemp.toBase58());
+
+        // await program.rpc.changeOwnership({
+        //     accounts: {
+        //         signer: provider.wallet.publicKey,
+        //         masterEditionAccount: mintAccount,
+        //         pda: charmPDA,
+        //         tokenProgram: TOKEN_PROGRAM_ID,
+        //     }
+        // });
+
+        // await program.rpc.buy(new BN(1), _nonce0, {
+        //     accounts: {
+        //         payer: provider.wallet.publicKey,
+        //         metadataProgram: metadataMainAccount,
+        //         newMetadataAccount: newMetadataAccount,
+        //         newEditionAccount: newMasterEditionAccount,
+        //         masterEditionAccount: masterEditionAccount,
+        //         newMintAccount: mint,
+        //         newMintAuthority: provider.wallet.publicKey,
+        //         tokenAccountOwner: provider.wallet.publicKey,
+        //         tokenAccount: mintAccount,
+        //         newMetadataUpdateAuthority: provider.wallet.publicKey,
+        //         metadata: metadataAccount,
+        //         metadataMint: metadataMint,
+        //         systemProgram: SystemProgram.programId,                    
+        //         rentProgram: SYSVAR_RENT_PUBKEY,                        
+        //         editionPda: masterEditionAccountTemp,    
+        //         tokenProgram: TOKEN_PROGRAM_ID,                    
+        //     }
+        // });
+
+        // console.log("done");
     }
 
     async function likeNFT() {
