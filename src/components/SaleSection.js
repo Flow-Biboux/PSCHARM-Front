@@ -10,7 +10,7 @@ function SaleSection({title, price, textFirstLine, textSecondLine, bar, barStatu
                 
                 <Price>{price}</Price>
 
-                <Text>
+                <Text className="roboto-light">
                     {textFirstLine}<br/>
                     {textSecondLine}
                 </Text>
@@ -20,7 +20,7 @@ function SaleSection({title, price, textFirstLine, textSecondLine, bar, barStatu
                 
                 <BarProgress id="determinate"  value={barStatus} max="100"></BarProgress>
 
-                <BarStatus>
+                <BarStatus className="roboto-light">
                     {barStatus === "soon" ? "soon" : barStatus + "%"}
                 </BarStatus>                
 
