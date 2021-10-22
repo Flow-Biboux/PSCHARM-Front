@@ -60,7 +60,7 @@ function Feed() {
                         type="checkbox"                            
                         onClick={toggleSelectWallet}
                     />
-                    <label>Yes</label>
+                    <LabelBox htmlFor="yes">Yes</LabelBox>
                     
                 </CheckBoxWrapper>
                 
@@ -126,11 +126,16 @@ const CheckBoxWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px 0;    
 `
 
 const YesBox = styled.input`
     width: 20px;
     height: 20px;
-    margin-right: 5px;
+    cursor: pointer;
+`
+
+const LabelBox = styled.label`
+    cursor: pointer;
+    padding-left: 5px;
 `
