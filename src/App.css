@@ -1,7 +1,56 @@
+@font-face {
+  font-family: 'Essonnes';
+  src: url('./fonts/EssonnesDisplay-Light.woff2') format('woff2'),
+      url('./fonts/EssonnesDisplay-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Essonnes';
+  src: url('./fonts/EssonnesDisplay-Bold.woff2') format('woff2'),
+      url('./fonts/EssonnesDisplay-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Essonnes';
+  src: url('./fonts/EssonnesDisplay-Regular.woff2') format('woff2'),
+      url('./fonts/EssonnesDisplay-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,100&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: 'Essonnes', 'Roboto', sans-serif;
+}
+
+.roboto, .roboto-ita, .roboto-light, .roboto-500 {
+  font-family: 'Roboto', sans-serif;
+}
+
+.roboto-ita {
+  font-style: italic;
+}
+
+.roboto-light {
+  font-weight: 300;
+}
+
+.roboto-500 {
+  font-weight: 500;
 }
 
 .App {
