@@ -35,9 +35,9 @@ const network = clusterApiUrl("devnet");
 
 
 function Home() {
-    const [myVar, setMyvar] = useState("");
-    const [myJson, setMyJson] = useState("");
-    const [myImg, setMyImg] = useState("");
+    const [myVar, setMyvar] = useState(null);
+    const [myJson, setMyJson] = useState(null);
+    const [myImg, setMyImg] = useState(null);
     const wallet = useWallet();
 
     const arweave = Arweave.init({});
@@ -237,7 +237,7 @@ function Home() {
         const mint = await createMint(provider, provider.wallet.publicKey);
         console.log("1: create Mint Account : \n", mint.toBase58());
 
-        // console.log(" myJson : \n", myJson);
+        console.log(" myJson : \n", myJson);
         const arrayMyJson = JSON.parse(myJson)
         arrayMyJson.seller_fee_basis_points = 10;
 
@@ -363,7 +363,8 @@ function Home() {
         window.open(linkExploNFT);
     }
 
-    const submitForm = (data) => {
+    const submitForm = (data,e) => {
+
         let nName = "";
         if (data.name.length < 20) {
             nName = data.name.padEnd(20, "-")
@@ -388,16 +389,30 @@ function Home() {
         // console.log("shortData :\n", shortData);
 
         const jsondata = JSON.stringify(shortData);
-        setMyJson(jsondata)
+        setMyJson(jsondata);
 
         console.log("Stringified Json : \n", jsondata);
         console.log("Stringed Name + Symbol :\n", NNN);
 
         console.log("File loaded :\n", data.photoupload[0].name);
 
-        setMyImg(data.photoupload[0]);
+        setMyImg(data.photoupload[0]);  
+            // setTimeout( ()=> console.log("myJson", myJson), 5000)
+        console.log("MyVar onSubmit:", myVar);
+        console.log("MyJson onSubmit:", myJson);
+        console.log("img onSubmit:", myImg);
+console.log(e.target,'------------------------------------');
+        // e.target.reset();
+        console.log('that tha',data);
+        // while (myVar === "" && myJson === "" && myImg === "") {
+        //     console.log("Oh non, c'est vide par ici!");
+        // }
+  
+// debugger
+        // mintIt()
 
-        mintIt()
+
+
     }
 
 
@@ -417,11 +432,12 @@ function Home() {
 
     // }
 
-    // useEffect(() => {
-    //     if (myImg) {
-    //         mintIt()
-    //     }
-    // }, [myVar, myJson, myImg])
+    useEffect(() => {
+        if (myJson) {
+            console.log("launching mint it process");
+            mintIt()
+        }
+    }, [myJson])
 
 
     if (!wallet.connected) {
