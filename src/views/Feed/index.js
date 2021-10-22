@@ -54,7 +54,7 @@ function Feed() {
                 <p>
                     By ticking "Yes" I certify I'm over 18 years old.
                 </p>
-                <div>
+                <CheckBoxWrapper>
                     <YesBox 
                         id="yes" 
                         type="checkbox"                            
@@ -62,7 +62,7 @@ function Feed() {
                     />
                     <label>Yes</label>
                     
-                </div>
+                </CheckBoxWrapper>
                 
                 <SelectWalletWrapper id="select-wallet" className="select-wallet">
                     <SelectWalletLegend>(click "Select wallet to connect to your wallet")</SelectWalletLegend>
@@ -121,6 +121,16 @@ const SelectWalletWrapper = styled.div`
 const SelectWalletLegend = styled.p`
     margin-bottom: 30px;
 `
+
+const CheckBoxWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+`
+
 const YesBox = styled.input`
-    margin: 30px 0;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 `
