@@ -50,7 +50,7 @@ function SiteHome() {
                 <FeaturesTextWrapper>
                     <Title>Features</Title>
 
-                    <FeaturesText>
+                    <FeaturesText className="roboto-light">
                     CHARM is a censorship-free platform<br/>
                     that provides a safe and true ownership<br/>
                     around erotism and sexuality.<br/>
