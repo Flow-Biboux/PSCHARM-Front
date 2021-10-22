@@ -16,13 +16,13 @@ function SiteHome() {
 
                 <AboutUsTextWrapper>
                     <Title>About us</Title>
-                    <FirstText>
+                    <FirstText className="roboto-light">
                         Charm is a unique adult content
                         sharing platform powered by Solana
                         blockchain providing full anonymity
                         and true ownership to all our users.
                     </FirstText>
-                    <SecondText>
+                    <SecondText className="roboto-light">
                         We are aiming to change the
                         perception of adult entertainment,
                         conduct by elegance, modernity, using
@@ -180,7 +180,7 @@ const AboutUsTitleWrapper = styled.div`
     justify-content: center;
 
     @media screen and (max-width: ${smallBreakPoint}) {
-        top: 126px;        
+        /* top: 126px;         */
     }
 `
 
@@ -190,6 +190,7 @@ const AboutUsTitle = styled.img`
 
     @media screen and (max-width: ${smallBreakPoint}) {
         width: 90%;
+        max-width: 450px;
     }
 `
 
@@ -225,6 +226,7 @@ const AboutUsTextWrapper = styled.div`
     }
 `
 const Title = styled.h2`
+    font-weight: normal;
     font-size: 40px;    
     margin-bottom: 20px;
     
@@ -260,11 +262,6 @@ const FeaturesWrapper = styled(AboutUsWrapper)`
     overflow: hidden;
 
     justify-content: flex-start;
-
-    #features:target {
-        margin-top: 126px;
-        color: red;
-    }
 `
 
 const FeaturesImgWrapper = styled.div`
