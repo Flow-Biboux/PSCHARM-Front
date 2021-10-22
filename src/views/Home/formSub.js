@@ -41,7 +41,7 @@ function FormSub({ SubmitForm }) {
                 /></FormGroup>
                 
                 <FormGroup><FormLabel>Upload </FormLabel>
-                    <FormRight>
+                    <FormRight className="drag-file">
                         <UploadFile>
                             <span>Drag your <br /> file here <br /> (Only .png)</span>
                         </UploadFile>
@@ -56,7 +56,7 @@ function FormSub({ SubmitForm }) {
                 </FormGroup>
                 <FormGroup>
                     <FormLabel></FormLabel>
-                    <FormRight>
+                    <FormRight className="create">
                         <SubmitBtn>Create</SubmitBtn>
                         {/* <SubmitLink href={"/feed"}>List</SubmitLink> */}
                     </FormRight>
@@ -99,6 +99,15 @@ const FormRight = styled.div`
     width:100%;
     text-align: left;
     position: relative;
+    /* left: 9xp; */
+
+    &.drag-file {
+        left: 7px;
+    }
+
+    &.create {
+        left: 9px;
+    }
 `
 const UploadFile = styled.div`
     position: absolute;
@@ -127,14 +136,15 @@ const SubmitBtn = styled.button`
     font-size: 30px;
     text-transform: uppercase;
     border-radius: 12px;
-    margin-top: 50px;
+    margin-top: 50px;    
     padding: 2px 16px 4px;
     transition: all 0.2s;
     border: 2px solid #832e2e;
     :hover{
         background: linear-gradient(90deg, rgba(43,0,0,1) 0%, rgba(168,102,102,1) 24%, rgba(196,92,92,1) 49%, rgba(204,133,133,1) 76%, rgba(43,0,0,1) 100%);
         color:#fff;
-    }
+    }    
+    cursor: pointer;
 `
 const SubmitLink = styled.a`
     width: auto;

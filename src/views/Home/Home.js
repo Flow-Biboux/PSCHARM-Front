@@ -498,7 +498,7 @@ export default compose(connect(mapStateToProps, mapDispatchToProps))(Home);
 const Button = styled.button`
     font-family: 'Playfair Display', serif;
     cursor: pointer;
-    margin-left: 90px;
+    margin-left: 109px;
     font-size: 20px;
     border-radius: 12px;
     padding: 2px 16px 4px;
