@@ -10,7 +10,7 @@ function Tokenomics() {
                 <Title src="/images/tokenomics-title.png" />
             </TitleWrapper>
 
-            <Text>
+            <Text className="roboto">
                 All Transactions in the NFT Marketplace will be in USDT and be taxed at 15%.<br/>
                 Meaning all the reflections will be distributed in USDT.
             </Text>
@@ -26,7 +26,7 @@ function Tokenomics() {
                     </div>
                 </RowWrap>
                 <RowWrap className="row">
-                    <Button>
+                    <Button className="roboto">
                         15% transaction fee
                     </Button>
                 </RowWrap>
@@ -35,7 +35,7 @@ function Tokenomics() {
                         <Number>
                             50%
                         </Number>
-                        <p className="title">
+                        <p className="title roboto-light">
                             Charm holders
                         </p>
                         <IconImg src="/images/icons/CharmHolders.svg" />
@@ -44,7 +44,7 @@ function Tokenomics() {
                         <Number>
                             25%
                         </Number>
-                        <p className="title">
+                        <p className="title roboto-light">
                             Development
                         </p>
                         <IconImg 
@@ -56,7 +56,7 @@ function Tokenomics() {
                         <Number>
                             25%
                         </Number>
-                        <p className="title">
+                        <p className="title roboto-light">
                             Affiliator
                         </p>
                         <IconImg src="/images/icons/3men.svg" />
@@ -304,6 +304,7 @@ const TitleImg = styled.img`
 const HeadTitle = styled.p`
     text-align: center;
     font-size: 34px;
+    font-weight: bold;
     line-height: 36px;    
     
     position: absolute;
@@ -350,7 +351,8 @@ const Button = styled.p`
 `
 
 const Number = styled.span`
-    font-size: 36px;
+    font-size: 38px;
+    font-weight: bold;
     
     @media screen and (max-width: ${smallBreakPoint}) {
         font-size: 33px;      
