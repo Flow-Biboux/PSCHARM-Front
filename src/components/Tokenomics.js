@@ -76,19 +76,36 @@ const Container = styled.div`
 
 const TitleGradient = styled.h2`
     background: -webkit-linear-gradient(
-        left,
-        rgba(211, 87, 88, 1) 0%,
-        rgba(105, 10, 15, 1) 20%,
-        rgba(211, 87, 88, 1) 40%,
-        rgba(84, 0, 7, 1) 53%,
-        rgba(211, 87, 88, 1)
+        left, 
+        rgba(211,87,88,1) 14%, 
+        rgba(105,10,15,1) 23%, 
+        rgb(211 87 88 / 70%) 54%, 
+        rgba(84,0,7,1) 66%, 
+        rgba(211,87,88,1) 
     );
     text-transform: uppercase;
+    font-weight: normal;
     font-size: 100px;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
+    @media screen and (max-width: 690px) {
+        font-size: 80px;
+    }
+
     @media screen and (max-width: ${smallBreakPoint}) {
+        font-size: 70px;
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: 60px;
+    }
+
+    @media screen and (max-width: 430px) {
+        font-size: 50px;
+    }
+
+    @media screen and (max-width: 360px) {
         font-size: 40px;
     }
 `
