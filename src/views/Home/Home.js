@@ -341,17 +341,23 @@ function Home() {
             }
         });
         // get metadata account that holds the metadata information
-        const m = await getMetadataAccount(mintAccount) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
+        const m = await getMetadataAccount(mint) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
         console.log("metadata acc: ", m);
 
         // get the account info for that account
         const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
-        // ParsedAccountData
-        // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
-        // console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
+        console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
+        console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
         // console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
+        const accInfomasterEditionAccount2 = await provider.connection.getAccountInfo(mint);
+        // 
+        // 
+        // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
+        
+        // console.log("accInfomasterEditionAccount2 : \n", accInfomasterEditionAccount2);
+        // console.log("accInfomasterEditionAccount2.data : \n", decodeMetadata(accInfomasterEditionAccount2.data));
+
         // console.log("accInfomasterEditionAccountdeser : \n", deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
-        // console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
 
 
         // finally, decode metadata
@@ -401,9 +407,9 @@ function Home() {
         console.log("MyVar onSubmit:", myVar);
         console.log("MyJson onSubmit:", myJson);
         console.log("img onSubmit:", myImg);
-console.log(e.target,'------------------------------------');
+// console.log(e.target,'------------------------------------');
         // e.target.reset();
-        console.log('that tha',data);
+        // console.log('that tha',data);
         // while (myVar === "" && myJson === "" && myImg === "") {
         //     console.log("Oh non, c'est vide par ici!");
         // }

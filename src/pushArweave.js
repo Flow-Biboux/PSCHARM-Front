@@ -24,16 +24,16 @@ async function pushArweave(Data) {
   });
 
   const data = JSON.stringify(Data);
-  console.log('JSON data to push : \n', data);
+  // console.log('JSON data to push : \n', data);
   let transaction = await arweave.createTransaction({ data: data },arKey);
   transaction.addTag('Content-Type', 'application/json');
   await arweave.transactions.sign(transaction,arKey);
 
   const response = await arweave.transactions.post(transaction, arKey);
 
-  console.log("transaction :\n", transaction);
-  console.log("response  :\n", response);
-  console.log("response status :\n", response.status);
+  // console.log("transaction :\n", transaction);
+  // console.log("response  :\n", response);
+  // console.log("response status :\n", response.status);
   const link = "https://s6wqxn7czv6cfb6y755dzi4utx2ya7otp4azlzvq64xy56ojodra.arweave.net/" + transaction.id;
   console.log('link to JSON : \n ', link);
 
