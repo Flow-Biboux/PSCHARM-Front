@@ -5,13 +5,13 @@ import { smallBreakPoint, mediumBreakPoint, largeBreakPoint } from '../css/varia
 function Tokenomics() {
     return (
         <Container id="tokenomics">
-
             <TitleWrapper>
-                <Title src="/images/tokenomics-title.png" />
+                <TitleGradient>Tokenomics</TitleGradient>
             </TitleWrapper>
 
             <Text className="roboto">
-                All Transactions in the NFT Marketplace will be in USDT and be taxed at 15%.<br/>
+                All Transactions in the NFT Marketplace will be in USDT and be taxed at 15%.
+                <br />
                 Meaning all the reflections will be distributed in USDT.
             </Text>
 
@@ -20,50 +20,33 @@ function Tokenomics() {
                     <div className="lead-title">
                         <TitleImg src="/images/Charm_logo_redmask.png" />
                         <HeadTitle>
-                            NFT<br/>
+                            NFT
+                            <br />
                             MARKET PLACE
                         </HeadTitle>
                     </div>
                 </RowWrap>
                 <RowWrap className="row">
-                    <Button className="roboto">
-                        15% transaction fee
-                    </Button>
+                    <Button className="roboto">15% transaction fee</Button>
                 </RowWrap>
                 <RowWrap className="row lower-part">
                     <div className="item first-img">
-                        <Number>
-                            50%
-                        </Number>
-                        <p className="title roboto-light">
-                            Charm holders
-                        </p>
+                        <Number>50%</Number>
+                        <p className="title roboto-light">Charm holders</p>
                         <IconImg src="/images/icons/CharmHolders.svg" />
-                    </div>                            
+                    </div>
                     <div className="item">
-                        <Number>
-                            25%
-                        </Number>
-                        <p className="title roboto-light">
-                            Development
-                        </p>
-                        <IconImg 
-                            src="/images/icons/Development.svg" 
-                            className="second-img"
-                        />
+                        <Number>25%</Number>
+                        <p className="title roboto-light">Development</p>
+                        <IconImg src="/images/icons/Development.svg" className="second-img" />
                     </div>
                     <div className="item third-img">
-                        <Number>
-                            25%
-                        </Number>
-                        <p className="title roboto-light">
-                            Affiliator
-                        </p>
+                        <Number>25%</Number>
+                        <p className="title roboto-light">Affiliator</p>
                         <IconImg src="/images/icons/3men.svg" />
                     </div>
                 </RowWrap>
             </ImgWrapper>
-
         </Container>
     )
 }
@@ -75,7 +58,7 @@ const Container = styled.div`
     background-color: rgb(43, 0, 0);
 
     overflow: hidden;
-    
+
     width: 100%;
     /* height: 100vh; */ /* EDIT LATER ? */
     margin-bottom: 40px; /* EDIT LATER ? */
@@ -86,8 +69,27 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
 
-    @media screen and (max-width: ${smallBreakPoint}) {        
+    @media screen and (max-width: ${smallBreakPoint}) {
         min-height: 70vh;
+    }
+`
+
+const TitleGradient = styled.h2`
+    background: -webkit-linear-gradient(
+        left,
+        rgba(211, 87, 88, 1) 0%,
+        rgba(105, 10, 15, 1) 20%,
+        rgba(211, 87, 88, 1) 40%,
+        rgba(84, 0, 7, 1) 53%,
+        rgba(211, 87, 88, 1)
+    );
+    text-transform: uppercase;
+    font-size: 100px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        font-size: 40px;
     }
 `
 
@@ -135,13 +137,13 @@ const Text = styled.p`
     font-size: 22px;
     text-align: center;
     margin-bottom: 40px;
-    
+
     @media screen and (max-width: ${mediumBreakPoint}) {
         font-size: 20px;
         /* margin-bottom: 20px; */
         width: 75%;
     }
-    
+
     @media screen and (max-width: ${smallBreakPoint}) {
         font-size: 16px;
         margin-bottom: 20px;
@@ -163,7 +165,7 @@ const RowWrap = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;        
+        align-items: center;
 
         &:first-child {
             &::after {
@@ -183,7 +185,6 @@ const RowWrap = styled.div`
                 }
             }
         }
-
 
         &:last-child {
             &::before {
@@ -213,14 +214,13 @@ const RowWrap = styled.div`
                 height: 40px;
                 width: 2px;
                 background-color: white;
-                
+
                 @media screen and (max-width: ${smallBreakPoint}) {
                     top: -42px;
                     height: 36px;
                 }
             }
         }
-
     }
 
     &.lower-part {
@@ -236,7 +236,7 @@ const RowWrap = styled.div`
         @media screen and (max-width: ${smallBreakPoint}) {
             margin-right: 0;
         }
-    }    
+    }
 
     .third-img {
         margin-left: 80px;
@@ -256,11 +256,11 @@ const RowWrap = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;   
+        align-items: center;
 
         &::after {
             position: absolute;
-            top: 116px; 
+            top: 116px;
             content: '';
             height: 40px;
             width: 2px;
@@ -291,33 +291,31 @@ const RowWrap = styled.div`
 const TitleImg = styled.img`
     height: 122px;
     opacity: 30%;
-    
+
     margin: 0 100px;
     /* padding: 30px; */
-    
-    @media screen and (max-width: ${smallBreakPoint}) {       
+
+    @media screen and (max-width: ${smallBreakPoint}) {
         height: 114px;
     }
-    
 `
 
 const HeadTitle = styled.p`
     text-align: center;
     font-size: 34px;
     font-weight: bold;
-    line-height: 36px;    
-    
-    position: absolute;
-    
-    @media screen and (max-width: ${smallBreakPoint}) {       
-        font-size: 32px;
-        line-height: 33px;    
+    line-height: 36px;
 
+    position: absolute;
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        font-size: 32px;
+        line-height: 33px;
     }
 `
 
 const IconImg = styled.img`
-    height: 104px;    
+    height: 104px;
 
     &.second-img {
         height: 78px;
@@ -345,16 +343,16 @@ const Button = styled.p`
     font-weight: bold;
 
     @media screen and (max-width: ${smallBreakPoint}) {
-        font-size: 16px;      
-        padding: 5px 12px;         
+        font-size: 16px;
+        padding: 5px 12px;
     }
 `
 
 const Number = styled.span`
     font-size: 38px;
     font-weight: bold;
-    
+
     @media screen and (max-width: ${smallBreakPoint}) {
-        font-size: 33px;      
+        font-size: 33px;
     }
 `
