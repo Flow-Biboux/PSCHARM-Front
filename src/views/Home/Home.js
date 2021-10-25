@@ -459,7 +459,7 @@ function Home() {
                         type="checkbox"
                         onClick={toggleSelectWallet}
                     />
-                    <label htmlFor="yes">Yes</label>
+                    <LabelBox htmlFor="yes">Yes</LabelBox>
 
                 </CheckBoxWrapper>
 
@@ -534,5 +534,10 @@ const CheckBoxWrapper = styled.div`
 const YesBox = styled.input`
     width: 20px;
     height: 20px;
-    margin-right: 5px;
+    cursor: pointer;
+`
+
+const LabelBox = styled.label`
+    cursor: pointer;
+    padding-left: 5px;
 `
