@@ -1,150 +1,115 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
-import { HashLink } from 'react-router-hash-link';
+import { Link } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 import styled from 'styled-components'
 import Icon from './Icon'
-import { smallBreakPoint, mediumBreakPoint, largeBreakPoint } from '../css/variables'
+import { scrollWithOffset, smallBreakPoint, mediumBreakPoint, largeBreakPoint } from '../css/variables'
 
-function AnimatedHeader() {    
-
-    const [header, setHeader] = useState(false);
+function AnimatedHeader() {
+    const [header, setHeader] = useState(false)
 
     const changeHeader = () => {
         if (window.scrollY > 0) {
-            setHeader(true);
+            setHeader(true)
         } else {
-            setHeader(false);
+            setHeader(false)
         }
     }
 
     const toggleMobileMenu = () => {
-        const menu = document.getElementById("nav-menu");
-        
+        const menu = document.getElementById('nav-menu')
+
         if (menu.classList.contains('mobile-menu-active')) {
-            menu.classList.remove("mobile-menu-active")
+            menu.classList.remove('mobile-menu-active')
         } else {
-            menu.classList.add("mobile-menu-active")
-            if (window.scrollY === 0)
-                menu.classList.add("mobile-menu-active-top")
-        } 
-            
-    }
-
-    const scrollWithOffset = (el) => {
-        const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-        let yOffset = 126; 
-        if (window.innerWidth <= 640)
-            yOffset = 90; 
-
-        window.scrollTo({ top: yCoordinate - yOffset, behavior: 'smooth' }); 
+            menu.classList.add('mobile-menu-active')
+            if (window.scrollY === 0) menu.classList.add('mobile-menu-active-top')
+        }
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', changeHeader);  
+        window.addEventListener('scroll', changeHeader)
         return () => {
-            window.removeEventListener('scroll', changeHeader);    
+            window.removeEventListener('scroll', changeHeader)
         }
     }, [])
 
     useEffect(() => {
         if (window.innerWidth <= 640) {
-            window.onscroll = function() {                
-                const mobileMenu = document.getElementById("nav-menu");            
-                let inputBox = document.getElementsByClassName("burger-box");
-    
+            window.onscroll = function () {
+                const mobileMenu = document.getElementById('nav-menu')
+                let inputBox = document.getElementsByClassName('burger-box')
+
                 if (mobileMenu.classList.contains('mobile-menu-active')) {
                     inputBox[0].checked = false
-                    
-                    mobileMenu.classList.remove("mobile-menu-active")
+
+                    mobileMenu.classList.remove('mobile-menu-active')
                 } else {
-                    if (inputBox[0].checked === true)
-                        inputBox[0].checked = false
+                    if (inputBox[0].checked === true) inputBox[0].checked = false
                 }
             }
         }
     }, [])
 
-    
     return (
         <HeaderWrap className="header">
             {/* links */}
-            <TopHeader className={ header ? 'top-anim top-header-active' : 'top-anim top-header' }>
-                <Icon 
-                    iconLink="https://twitter.com/charm_token"
-                    iconImg="/images/icons/Twitter_01.svg" 
-                />                       
-                <Icon 
-                    iconLink="https://instagram.com/charm_token"
-                    iconImg="/images/icons/Instagram_01.svg" 
-                />
-                <Icon 
-                    iconLink="https://discord.gg/m84xh3zW"
-                    iconImg="/images/icons/Discord.svg" 
-                />         
-                <Icon 
-                    iconLink="https://t.me/CharmTokenOfficial"
-                    iconImg="/images/icons/Telegram_01.svg" 
-                />         
+            <TopHeader className={header ? 'top-anim top-header-active' : 'top-anim top-header'}>
+                <Icon iconLink="https://twitter.com/charm_token" iconImg="/images/icons/Twitter_01.svg" />
+                <Icon iconLink="https://instagram.com/charm_token" iconImg="/images/icons/Instagram_01.svg" />
+                <Icon iconLink="https://discord.gg/m84xh3zW" iconImg="/images/icons/Discord.svg" />
+                <Icon iconLink="https://t.me/CharmTokenOfficial" iconImg="/images/icons/Telegram_01.svg" />
             </TopHeader>
-            
+
             {/* logo + navbar/menu */}
-            <LogoNavWrap className={ header ? 'logo-nav-active' : 'logo-nav' }>
-                
-                <LogoContainer className={ header ? 'logo-active' : 'logo' }>
+            <LogoNavWrap className={header ? 'logo-nav-active' : 'logo-nav'}>
+                <LogoContainer className={header ? 'logo-active' : 'logo'}>
                     <Logo src="/images/Charm_logo_redmask.png"></Logo>
                 </LogoContainer>
 
                 <NavContainer>
                     <MobileMenu id="hamburger" className="mobile-menu" onClick={toggleMobileMenu}>
-                    {/* <MobileMenu id="hamburger" className="mobile-menu" > */}
+                        {/* <MobileMenu id="hamburger" className="mobile-menu" > */}
                         <Input type="checkbox" className="burger-box" />
 
                         <SpanBurgerOne className="span-one" />
                         <SpanBurgerTwo className="span-two" />
                         <SpanBurgerThree className="span-tree" />
                     </MobileMenu>
-                    <ul id="nav-menu" className={ header ? 'nav-menu-active' : 'nav-menu' }>
+                    <ul id="nav-menu" className={header ? 'nav-menu-active' : 'nav-menu'}>
                         <LiWithSub className="with-sub main-li">
-                            <Link className="home" to="/"><Span>Home</Span></Link>
+                            <Link className="home" to="/">
+                                <Span>Home</Span>
+                            </Link>
                             <SubMenu className="sub-menu">
-                                <li><HashLink 
-                                        smooth  
-                                        to="/#about"
-                                        scroll={el => scrollWithOffset(el)}
-                                    >
+                                <li>
+                                    <HashLink smooth to="/#about" scroll={(el) => scrollWithOffset(el)}>
                                         About
-                                    </HashLink></li>
-                                <li><HashLink 
-                                        smooth 
-                                        to="/#sale"
-                                        scroll={el => scrollWithOffset(el)}
-                                    >
+                                    </HashLink>
+                                </li>
+                                <li>
+                                    <HashLink smooth to="/#sale" scroll={(el) => scrollWithOffset(el)}>
                                         Sale
                                     </HashLink>
                                 </li>
-                                <li><HashLink smooth 
-                                        to="/#features"
-                                        scroll={el => scrollWithOffset(el)}
-                                    >
+                                <li>
+                                    <HashLink smooth to="/#features" scroll={(el) => scrollWithOffset(el)}>
                                         Features
                                     </HashLink>
                                 </li>
-                                <li><HashLink 
-                                        smooth 
-                                        to="/#tokenomics"
-                                        scroll={el => scrollWithOffset(el)}
-                                    >
+                                <li>
+                                    <HashLink smooth to="/#tokenomics" scroll={(el) => scrollWithOffset(el)}>
                                         Tokenomics
                                     </HashLink>
                                 </li>
-                                {/* <li><HashLink 
+                                <li><HashLink 
                                         smooth 
                                         to="/#road-map"
                                         scroll={el => scrollWithOffset(el)}
                                     >
                                         Road Map
                                     </HashLink>
-                                </li> */}
+                                </li>
                                 {/* <li><HashLink 
                                         smooth 
                                         to="/#team"
@@ -153,15 +118,15 @@ function AnimatedHeader() {
                                         Team
                                     </HashLink>
                                 </li> */}
-                            </SubMenu>     
-
+                            </SubMenu>
                         </LiWithSub>
 
-                        <li className="main-li"><a href="/documents/Charm_White_Paper_PDF.pdf">Wpaper</a></li>
+                        <li className="main-li">
+                            <a href="/documents/Charm_White_Paper_PDF.pdf">Wpaper</a>
+                        </li>
                         <li className="main-li">
                             <a href="/">How to buy</a>
                             {/* <Link to="/how-to-buy">How to buy</Link> */}
-                        
                         </li>
                         <li className="main-li app-button">
                             <HashLink smooth target="_blank" to="/feed" className="charm-app">
@@ -170,15 +135,8 @@ function AnimatedHeader() {
                         </li>
                     </ul>
 
-                    <MobileNav>
-
-
-                    </MobileNav>
-
                 </NavContainer>
-
             </LogoNavWrap>
-
         </HeaderWrap>
     )
 }
@@ -192,7 +150,7 @@ const HeaderWrap = styled.header`
 
     position: fixed;
     width: 100%;
-    z-index: 9;
+    z-index: 999;
 
     .top-anim {
         transition: 0.3s ease-in-out;
@@ -223,14 +181,12 @@ const TopHeader = styled.div`
     }
 
     @media screen and (max-width: ${largeBreakPoint}) {
-        
     }
 
     @media screen and (max-width: ${mediumBreakPoint}) {
-        
     }
 
-    @media screen and (max-width: ${smallBreakPoint}) {        
+    @media screen and (max-width: ${smallBreakPoint}) {
         &.top-header-active {
             display: none;
         }
@@ -238,7 +194,7 @@ const TopHeader = styled.div`
 `
 
 const LogoNavWrap = styled.div`
-    position: relative;    
+    position: relative;
     background-color: black;
 
     display: flex;
@@ -254,11 +210,11 @@ const LogoNavWrap = styled.div`
 
     &.logo-nav-active {
         min-height: 90px;
-    }    
+    }
 `
 
 const LogoContainer = styled.div`
-    position: absolute;    
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -274,23 +230,23 @@ const LogoContainer = styled.div`
         transition: 0.3s ease-in-out;
     }
 
-    @media screen and (max-width: ${largeBreakPoint}) { 
-        &.logo-active {
-            position: inherit;
-            margin: 0 auto;
-        }         
-    }
-
-    @media screen and (max-width: ${mediumBreakPoint}) { 
+    @media screen and (max-width: ${largeBreakPoint}) {
         &.logo-active {
             position: inherit;
             margin: 0 auto;
         }
     }
-    
-    @media screen and (max-width: ${smallBreakPoint}) { 
+
+    @media screen and (max-width: ${mediumBreakPoint}) {
         &.logo-active {
-            position: absolute;           
+            position: inherit;
+            margin: 0 auto;
+        }
+    }
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        &.logo-active {
+            position: absolute;
         }
     }
 `
@@ -302,7 +258,7 @@ const Logo = styled.img`
 const NavContainer = styled.div`
     color: white;
 
-    display: flex;    
+    display: flex;
     justify-content: flex-end;
     align-items: stretch;
 
@@ -314,7 +270,7 @@ const NavContainer = styled.div`
     }
 
     .nav-menu-active {
-        display: flex;    
+        display: flex;
         justify-content: flex-end;
     }
 
@@ -327,14 +283,14 @@ const NavContainer = styled.div`
         flex-direction: column;
         justify-content: center;
 
-        margin: 0 10px;        
+        margin: 0 10px;
     }
 
     .charm-app {
         padding: 10px 20px;
         background-color: white;
         color: rgb(43, 0, 0);
-        
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -344,7 +300,7 @@ const NavContainer = styled.div`
         font-weight: bold;
 
         &:hover {
-            background: linear-gradient(90deg, rgba(107,3,3,1) 0%, rgba(193,54,3,1) 50%, rgba(107,3,3,1) 100%);
+            background: linear-gradient(90deg, rgba(107, 3, 3, 1) 0%, rgba(193, 54, 3, 1) 50%, rgba(107, 3, 3, 1) 100%);
             color: white;
         }
     }
@@ -353,12 +309,17 @@ const NavContainer = styled.div`
         color: white;
         text-decoration: none;
         text-transform: uppercase;
+        transition: 0.1s ease-in;
+
+        &:hover {
+            color: rgb(191, 96, 89);
+        }
     }
 
     @media screen and (max-width: ${largeBreakPoint}) {
         width: unset;
         max-width: 66vw;
-        
+
         .nav-menu-active {
             max-width: 66vw;
         }
@@ -373,24 +334,24 @@ const NavContainer = styled.div`
         }
     }
 
-    @media screen and (max-width: ${smallBreakPoint}) {   
+    @media screen and (max-width: ${smallBreakPoint}) {
         padding: 0;
         max-width: unset;
         width: 100%;
-        
+
         .nav-menu-active {
-            display:none;    
+            display: none;
 
             position: relative;
             /* display: flex;     */
             flex-direction: column;
             align-items: flex-end;
-            
+
             top: 85px;
 
             width: 100%;
             max-width: unset;
-            background-color: black;            
+            background-color: black;
         }
 
         .mobile-menu-active {
@@ -400,7 +361,7 @@ const NavContainer = styled.div`
             /* display: flex;     */
             flex-direction: column;
             align-items: flex-end;
-            
+
             top: 85px;
 
             width: 100%;
@@ -416,7 +377,7 @@ const NavContainer = styled.div`
         }
 
         .main-li {
-            margin-bottom: 15px;      
+            margin-bottom: 15px;
             align-items: flex-end;
         }
     }
@@ -426,10 +387,21 @@ const LiWithSub = styled.li`
     position: relative;
 
     :hover {
+        a {
+            color: rgb(191, 96, 89);
+        }
         .sub-menu {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+
+            a {
+                color: #fff;
+
+                &:hover {
+                    color: rgb(191, 96, 89);
+                }
+            }
         }
     }
 
@@ -440,33 +412,32 @@ const LiWithSub = styled.li`
             }
         }
     }
-
 `
 
 const Span = styled.span`
-    @media screen and (max-width: ${smallBreakPoint}) {        
-        display: none;    
+    @media screen and (max-width: ${smallBreakPoint}) {
+        display: none;
     }
 `
 
 const MobileMenu = styled.div`
     display: none;
 
-    @media screen and (max-width: ${smallBreakPoint}) {        
+    @media screen and (max-width: ${smallBreakPoint}) {
         display: block;
         width: 40px;
         height: 32px;
         position: absolute;
         top: 38px;
         right: 4px;
-        
+
         cursor: pointer;
-        
+
         /* opacity: 0; hide this
         z-index: 2; and place it over the hamburger */
-        
+
         -webkit-touch-callout: none;
-        
+
         &span:first-child {
             transform-origin: 0% 0%;
         }
@@ -480,12 +451,12 @@ const Input = styled.input`
     position: absolute;
     top: -7px;
     left: -5px;
-    
+
     cursor: pointer;
-    
+
     opacity: 0; /* hide this */
     z-index: 2; /* and place it over the hamburger */
-    
+
     -webkit-touch-callout: none;
 
     &:checked ~ .span-one {
@@ -495,18 +466,16 @@ const Input = styled.input`
     }
 
     &:checked ~ .span-two {
-        opacity: 0;          
-        transform: rotate(0deg) scale(0.2, 0.2);        
-        background: white;   
+        opacity: 0;
+        transform: rotate(0deg) scale(0.2, 0.2);
+        background: white;
     }
 
     &:checked ~ .span-tree {
         opacity: 1;
-        transform: rotate(-45deg) translate(0, -1px);   
-        background: white;   
+        transform: rotate(-45deg) translate(0, -1px);
+        background: white;
     }
-
-    
 `
 
 const SpanBurgerOne = styled.span`
@@ -515,18 +484,17 @@ const SpanBurgerOne = styled.span`
     height: 4px;
     margin-bottom: 5px;
     position: relative;
-    
+
     background: white;
     border-radius: 3px;
-    
+
     z-index: 1;
-    
+
     transform-origin: 0% 0%;
     transform-origin: 4px 0px;
-    
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                opacity 0.55s ease;
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+        opacity 0.55s ease;
 `
 
 const SpanBurgerTwo = styled.span`
@@ -535,18 +503,17 @@ const SpanBurgerTwo = styled.span`
     height: 4px;
     margin-bottom: 5px;
     position: relative;
-    
+
     background: #cdcdcd;
     border-radius: 3px;
-    
+
     z-index: 1;
-    
+
     transform-origin: 4px 0px;
     transform-origin: 0% 0%;
-    
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                opacity 0.55s ease;
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+        opacity 0.55s ease;
 `
 
 const SpanBurgerThree = styled.span`
@@ -555,21 +522,19 @@ const SpanBurgerThree = styled.span`
     height: 4px;
     margin-bottom: 5px;
     position: relative;
-    
+
     background: #cdcdcd;
     border-radius: 3px;
-    
+
     z-index: 1;
-    
+
     transform-origin: 0% 100%;
-    
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-                opacity 0.55s ease;
-    
+
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+        opacity 0.55s ease;
 `
 
-const SubMenu = styled.ul`    
+const SubMenu = styled.ul`
     display: none;
     position: absolute;
     top: 100%;
@@ -577,17 +542,13 @@ const SubMenu = styled.ul`
     background-color: black;
     padding: 0 20px 20px;
 
-    @media screen and (max-width: ${smallBreakPoint}) {        
+    @media screen and (max-width: ${smallBreakPoint}) {
         position: unset;
 
-        display: flex;    
+        display: flex;
         flex-direction: column;
         align-items: flex-end;
 
         padding: 0;
     }
-`
-
-const MobileNav = styled.nav`
-
 `
