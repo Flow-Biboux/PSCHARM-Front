@@ -40,6 +40,13 @@ function Home() {
     const [myImg, setMyImg] = useState(null);
     const wallet = useWallet();
 
+    useEffect(() => {
+        if (myJson) {
+            console.log("launching mint it process");
+            mintIt()
+        }
+    }, [myJson])
+
     const arweave = Arweave.init({});
 
     const toggleSelectWallet = () => {
@@ -438,12 +445,7 @@ function Home() {
 
     // }
 
-    useEffect(() => {
-        if (myJson) {
-            console.log("launching mint it process");
-            mintIt()
-        }
-    }, [myJson])
+    
 
 
     if (!wallet.connected) {
