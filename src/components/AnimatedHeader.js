@@ -124,10 +124,10 @@ function AnimatedHeader() {
                         <li className="main-li">
                             <a href="/documents/Charm_White_Paper_PDF.pdf">Wpaper</a>
                         </li>
-                        <li className="main-li">
+                        {/* <li className="main-li">
                             <a href="/">How to buy</a>
-                            {/* <Link to="/how-to-buy">How to buy</Link> */}
-                        </li>
+                            <Link to="/how-to-buy">How to buy</Link>
+                        </li> */}
                         <li className="main-li app-button">
                             <HashLink smooth target="_blank" to="/feed" className="charm-app">
                                 Charm
