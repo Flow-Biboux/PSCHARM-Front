@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import Sale from './Sale'
 import Tokenomics from './Tokenomics'
+import Footer from './Footer'
 import { HashLink } from 'react-router-hash-link'
-import { scrollWithOffset, smallBreakPoint, largeBreakPoint } from '../css/variables'
+import { scrollWithOffset, smallBreakPoint, mediumBreakPoint, largeBreakPoint } from '../css/variables'
 
 function SiteHome() {
 
@@ -123,6 +124,7 @@ function SiteHome() {
                     <SpanArrow>Back to the top</SpanArrow>
                 </HashLink>
             </RoadMapWrapper>
+            <Footer />
         </Container>
     )
 }
@@ -400,6 +402,14 @@ const RoadMapWrapper = styled.div`
     min-height: 640px;
 
     color: white;
+
+    @media screen and (max-width: ${largeBreakPoint}) {
+        background-position-x: -651px;
+    }
+
+    @media screen and (max-width: ${mediumBreakPoint}) {
+        background-position-x: -881px;
+    }
 
     @media screen and (max-width: ${smallBreakPoint}) {
         background-position: right;
