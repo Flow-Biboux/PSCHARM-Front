@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import SaleSection from './SaleSection'
-import { smallBreakPoint } from '../css/variables'
+import { smallBreakPoint, mediumBreakPoint } from '../css/variables'
 
 function Sale() {
     return (
@@ -10,26 +10,30 @@ function Sale() {
                 title={'Presale'}
                 price={'$0.0018'}
                 textFirstLine={'1% of total supply available'}
-                textSecondLine={'capped to 2 SOL per Wallet'}
+                textSecondLine={'capped to $500 per wallet'}
                 barStatus={'100'}
                 closed={true}
             />
             <SaleSection
-                title={'Private Sale'}
+                title={'Private'}
                 price={'$0.005'}
-                textFirstLine={'5% of total supply available capped to'}
-                textSecondLine={'20 SOL per wallet. To reduce volatility'}
+                textFirstLine={'5% of total supply available'}
+                textSecondLine={'capped to $7500 per wallet'}
                 barStatus={'soon'}
                 closed={false}
             />
             <SaleSection
-                title={'Public Sale'}
+                title={'Public'}
                 price={'$0.01'}
-                textFirstLine={'10% of total supply available with'}
-                textSecondLine={'no cap per wallet'}
+                textFirstLine={'10% of total supply available'}
+                textSecondLine={'with no cap per wallet'}
                 barStatus={'soon'}
                 closed={false}
             />
+            <SaleSubText className="roboto-ita">
+                Charm token value will be indexed on the current SOL market price 
+                to reduce volatility
+            </SaleSubText>
         </Container>
     )
 }
@@ -66,5 +70,13 @@ const Container = styled.div`
         height: inherit;
 
         margin: 20px 0;
+    }
+`
+const SaleSubText = styled.p`
+    font-size: 22px;
+    margin-top: 20px;
+    
+    @media screen and (max-width: ${mediumBreakPoint}) {
+        width: 70%;
     }
 `
