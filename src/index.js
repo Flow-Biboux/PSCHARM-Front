@@ -6,6 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 
+// document.addEventListener('keydown', (e) => {
+//   var code = e.key;
+//   if (code === "F12"){
+//       e.preventDefault();
+//   }
+// })
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store} >
