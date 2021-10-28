@@ -16,7 +16,7 @@ import * as actions from "../../store/actions/index";
 import Arweave from "arweave";
 import { Buffer } from "buffer";
 import { serialize, deserialize, deserializeUnchecked } from "borsh";
-import { getMetadataAccount, decodeMetadata, MetadataKey, METADATA_SCHEMA, METADATA_SCHEMA2, Metadata, Data } from "../../metadata"
+import { getMetadataAccount, decodeMetadata, MetadataKey, METADATA_SCHEMA, Metadata, Data } from "../../meta"
 import { decode } from "@project-serum/anchor/dist/cjs/utils/bytes/bs58";
 
 const {
@@ -28,7 +28,7 @@ const {
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
 const opts = {
-    preflightCommitment: "processed"
+    preflightCommitment: "confirmed"
 }
 const programID = new PublicKey(idl.metadata.address);
 const network = clusterApiUrl("devnet");
@@ -233,6 +233,7 @@ function Home() {
     async function mintIt() {
 
         const provider = await getProvider();
+
         const program = new Program(idl, programID, provider);
         const mint = await createMint(provider, provider.wallet.publicKey);
         console.log("1: create Mint Account : \n", mint.toBase58());
@@ -340,22 +341,38 @@ function Home() {
                 metadataProgram: metadataMainAccount,
             }
         });
+
+
+          // get metadata account that holds the metadata information
+  const m = await getMetadataAccount(mint);
+  console.log("metadata acc: ", m);
+  
+  // get the account info for that account
+//   const accInfo = await provider.connection.getAccountInfo(m);
+//   console.log(accInfo);
+
+//   // finally, decode metadata
+//   console.log(decodeMetadata(accInfo.data));
+
         // get metadata account that holds the metadata information
-        const m = await getMetadataAccount(mint) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
-        console.log("metadata acc: ", m);
+        // const m = await getMetadataAccount(mint) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
+        // console.log("metadata acc: ", m);
 
         // get the account info for that account
-        const accInfomasterEditionAccount = await provider.connection.getAccountInfo(masterEditionAccount);
-        console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
-        console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
+        // const accInfomasterEditionAccount = await provider.connection.getBalance(m);
+        // console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
+        // console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
         // console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
         const accInfomasterEditionAccount2 = await provider.connection.getAccountInfo(mint);
         // 
         // 
-        // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount.data));
         
-        // console.log("accInfomasterEditionAccount2 : \n", accInfomasterEditionAccount2);
+        console.log("accInfomasterEditionAccount2 : \n", accInfomasterEditionAccount2.data);
+        const string = decodeMetadata(accInfomasterEditionAccount2.data)
+        console.log('string  meta : \n ',string);
+        // console.log("accInfomasterEditionAccount2 : \n", accInfomasterEditionAccount2.data);
         // console.log("accInfomasterEditionAccount2.data : \n", decodeMetadata(accInfomasterEditionAccount2.data));
+        // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount2.data));
 
         // console.log("accInfomasterEditionAccountdeser : \n", deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
 
@@ -459,7 +476,7 @@ function Home() {
                         type="checkbox"
                         onClick={toggleSelectWallet}
                     />
-                    <LabelBox htmlFor="yes">Yes</LabelBox>
+                    <label htmlFor="yes">Yes</label>
 
                 </CheckBoxWrapper>
 
@@ -534,10 +551,5 @@ const CheckBoxWrapper = styled.div`
 const YesBox = styled.input`
     width: 20px;
     height: 20px;
-    cursor: pointer;
-`
-
-const LabelBox = styled.label`
-    cursor: pointer;
-    padding-left: 5px;
+    margin-right: 5px;
 `
