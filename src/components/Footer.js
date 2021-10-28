@@ -48,7 +48,13 @@ const FooterWrapper = styled.footer`
     }
 
     @media screen and (max-width: ${smallBreakPoint}) {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 20;
+
         justify-content: space-between;
+        height: 50px;
         padding-right: 30px;
 
         nav {
