@@ -46,8 +46,6 @@ function SiteHome() {
                         <br />
                         that provides a safe and true ownership
                         <br />
-                        around erotism and sexuality.
-                        <br />
                         It enables anyone to create and <br />
                         upload some explicit media to be
                         <br />
@@ -79,7 +77,7 @@ function SiteHome() {
                             </li>
                             <li className="roadmap-list-title">CHARM App V1 (Devnet)features:</li>
                             <li>Mint your private picture NFT</li>
-                            <li>Random scrolling, NFT feeds page</li>
+                            <li>NFT feeds page</li>
                         </ul>
                     </RoadMapQ3>
 
@@ -89,8 +87,8 @@ function SiteHome() {
                             <li className="roadmap-list-title">
                                 Website Launch V1 Hackathon Solana CHARM App V2 (Devnet)features:
                             </li>
-                            <li>user and creator subscription</li>
-                            <li>NFT Bomb</li>
+                            <li>NFT Bomb (like feature)</li>
+                            <li>User and Creator subscription</li>
                             <li>Chat (private message)</li>
                             <li>Mint Audio/ Video NFT</li>
                             <li>Major Marketing Campaign (Event and Partnership)</li>
@@ -162,11 +160,15 @@ const Container = styled.div`
     }
 
     .bottom-arrow {
+        align-self: center;
+        
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        z-index: 999;
+        z-index: 15;
+        
+        width: 120px;
         text-decoration: none;
     }
 `
@@ -414,6 +416,7 @@ const RoadMapWrapper = styled.div`
     @media screen and (max-width: ${smallBreakPoint}) {
         background-position: right;
         background-image: url('/images/Charm_03-mobile.jpg');
+        margin-bottom: 50px;
     }
 
     &::before {
