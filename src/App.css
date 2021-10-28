@@ -53,6 +53,18 @@ body {
   font-weight: 500;
 }
 
+::-webkit-scrollbar {
+  background-color: black;
+  width: 1vw;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(0deg,rgba(255, 0, 102, 0.616) 0%, rgba(255, 0, 102, 0.521) 20%,  rgba(255, 0, 102, 0.507) 40%, rgba(255, 0, 102, 0.747) 60%, rgba(255, 0, 102, 0.774) 80% );
+  border: none;
+  border-radius: 5vh;
+}
+
 .App {
 	text-align: center;
   /* background-color:#a30026; */
