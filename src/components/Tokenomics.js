@@ -187,7 +187,7 @@ const RowWrap = styled.div`
         &:first-child {
             &::after {
                 position: absolute;
-                top: -2px;
+                top: -10px;
                 left: 151px;
                 content: '';
                 height: 45px;
@@ -206,7 +206,7 @@ const RowWrap = styled.div`
         &:last-child {
             &::before {
                 position: absolute;
-                top: -2px;
+                top: -10px;
                 right: 151px;
                 content: '';
                 height: 45px;
@@ -226,7 +226,7 @@ const RowWrap = styled.div`
             margin-top: 100px;
             &::before {
                 position: absolute;
-                top: -40px;
+                top: -48px;
                 content: '';
                 height: 40px;
                 width: 2px;
