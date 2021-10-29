@@ -41,10 +41,11 @@ function HowToBuy({backgroundImg}) {
                             <p>
                                 Send SOLANA coin to your PHANTOM or SOLLET from the  <br/>
                                 exchange you buy it<br/>
-                                Go to your Phantom or Sollet and 1- click on “Deposit SOLANA”<br/>
-                                2-“send from wallet/exchange”<br/>
+                                Go to your Phantom or Sollet:<br/>
+                                1- click on "Deposit SOLANA"<br/>
+                                2-"send" from wallet/exchange"<br/>
                                 3- copy the address (start with 0x...)<br/>
-                                Go to your exchange (Binance/Coinbase/Huobi) and click to “withdraw” your <br/>
+                                Go to your exchange (Binance/Coinbase/Huobi) and click to "withdraw" your <br/>
                                 Solana<br/>
                                 Past your wallet address from Phantom or Sollet  (0x...)<br/>
                                 Valid the operation, and wait to see your Solana on your Phantom or Sollet <br/>
@@ -66,7 +67,7 @@ function HowToBuy({backgroundImg}) {
                 
                 </PageContent>
                 
-                <PageContent>
+                {/* <PageContent>
 
                     <PageTitle>
                         TRUSTWALLET/ METAMASK
@@ -100,8 +101,8 @@ function HowToBuy({backgroundImg}) {
                                 Metamask app.<br/>
                                 1. Click on Smart chain (bnb coin)<br/>
                                 2.Press the receive button <br/>
-                                3.copy your BEP20 address; it should start with “0x”.<br/>
-                                Go to your Binance exchange and click to “withdraw” your BNB (Bep20)<br/>
+                                3.copy your BEP20 address; it should start with "0x".<br/>
+                                Go to your Binance exchange and click to "withdraw" your BNB (Bep20)<br/>
                                 Past your wallet address from trust wallet or Metamask (0x..)<br/>
                                 Valid the operation, and wait to see your BNB on your trust wallet or metamask
                             </p>
@@ -121,7 +122,7 @@ function HowToBuy({backgroundImg}) {
 
                     </StepsContent>
 
-                </PageContent>
+                </PageContent> */}
 
 
             </PageText>
@@ -135,7 +136,7 @@ export default HowToBuy
 const Container = styled.div`
     padding-top: 126px;
 
-    background-image: ${ props => `url("/images/${props.bgImage}")` };
+    background-image: url("/images/Charm_01.jpeg");
     background-color: rgb(67, 0, 0);
     width: 100%;
     height: 100vh;
@@ -153,6 +154,7 @@ const Container = styled.div`
 const Title = styled.h1`
     width: 100%;
     font-size: 100px;
+    font-weight: normal;
 
     display: flex;
     justify-content: center;
@@ -191,6 +193,13 @@ const StepsText = styled.li`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 20px;
+
+    p {
+        width: 100%;        
+        text-align: left;
+        font-size: 20px;
+    }
 `
 
 const NumberLight = styled.span`
@@ -203,7 +212,7 @@ const NumberLight = styled.span`
     background-color: white;
     border-radius: 22%;
 
-    .number-shadow {
+    &.number-shadow {
         box-shadow: 6px 6px 4px 1px rgba(0, 0, 0, 0.75);
     }
 `
