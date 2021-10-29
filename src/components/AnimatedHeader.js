@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Icon from './Icon'
 import { scrollWithOffset, smallBreakPoint, mediumBreakPoint, largeBreakPoint } from '../css/variables'
 
-function AnimatedHeader() {
+function AnimatedHeader({animated}) {
     const [header, setHeader] = useState(false)
 
     const changeHeader = () => {
@@ -54,7 +54,14 @@ function AnimatedHeader() {
     return (
         <HeaderWrap className="header">
             {/* links */}
-            <TopHeader className={header ? 'top-anim top-header-active' : 'top-anim top-header'}>
+            <TopHeader className=
+                {
+                    animated === true ?
+                    header ? 'top-anim top-header-active' : 'top-anim top-header'
+                    :
+                   'top-anim top-header-active'
+                }
+            >
                 <Icon iconLink="https://twitter.com/charm_token" iconImg="/images/icons/Twitter_01.svg" />
                 <Icon iconLink="https://instagram.com/charm_token" iconImg="/images/icons/Instagram_01.svg" />
                 <Icon iconLink="https://discord.gg/m84xh3zW" iconImg="/images/icons/Discord.svg" />
@@ -62,8 +69,22 @@ function AnimatedHeader() {
             </TopHeader>
 
             {/* logo + navbar/menu */}
-            <LogoNavWrap className={header ? 'logo-nav-active' : 'logo-nav'}>
-                <LogoContainer className={header ? 'logo-active' : 'logo'}>
+            <LogoNavWrap className=
+                {
+                    animated === true ?
+                    header ? 'logo-nav-active' : 'logo-nav'
+                    : 
+                    'logo-nav-active'
+                }
+            >
+                <LogoContainer className=
+                    {
+                        animated === true ?
+                        header ? 'logo-active' : 'logo'
+                        : 
+                        'logo-active'
+                    }
+                >
                     <Logo src="/images/Charm_logo_redmask.png"></Logo>
                 </LogoContainer>
 
@@ -76,7 +97,14 @@ function AnimatedHeader() {
                         <SpanBurgerTwo className="span-two" />
                         <SpanBurgerThree className="span-tree" />
                     </MobileMenu>
-                    <ul id="nav-menu" className={header ? 'nav-menu-active' : 'nav-menu'}>
+                    <ul id="nav-menu" className=
+                        {
+                            animated === true ?
+                            header ? 'nav-menu-active' : 'nav-menu'
+                            : 
+                            'nav-menu-active'
+                        }
+                    >
                         <LiWithSub className="with-sub main-li">
                             <Link className="home" to="/">
                                 <Span>Home</Span>
@@ -124,10 +152,10 @@ function AnimatedHeader() {
                         <li className="main-li">
                             <a href="/documents/Charm_White_Paper_PDF.pdf">Wpaper</a>
                         </li>
-                        {/* <li className="main-li">
-                            <a href="/">How to buy</a>
+                        <li className="main-li">
+                            {/* <a href="/">How to buy</a> */}
                             <Link to="/how-to-buy">How to buy</Link>
-                        </li> */}
+                        </li>
                         <li className="main-li app-button">
                             <HashLink smooth target="_blank" to="/feed" className="charm-app">
                                 Charm
