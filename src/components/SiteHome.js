@@ -71,23 +71,23 @@ function SiteHome() {
                         <h3 className="col-roadmap-title">Q3</h3>
                         <span className="date">2021</span>
                         <ul>
-                            <li className="roadmap-list-title">
+                            <li className="roadmap-list-title done">
                                 Conceptualization Charm Token Social Media Launch (Telegram, Discord, Instagram,
                                 Twitter)
                             </li>
-                            <li className="roadmap-list-title">CHARM App V1 (Devnet)features:</li>
-                            <li>Mint your private picture NFT</li>
-                            <li>NFT feeds page</li>
+                            <li className="roadmap-list-title done">CHARM App V1 (Devnet)features:</li>
+                            <li className="done">Mint your private picture NFT</li>
+                            <li className="done">NFT feeds page</li>
                         </ul>
                     </RoadMapQ3>
 
                     <RoadMapQ4 className="col-roadmap">
                         <h3 className="col-roadmap-title">Q4</h3>
                         <ul>
-                            <li className="roadmap-list-title">
+                            <li className="roadmap-list-title done">
                                 Website Launch V1 Hackathon Solana CHARM App V2 (Devnet)features:
                             </li>
-                            <li>NFT Bomb (like feature)</li>
+                            <li className="done">NFT Bomb (like feature)</li>
                             <li>User and Creator subscription</li>
                             <li>Chat (private message)</li>
                             <li>Mint Audio/ Video NFT</li>
@@ -489,8 +489,8 @@ const RoadMapContent = styled.div`
             font-weight: 300;
             font-size: 18px;
             display: flex;
-            align-items: flex-start;
-
+            align-items: flex-start;            
+            
             &::before {
                 content: '';
                 min-width: 3px;
@@ -501,6 +501,28 @@ const RoadMapContent = styled.div`
                 background-color: #fff;
                 border-radius: 50%;
                 margin-right: 10px;
+            }
+
+            &.done {
+                position: relative;
+                margin-left: 12px;
+            }
+            
+            &.done::before {
+                content: '✔️' ;
+                /* content:url(img/image.jpg) ; */
+                min-width: unset;
+                min-height: unset;
+                margin-top: unset;
+                width: unset;
+                height: unset;
+                background-color: unset;
+                border-radius: unset;
+                margin-right: unset;
+
+                position: absolute;
+                left: -25px;
+                top: -2px;
             }
         }
     }
