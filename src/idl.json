@@ -1,38 +1,12 @@
 {
   "version": "0.0.0",
-  "name": "charm",
+  "name": "charmtoken",
   "instructions": [
     {
       "name": "initialize",
       "accounts": [
         {
-          "name": "baseAccount",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "data",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "setAuthority",
-      "accounts": [
-        {
-          "name": "signer",
+          "name": "payer",
           "isMut": false,
           "isSigner": true
         },
@@ -43,6 +17,26 @@
         },
         {
           "name": "pda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mintAuthority",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "updateAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -50,9 +44,36 @@
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rentProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "url",
+          "type": "string"
+        },
+        {
+          "name": "authority",
+          "type": "publicKey"
+        }
+      ]
     },
     {
       "name": "createAssociatedAccount",
@@ -96,7 +117,7 @@
       "args": []
     },
     {
-      "name": "faucet",
+      "name": "buyCharm",
       "accounts": [
         {
           "name": "signer",
@@ -115,11 +136,21 @@
         },
         {
           "name": "pda",
-          "isMut": false,
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "charmAccount",
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -128,333 +159,32 @@
         {
           "name": "bump",
           "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "puffMetadata",
-      "accounts": [
-        {
-          "name": "signer",
-          "isMut": false,
-          "isSigner": true
         },
         {
-          "name": "metadataAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "proxyTransfer",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "from",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "to",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
+          "name": "lamports",
           "type": "u64"
         }
       ]
-    },
-    {
-      "name": "buy",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "newMetadataAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newEditionAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "masterEditionAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newMintAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newMintAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenAccountOwner",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenAccount",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "newMetadataUpdateAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadata",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rentProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "editionPda",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "edition",
-          "type": "u64"
-        },
-        {
-          "name": "pdaNonce",
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "metadata",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mintAuthority",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "updateAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "masterEditionAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rentProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "data",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "edition",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mintAuthority",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "updateAuthority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "masterEditionAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rentProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "changeOwnership",
-      "accounts": [
-        {
-          "name": "signer",
-          "isMut": false,
-          "isSigner": true
-        },
-        {
-          "name": "masterEditionAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "pda",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    }
-  ],
-  "accounts": [
-    {
-      "name": "BaseAccount",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "data",
-            "type": "string"
-          },
-          {
-            "name": "dataList",
-            "type": {
-              "vec": "string"
-            }
-          }
-        ]
-      }
     }
   ],
   "errors": [
     {
       "code": 300,
-      "name": "InsufficientBalance",
-      "msg": "Insufficient Balance"
+      "name": "AssociateAccountAlreadyExists",
+      "msg": "Associate account already exists"
+    },
+    {
+      "code": 301,
+      "name": "SoldOut",
+      "msg": "Sold out"
+    },
+    {
+      "code": 302,
+      "name": "InvalidInstruction",
+      "msg": "Invalid Instruction"
     }
   ],
   "metadata": {
-    "address": "BFXsCPze92SjvpLfh2axdkR4qUzjrambaDtodEJG7qa9"
+    "address": "D4gZCnjamagp3VRQMZm3s2uhp3FM6UXPnMVk8ARpMoNk"
   }
 }

@@ -1,6 +1,7 @@
 import Arweave from 'arweave';
 
-export const arKey={
+
+export const arKey = {
   "kty": "RSA",
   "e": "AQAB",
   "n": "r8H7FeTiW-MUFWiadjQcSzW2_K-bgyNZhAmueuVkARZw4GRlE2UeRlUtkmOIe0tIAaECZoXDD9hxz5yEfS34HBMaYRFK95GidPF9c74wK2iXe1__0NuMws04uSJ1xXIYufuXoVlys3x4CMCcf4YgG-9lp7v3bPjmeRQqRlzQXPHaCFXGsFmxiWvnysu_8FLVzxuHWywDv0mkMypZrKIeAxzzKTkRqlfIoumR2RGMwzpye5lFdBcqIoSwhLVqaAEI6zZkWh0FcLojw3vt0SLioux8J9fnAD51GnFoFRAEKRtE6WwUl1NcPB_4bPDeVE551Pi8gdqnG7ssW-uRi4wj2gwPRAf1KN-BFSvIbTserzH-RQ3c8jvvT3Tu7M38WLtrEm78TI_vAq34qkGkE1nKfiKoFRvWJPPUZrWhHkCp7V9O4CFOP5Xq79EPKt_JAzRvbJbdYDDXMe-0alaSv0ydhaj5qM36-UIMz6EipKLgHuyRP67af7JvluaGb9oWSW48wRKftuKB5202gnfevKHt-VM5clOdRl9L2pQIYZF9Ll9rdroU-6ppFYEz8jhriiBRNIsMhpumx579-2Z9ua12FgG7l4Qu4p2HcwjJ29VP3dUM1pixlY9K-lGzRAwTBO1uidjR1Nml7xGB5p8zJSaldoiUo3iuxd7B7I-YEWnNgLc",
@@ -20,14 +21,15 @@ async function pushArweave(Data) {
     port: 443,
     protocol: 'https',
     timeout: 20000,     // Network request timeouts in milliseconds
-    logging: true,     // Enable network request logging
+    // logging: true,     // Enable network request logging
   });
-
+  console.log(Data.type);
   const data = JSON.stringify(Data);
+  console.log('pshdata', JSON.stringify(Data));
   // console.log('JSON data to push : \n', data);
-  let transaction = await arweave.createTransaction({ data: data },arKey);
+  let transaction = await arweave.createTransaction({ data: data }, arKey);
   transaction.addTag('Content-Type', 'application/json');
-  await arweave.transactions.sign(transaction,arKey);
+  await arweave.transactions.sign(transaction, arKey);
 
   const response = await arweave.transactions.post(transaction, arKey);
 
