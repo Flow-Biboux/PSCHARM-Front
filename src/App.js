@@ -16,6 +16,7 @@ import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import SiteHome from './components/SiteHome'
 import AnimatedHeader from './components/AnimatedHeader'
 import HowToBuy from './components/HowToBuy'
+import BuyIt from "./views/Home/buyIt";
 
 
 const wallets = [getPhantomWallet()]
@@ -58,6 +59,11 @@ function App() {
             <Topbar></Topbar>
             <ScrollToTop />              
             <Home />
+          </Route>
+          <Route path="/buy" exact>
+            <Topbar></Topbar>
+            <ScrollToTop />              
+            <BuyIt />
           </Route>
         </Switch>
       </div>
