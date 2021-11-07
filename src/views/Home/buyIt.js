@@ -11,8 +11,6 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import FormSub2 from "./formSub2";
 import { addPhoto } from "../../s3";
 import { pushArweave } from "../../pushArweave";
-import { connect } from "react-redux";
-import { compose } from "redux";
 
 
 var bs58 = require('bs58')
@@ -58,9 +56,9 @@ function BuyIt() {
     }, [myJson])
 
     useEffect(() => {
-        if (nSol) {
+        if (nSol && nSol > 0) {
             console.log("Buy sol (", nSol, ") process launched");
-            asAcc(nSol)
+            // asAcc(nSol)
         }
     }, [nSol])
 
@@ -271,6 +269,10 @@ function BuyIt() {
     }
 
     const buySub = (data, event) => {
+        // TODO: proper validation against value below 0 - security against bypass
+        if (data.nSol < 0)
+            console.log("value below 0 are prohibited");
+
         setNSol(data.nSol)
         event.preventDefault();
     }
@@ -288,7 +290,7 @@ function BuyIt() {
                         type="checkbox"
                         onClick={toggleSelectWallet}
                     />
-                    <label htmlFor="yes">Yes</label>
+                    <LabelBox htmlFor="yes">Yes</LabelBox>
                 </CheckBoxWrapper>
 
                 <SelectWalletWrapper id="select-wallet" className="select-wallet">
@@ -299,55 +301,90 @@ function BuyIt() {
         )
     } else {
         return (
-            <div className="app-home">
-                <div>
-                    <div className="baseee">
-                        <FormSub2 SubmitForm={submitForm} />
-                        <form onSubmit={handleSubmit(buySub)}>                            
-                            <FormLabel>Number of sol: </FormLabel><Input
-                                type="uint"
-                                name="nSol"
-                                placeholder="How much solana you want to buy ?"
-                                {...register('nSol', { required: true })}
-                            />
-                            <Button > Pay {nSol} sol to receve PSCHARM</Button>
-                        </form>
-                        <Nota> Nota: Mint will fail if auto-approve isn"t activated </Nota>
-                        <div id="album" />
-                        <br />
-                    </div>
+            <FormWrapper>                
+                    
+                {/* <FormSub2 SubmitForm={submitForm} /> */}
+                <form onSubmit={handleSubmit(buySub)}>                            
+                    <FormLabel className="roboto-light">Number of SOL you want to pay</FormLabel>
+                    <Input
+                        type="number"
+                        name="nSol"
+                        placeholder="Ex: 2.50"
+                        min="0"
+                        pattern="[0-9]{1,12}"
+                        {...register('nSol', { required: true })}
+                    />
+                    <Button className="roboto-light">Buy PSCHARM</Button>
+                </form>
 
-                </div>
-            </div>
-        );
+                <Nota className="roboto-ita">Nota: 1 SOL = X PSCHARM</Nota>
+
+            </FormWrapper> 
+        )
     }
 }
 
+export default BuyIt;
 
-const mapStateToProps = state => {
-    return {
-        state: state
-    };
-};
+const FormWrapper = styled.div`
+    margin: 140px auto 0 auto;
+    max-width: 500px;
+    width: 100%;
+    color: white;
 
-const mapDispatchToProps = dispatch => {
-    return {
-    };
-};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+const FormLabel = styled.p`    
+    font-size: 30px;    
+    margin-bottom: 20px;
+`
+const Input = styled.input`
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    padding: 0.5em;
+    margin: 0.5em;
+    color: black;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    width: 300px;
+    height: 40px;
+    text-align:center;
+    outline: none;
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(Home);
+    &:focus {
+        &::placeholder {
+            opacity: 0;            
+        }
+    }
 
-const Button = styled.button`
-    font-family: "Playfair Display", serif;
+    &::placeholder {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        text-align:center;    
+    }
+`;
+
+const Button = styled.button`    
     cursor: pointer;
-    margin-left: 109px;
-    font-size: 20px;
-    border-radius: 12px;
-    padding: 2px 16px 4px;
+    text-transform: uppercase;
+    font-size: 18px;
+    border-radius: 50px;    
     border: 2px solid #832e2e;
+    margin: 20px 0;
+    width: 300px;
+    height: 40px;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        background: linear-gradient(90deg, rgba(107, 3, 3, 1) 0%, rgba(193, 54, 3, 1) 50%, rgba(107, 3, 3, 1) 100%);
+        color: white;
+    }
 `
 const Nota = styled.p`
-    margin-left: 90px;
 `
 
 const SelectWalletWrapper = styled.div`
@@ -370,26 +407,10 @@ const CheckBoxWrapper = styled.div`
 const YesBox = styled.input`
     width: 20px;
     height: 20px;
-    margin-right: 5px;
+    cursor: pointer;
 `
-const FormGroup = styled.div`
-   display:flex; 
+
+const LabelBox = styled.label`
+    cursor: pointer;
+    padding-left: 5px;
 `
-const FormLabel = styled.label`
-    width:120px;
-    text-align: right;
-    padding-right: 20px;
-    padding-top:12px
-    color:#fff;
-`
-const Input = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  color: #2b0000;
-  background: #fff1f1;
-  border: none;
-  border-radius: 8px;
-  width: 90%;
-  height: 28px;
-  text-align:center;
-`;
