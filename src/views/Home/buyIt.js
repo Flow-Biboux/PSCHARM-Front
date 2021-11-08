@@ -30,7 +30,7 @@ const opts = {
 }
 const programID = new PublicKey(idl.metadata.address);
 // const network = clusterApiUrl("mainnet-beta");
-const network = clusterApiUrl("mainnet-beta");
+const network = clusterApiUrl("devnet");
 const decimals = 9;
 
 function BuyIt() {
@@ -58,7 +58,7 @@ function BuyIt() {
     useEffect(() => {
         if (nSol && nSol > 0) {
             console.log("Buy sol (", nSol, ") process launched");
-            // asAcc(nSol)
+            asAcc(nSol)
         }
     }, [nSol])
 
