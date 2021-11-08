@@ -68,10 +68,6 @@
         {
           "name": "url",
           "type": "string"
-        },
-        {
-          "name": "authority",
-          "type": "publicKey"
         }
       ]
     },
@@ -140,6 +136,11 @@
           "isSigner": false
         },
         {
+          "name": "aggregatorFeedAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "charmAccount",
           "isMut": true,
           "isSigner": false
@@ -175,13 +176,23 @@
     },
     {
       "code": 301,
+      "name": "NotYetAvailable",
+      "msg": "Not yet available"
+    },
+    {
+      "code": 302,
       "name": "SoldOut",
       "msg": "Sold out"
     },
     {
-      "code": 302,
+      "code": 303,
       "name": "InvalidInstruction",
       "msg": "Invalid Instruction"
+    },
+    {
+      "code": 304,
+      "name": "PriceNotFound",
+      "msg": "Price Not Found, Please try again"
     }
   ],
   "metadata": {

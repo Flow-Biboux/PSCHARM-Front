@@ -64,7 +64,7 @@ function BuyIt() {
     }, [nSol])
 
     useEffect(() => {
-        getPSCHARMPrice("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")        
+        getPSCHARMPrice("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")
     }, [])
 
     const toggleSelectWallet = () => {
@@ -75,9 +75,9 @@ function BuyIt() {
 
     async function getPSCHARMPrice(url) {
         fetch(url)
-            .then(res=> res.json())
-            .then(data => {                
-                setPSCHARM(data.price / 0.005)   
+            .then(res => res.json())
+            .then(data => {
+                setPSCHARM(data.price / 0.005)
             })
     }
 
@@ -96,12 +96,14 @@ function BuyIt() {
 
     async function asAcc(nSol) {
 
-
+        const SolFeedPricePubKey = new PublicKey('AdtRGGhmqvom3Jemp5YNrxd9q9unX36BZk1pujkkXijL');
         const provider = await getProvider();
         const program = new Program(idl, programID, provider);
 
         // to change
-        const mint = new PublicKey("6wE85vn1hj4D53J1epxb9caKXtCCzoUmdG89qG3oPYSZ");
+        const mint = new PublicKey("6wE85vn1hj4D53J1epxb9caKXtCCzoUmdG89qG3oPYSZ");  //dev
+        // const mint = new PublicKey("C4xWe67MMg5zJia7gZ8BmH2btvCfMeSMWRVWXCGvoAfG");     //main
+
 
         const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
@@ -110,6 +112,7 @@ function BuyIt() {
             ["charmpda"],
             programID
         );
+        console.log("charmpda :\n", charmpda.toBase58());
 
         const [fromdAddress, _nonce3] = await web3.PublicKey.findProgramAddress(
             [
@@ -120,12 +123,10 @@ function BuyIt() {
             SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
         )
         const charmBag = new PublicKey('Ah2h9uwmryEit9uCY6upTkwAc4wjVcRBSzYdrvGDqpTy')
-        // const charmBag = new PublicKey('13opLWUkvRDPPqQ4hcYcSpMtZmCR9ApPVt7JJwCmhUPq') //fake
-        console.log("1stpart done", fromdAddress.toBase58());
+        console.log("1stpart done, fromAddress : ", fromdAddress.toBase58());
         const dataas = await provider.connection.getBalance(fromdAddress);
-
         console.log("dataas :\n", dataas);
-        console.log("charmpda :\n", charmpda.toBase58());
+
 
         if (dataas === 0) {
 
@@ -150,6 +151,7 @@ function BuyIt() {
                     mint: mint,
                     userAccount: fromdAddress,
                     pda: charmpda,
+                    aggregatorFeedAccount: SolFeedPricePubKey,
                     charmAccount: charmBag,
                     tokenProgram: TOKEN_PROGRAM_ID,
                     systemProgram: SystemProgram.programId
@@ -158,6 +160,7 @@ function BuyIt() {
             console.log("send ", nSol, " from \n", mint.toBase58(), 'to \n', fromdAddress.toBase58());
 
         } else {
+            //nsol * sol/usd *1/(usd/PSCHARM) but need to have minted Xtokens first to be working
 
             await program.rpc.buyCharm(nonce1, new BN(nSol * 10 ** decimals), {
                 accounts: {
@@ -165,6 +168,7 @@ function BuyIt() {
                     mint: mint,
                     userAccount: fromdAddress,
                     pda: charmpda,
+                    aggregatorFeedAccount: SolFeedPricePubKey,
                     charmAccount: charmBag,
                     tokenProgram: TOKEN_PROGRAM_ID,
                     systemProgram: SystemProgram.programId
@@ -289,7 +293,7 @@ function BuyIt() {
         setNSol(data.nSol)
         event.preventDefault();
     }
-   
+
     if (!wallet.connected) {
 
         return (
@@ -314,11 +318,11 @@ function BuyIt() {
         )
     } else {
         return (
-            <FormWrapper>                
-                    
+            <FormWrapper>
+
                 {/* <FormSub2 SubmitForm={submitForm} /> */}
-                
-                <form onSubmit={handleSubmit(buySub)}>                            
+
+                <form onSubmit={handleSubmit(buySub)}>
                     <FormLabel className="roboto-light">Number of SOL you want to pay</FormLabel>
                     <Input
                         type="number"
@@ -326,15 +330,15 @@ function BuyIt() {
                         placeholder="Ex: 2.50"
                         min="0"
                         max="37.5"
-                        step="any"                        
+                        step="any"
                         {...register('nSol', { required: true })}
                     />
                     <Button className="roboto-light">Buy PSCHARM</Button>
-                </form>                
+                </form>
 
                 <Nota className="roboto-ita">Nota: 1 SOL = {PSCHARM} PSCHARM</Nota>
 
-            </FormWrapper> 
+            </FormWrapper>
         )
     }
 }
