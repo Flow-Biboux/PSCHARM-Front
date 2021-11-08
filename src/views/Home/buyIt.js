@@ -38,6 +38,7 @@ function BuyIt() {
     const [myJson, setMyJson] = useState(null);
     const [myImg, setMyImg] = useState(null);
     const [nSol, setNSol] = useState(null);
+    const [PSCHARM, setPSCHARM] = useState(null);
     const wallet = useWallet();
     const { register, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -57,15 +58,27 @@ function BuyIt() {
 
     useEffect(() => {
         if (nSol && nSol > 0) {
-            console.log("Buy sol (", nSol, ") process launched");
+            console.log(`Buy sol (${nSol}) process launched`);
             asAcc(nSol)
         }
     }, [nSol])
+
+    useEffect(() => {
+        getPSCHARMPrice("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT")        
+    }, [])
 
     const toggleSelectWallet = () => {
         const selectWallet = document.querySelector("#select-wallet");
 
         selectWallet.classList.contains("select-wallet-active") ? selectWallet.classList.remove("select-wallet-active") : selectWallet.classList.add("select-wallet-active")
+    }
+
+    async function getPSCHARMPrice(url) {
+        fetch(url)
+            .then(res=> res.json())
+            .then(data => {                
+                setPSCHARM(data.price / 0.005)   
+            })
     }
 
     async function getProvider() {
@@ -276,7 +289,7 @@ function BuyIt() {
         setNSol(data.nSol)
         event.preventDefault();
     }
-
+   
     if (!wallet.connected) {
 
         return (
@@ -304,6 +317,7 @@ function BuyIt() {
             <FormWrapper>                
                     
                 {/* <FormSub2 SubmitForm={submitForm} /> */}
+                
                 <form onSubmit={handleSubmit(buySub)}>                            
                     <FormLabel className="roboto-light">Number of SOL you want to pay</FormLabel>
                     <Input
@@ -311,13 +325,14 @@ function BuyIt() {
                         name="nSol"
                         placeholder="Ex: 2.50"
                         min="0"
-                        pattern="[0-9]{1,12}"
+                        max="37.5"
+                        step="any"                        
                         {...register('nSol', { required: true })}
                     />
                     <Button className="roboto-light">Buy PSCHARM</Button>
-                </form>
+                </form>                
 
-                <Nota className="roboto-ita">Nota: 1 SOL = X PSCHARM</Nota>
+                <Nota className="roboto-ita">Nota: 1 SOL = {PSCHARM} PSCHARM</Nota>
 
             </FormWrapper> 
         )
