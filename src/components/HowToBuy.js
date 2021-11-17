@@ -1,21 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
+import Footer from './Footer'
+import { smallBreakPoint } from '../css/variables'
 
-function HowToBuy({backgroundImg}) {
+function HowToBuy() {
     return (
-        <Container bgImage={backgroundImg}>
-            <Title>
+        <Container id="how-to-buy">
+
+            <HowToBuyTitle>
                 HOW TO BUY CHARM
-            </Title>
+            </HowToBuyTitle>
             
             <PageText>
 
                 <PageContent>
                     
                     <PageTitle>
-                        PHANTOM/ SOLLET
+                        PHANTOM
                     </PageTitle>
-                    <PageSubTitle>
+                    <PageSubTitle className="roboto-light">
                         (Solana Blockchain)
                     </PageSubTitle>
 
@@ -23,8 +26,8 @@ function HowToBuy({backgroundImg}) {
 
                         <StepsText>
                             <NumberLight>1</NumberLight> 
-                            <p>
-                                Create a wallet on PHANTOM or SOLLET. You will be given a Seed <br/>
+                            <p className="roboto-light">
+                                Create a wallet on PHANTOM. You will be given a Seed <br/>
                                 Phrase when you set up your crypto wallet for the first time.<br/> 
                                 Please write that down on a piece of paper rather than save it digitally. 
                             </p>
@@ -32,35 +35,39 @@ function HowToBuy({backgroundImg}) {
 
                         <StepsText>
                             <NumberLight>2</NumberLight> 
-                            <p>
+                            <p className="roboto-light">
                                 Buy Solana on Binance/Coinbase/Huobi <br/> or any exchange who provide Solana
                             </p>
                         </StepsText>
                         <StepsText>
                             <NumberLight>3</NumberLight>
-                            <p>
-                                Send SOLANA coin to your PHANTOM or SOLLET from the  <br/>
+                            <p className="roboto-light">
+                                Send SOLANA coin to your PHANTOM from the  <br/>
                                 exchange you buy it<br/>
-                                Go to your Phantom or Sollet:<br/>
-                                1- click on "Deposit SOLANA"<br/>
-                                2-"send" from wallet/exchange"<br/>
-                                3- copy the address (start with 0x...)<br/>
+                                Go to your Phantom:<br/>
+                                1 - click on "Deposit SOLANA"<br/>
+                                2 - "send" from wallet/exchange"<br/>
+                                3 - copy the address (start with 0x...)<br/>
                                 Go to your exchange (Binance/Coinbase/Huobi) and click to "withdraw" your <br/>
                                 Solana<br/>
-                                Past your wallet address from Phantom or Sollet  (0x...)<br/>
-                                Valid the operation, and wait to see your Solana on your Phantom or Sollet <br/>
+                                Past your wallet address from Phantom (0x...)<br/>
+                                Valid the operation, and wait to see your Solana on your Phantom<br/>
                                 wallet.                
                             </p>
                         </StepsText>   
-                        <StepsText>
+                        {/* <StepsText>
                             <NumberLight className="number-shadow">4</NumberLight>
-                            <p>
+                            <p className="roboto-light">
                                 Visit SERUM or SOLAPE and swap your SOL for CHARM<br/>
-                                -Connect your Phantom or Sollet wallet<br/>
-                                -Copy the CHARM address token and paste it on the search bar and swap <br/>
-                                your Solana for CHARM<br/>
-                                Charm address token : 0x95757532284485...
+                                - Connect your Phantom wallet<br/>
+                                - Copy the CHARM address token and paste it on the search bar and swap <br/>
+                                your Solana for CHARM                                
                             </p>
+                        </StepsText>                         */}
+                        <StepsText className="phantom-address">                 
+                            <p className="roboto-ita">
+                                Charm address token : 0x95757532284485...
+                            </p>       
                         </StepsText>                        
 
                     </StepsContent>
@@ -127,6 +134,16 @@ function HowToBuy({backgroundImg}) {
 
             </PageText>
 
+            <CongratulationText className="lead-title">
+                <TitleImg src="/images/Charm_logo_redmask.png" />
+                <HeadTitle>
+                    CONGRATULATIONS, YOU ARE NOW
+                    <br />
+                    A PROUD HODLER OF CHARM!
+                </HeadTitle>
+            </CongratulationText>
+
+            <Footer />
         </Container>
     )
 }
@@ -136,10 +153,11 @@ export default HowToBuy
 const Container = styled.div`
     padding-top: 126px;
 
-    background-image: url("/images/Charm_01.jpeg");
-    background-color: rgb(67, 0, 0);
+    background-image: url('/images/Charm_01.jpg');    
     width: 100%;
+    position: relative;
     height: 100vh;
+    
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -149,19 +167,70 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;    
     align-items: center;
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        background-position: center;
+        background-image: url('/images/Charm_01-mobile.jpg');
+        padding-top: 90px;
+        margin-bottom: 50px;
+
+        min-height: 100vh;
+        height: auto;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #000;
+        opacity: 0.3;
+        z-index: 10;
+
+        @media screen and (max-width: ${smallBreakPoint}) {
+            opacity: 0.4;
+        }
+    }
 `
 
-const Title = styled.h1`
+const HowToBuyTitle = styled.h1`
     width: 100%;
+    text-transform: uppercase;
     font-size: 100px;
     font-weight: normal;
+    z-index: 10;
+    margin-top: 10px;
 
     display: flex;
     justify-content: center;
+
+    @media screen and (max-width: 768px) {
+        font-size: 90px;
+    }
+
+    @media screen and (max-width: 690px) {
+        font-size: 80px;
+    }
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        font-size: 70px;
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: 60px;
+    }
+
+    @media screen and (max-width: 430px) {
+        font-size: 50px;
+    }
+
+    @media screen and (max-width: 360px) {
+        font-size: 40px;
+    }
 `
 
 const PageText = styled.div`
     display: flex;
+    z-index: 10;
 `
 
 const PageContent = styled.div`
@@ -171,9 +240,11 @@ const PageContent = styled.div`
 `
 
 const PageTitle = styled.h2`
+    font-weight: normal;
     font-size: 40px;
     display: flex;
     justify-content: center;
+
 `
 
 const PageSubTitle = styled.h3`
@@ -186,6 +257,8 @@ const StepsContent = styled.ul`
     flex-direction: column;
     align-items: flex-start;
 
+    padding: 0 20px;
+
     list-style: none;
 `
 
@@ -194,6 +267,10 @@ const StepsText = styled.li`
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
+
+    &.phantom-address {
+        margin-left: 54px;
+    }
 
     p {
         width: 100%;        
@@ -217,8 +294,50 @@ const NumberLight = styled.span`
     }
 `
 
-const NumberDark = styled(NumberLight)`
-    color: white;
-    background-color: rgb(67, 0, 0);
+// const NumberDark = styled(NumberLight)`
+//     color: white;
+//     background-color: rgb(67, 0, 0);
 
+// `
+
+const TitleImg = styled.img`
+    height: 200px;
+    opacity: 20%;
+
+    margin: 0 100px;
+    /* padding: 30px; */
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        height: 135px;
+    }
+`
+
+const HeadTitle = styled.p`
+    text-align: center;
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 36px;
+    position: absolute;
+
+    top: 73px;
+
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        font-size: 20px;
+        line-height: 25px;
+        top: 50px;
+    }
+`
+
+const CongratulationText = styled.div`
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    @media screen and (max-width: ${smallBreakPoint}) {
+        display: none;
+    }
 `
