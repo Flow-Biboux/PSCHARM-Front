@@ -39,7 +39,7 @@ function BuyIt() {
     const [myImg, setMyImg] = useState(null);
     const [nSol, setNSol] = useState(null);
     const [PSCHARM, setPSCHARM] = useState(null);
-    const wallet = useWallet();
+    const wallet = useWallet();    
     const { register, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {},
@@ -101,9 +101,10 @@ function BuyIt() {
         const program = new Program(idl, programID, provider);
 
         // to change
-        const mint = new PublicKey("6wE85vn1hj4D53J1epxb9caKXtCCzoUmdG89qG3oPYSZ");  //dev
+        const mint = new PublicKey("CchpsgFWhefV2oEqSdKdSawAudEfxvxpgJdqzb8PeAdU");  //dev
         // const mint = new PublicKey("C4xWe67MMg5zJia7gZ8BmH2btvCfMeSMWRVWXCGvoAfG");     //main
 
+        const mintAccount = new PublicKey("H2o3JEwZiTQZbZX9SU2iAq4VoUKnytXM84wUi7y6mJXQ");
 
         const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
@@ -130,9 +131,9 @@ function BuyIt() {
 
         if (dataas === 0) {
 
-            await program.rpc.createAssociatedAccount(
+            try {
 
-                {
+                await program.rpc.createAssociatedAccount({
                     accounts: {
                         signer: provider.wallet.publicKey,
                         mint: mint,
@@ -140,14 +141,18 @@ function BuyIt() {
                         tokenProgram: TOKEN_PROGRAM_ID,
                         systemProgram: SystemProgram.programId,
                         rentProgram: SYSVAR_RENT_PUBKEY,
-                        associatedProgram: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+                        associatedProgram: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
                     }
                 });
-            console.log("associated account done");
+                console.log("associated account done");
+            } catch (err) {
+                console.log("Translating error", err);
+            }
 
             await program.rpc.buyCharm(nonce1, new BN(nSol * 10 ** decimals), {
                 accounts: {
                     signer: provider.wallet.publicKey,
+                    tokenPurse: mintAccount,
                     mint: mint,
                     userAccount: fromdAddress,
                     pda: charmpda,
@@ -165,6 +170,7 @@ function BuyIt() {
             await program.rpc.buyCharm(nonce1, new BN(nSol * 10 ** decimals), {
                 accounts: {
                     signer: provider.wallet.publicKey,
+                    tokenPurse: mintAccount,
                     mint: mint,
                     userAccount: fromdAddress,
                     pda: charmpda,
@@ -210,7 +216,7 @@ function BuyIt() {
         const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
         console.log("mintAccount : \n" + mintAccount);
 
-        mintToAccount(provider, mint, mintAccount, 10 ** (decimals + 9), provider.wallet.publicKey);
+        mintToAccount(provider, mint, mintAccount, (10 ** (decimals + 6)) * 50, provider.wallet.publicKey);
 
         const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
@@ -240,6 +246,7 @@ function BuyIt() {
                 accounts: {
                     payer: provider.wallet.publicKey,
                     mint: mint,
+                    tokenPurse: mintAccount,
                     pda: charmpda,
                     mintAuthority: provider.wallet.publicKey,
                     updateAuthority: provider.wallet.publicKey,
@@ -318,7 +325,7 @@ function BuyIt() {
         )
     } else {
         return (
-            <FormWrapper>
+            <FormWrapper id="buy">
 
                 {/* <FormSub2 SubmitForm={submitForm} /> */}
 
@@ -329,7 +336,7 @@ function BuyIt() {
                         name="nSol"
                         placeholder="Ex: 2.50"
                         min="0"
-                        max="37.5"
+                        // max="37.5"
                         step="any"
                         {...register('nSol', { required: true })}
                     />
@@ -346,6 +353,7 @@ function BuyIt() {
 export default BuyIt;
 
 const FormWrapper = styled.div`
+    padding-top: 126px;
     margin: 140px auto 0 auto;
     max-width: 500px;
     width: 100%;
