@@ -157,9 +157,12 @@ function AnimatedHeader({animated}) {
                             <Link to="/how-to-buy">How to buy</Link>
                         </li>
                         <li className="main-li app-button">
-                            <HashLink smooth target="_blank" to="/feed" className="charm-app">
+                            {/* <HashLink smooth target="_blank" to="/feed" className="charm-app">
                                 Charm
-                            </HashLink>
+                            </HashLink> */}
+                            <span className="charm-app">
+                                Charm
+                            </span>
                         </li>
                     </ul>
 
@@ -177,8 +180,10 @@ const HeaderWrap = styled.header`
     height: 1rm;
 
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    z-index: 999;
+    z-index: 50;
 
     .top-anim {
         transition: 0.3s ease-in-out;
@@ -326,6 +331,22 @@ const NavContainer = styled.div`
 
         font-size: 26px;
         font-weight: bold;
+
+        // start to remove when switching back to HashLink for Charm app link .charm-app
+        position: relative;
+        text-transform: uppercase;
+        transition: 0.1s ease-in;
+        cursor: pointer;
+
+        &:hover::after {
+            content: 'coming soon';
+            position: absolute;
+            font-size: 22px;
+            bottom: -93px;
+            background-color: black;
+            padding: 20px;
+        }
+        // end to remove
 
         &:hover {
             background: linear-gradient(90deg, rgba(107, 3, 3, 1) 0%, rgba(193, 54, 3, 1) 50%, rgba(107, 3, 3, 1) 100%);
