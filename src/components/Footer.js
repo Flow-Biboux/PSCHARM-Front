@@ -30,7 +30,8 @@ const FooterWrapper = styled.footer`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    height: 60px;
+    min-height: 60px;
+    min-width: 100%;
     background-color: black;
     padding-right: 60px;
 
