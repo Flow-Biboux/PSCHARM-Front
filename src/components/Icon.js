@@ -17,8 +17,8 @@ const IconLink = styled.a`
 `
 
 const IconImg = styled.img`
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     margin-right: 12px;
 
     :hover {
