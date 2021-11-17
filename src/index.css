@@ -1,4 +1,4 @@
-html{
+/* html{
   height: 100%;
 }
 body {
@@ -30,7 +30,7 @@ body::after{
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
 
 .app-home {
   margin-top: 100px;
@@ -75,8 +75,7 @@ code {
 .wallet-adapter-modal h1#wallet-adapter-modal-title{
   margin-top: 10px;
     margin-bottom: 40px;
-    text-align: center;
-    font-family: 'Playfair Display',serif;
+    text-align: center;    
     font-size: 36px;
     text-transform: uppercase;
     color: #fff;
@@ -86,9 +85,4 @@ code {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.wallet-adapter-modal button.wallet-adapter-button{
-  margin: 0 auto;
-  display: block;
 }
