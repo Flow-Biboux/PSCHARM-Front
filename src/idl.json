@@ -16,6 +16,11 @@
           "isSigner": false
         },
         {
+          "name": "tokenPurse",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "pda",
           "isMut": true,
           "isSigner": false
@@ -121,7 +126,7 @@
           "isSigner": true
         },
         {
-          "name": "mint",
+          "name": "tokenPurse",
           "isMut": true,
           "isSigner": false
         },
