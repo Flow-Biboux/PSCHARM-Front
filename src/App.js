@@ -10,7 +10,7 @@ import Home from "./views/Home/index";
 import Feed from "./views/Feed/index";
 import Topbar from "./components/layout/topbar";
 import { clusterApiUrl } from '@solana/web3.js';
-import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
+import { getPhantomWallet, getSolletWallet, getSlopeWallet, getLedgerWallet } from '@solana/wallet-adapter-wallets';
 import { WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import SiteHome from './components/SiteHome'
@@ -19,7 +19,7 @@ import HowToBuy from './components/HowToBuy'
 import BuyIt from "./views/Home/buyIt";
 
 
-const wallets = [getPhantomWallet()]
+const wallets = [getPhantomWallet(), getSlopeWallet(), getSolletWallet(), getLedgerWallet()]
 const network = clusterApiUrl('devnet');
 
 function ScrollToTop() {
@@ -61,7 +61,7 @@ function App() {
             <Home />
           </Route>
           <Route path="/buy" exact>
-            <Topbar></Topbar>
+            <AnimatedHeader />
             <ScrollToTop />              
             <BuyIt />
           </Route>
