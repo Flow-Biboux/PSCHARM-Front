@@ -16,16 +16,6 @@
           "isSigner": false
         },
         {
-          "name": "tokenPurse",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "pda",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "mintAuthority",
           "isMut": false,
           "isSigner": true
@@ -75,6 +65,32 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "changeOwnership",
+      "accounts": [
+        {
+          "name": "payer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "tokenPurse",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "futureAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     },
     {
       "name": "createAssociatedAccount",
