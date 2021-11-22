@@ -38,6 +38,9 @@ function Home() {
     const [myVar, setMyvar] = useState(null);
     const [myJson, setMyJson] = useState(null);
     const [myImg, setMyImg] = useState(null);
+    const [myName, setMyName] = useState(null);
+    const [mySymb, setMySymb] = useState(null);
+
     const wallet = useWallet();
 
     useEffect(() => {
@@ -311,14 +314,13 @@ function Home() {
         console.log("mint Public Key : \n", mint.toBase58());
         // console.log("provider.publicKey : \n", provider.wallet.publicKey.toBase58());
 
-        await program.rpc.metadata(metadataToMint, {
+        await program.rpc.initialize(myName, mySymb, linkAr, {
             accounts: {
                 payer: provider.wallet.publicKey,
                 mint: mint,
                 mintAuthority: provider.wallet.publicKey,
                 updateAuthority: provider.wallet.publicKey,
                 metadataAccount: metadataAccount,
-                masterEditionAccount: masterEditionAccount,
                 metadataProgram: metadataMainAccount,
                 tokenProgram: TOKEN_PROGRAM_ID,
                 systemProgram: SystemProgram.programId,
@@ -349,51 +351,13 @@ function Home() {
             }
         });
 
-
-          // get metadata account that holds the metadata information
-  const m = await getMetadataAccount(mint);
-  console.log("metadata acc: ", m);
-  
-  // get the account info for that account
-//   const accInfo = await provider.connection.getAccountInfo(m);
-//   console.log(accInfo);
-
-//   // finally, decode metadata
-//   console.log(decodeMetadata(accInfo.data));
-
-        // get metadata account that holds the metadata information
-        // const m = await getMetadataAccount(mint) //new PublicKey("EMu2TFePyLxMc3ppd1Ea7xRzTSmxXzBMAkHoQYFJKLNv"));
-        // console.log("metadata acc: ", m);
-
-        // get the account info for that account
-        // const accInfomasterEditionAccount = await provider.connection.getBalance(m);
-        // console.log("accInfomasterEditionAccount : \n", accInfomasterEditionAccount);
-        // console.log("accInfomasterEditionAccountdeco : \n", decodeMetadata(accInfomasterEditionAccount.data));
-        // console.log("accInfomasterEditionAccount.data : \n", accInfomasterEditionAccount.data);
-        const accInfomasterEditionAccount2 = await provider.connection.getAccountInfo(mint);
-        // 
-        // 
-        
-        console.log("accInfomasterEditionAccount2 : \n", accInfomasterEditionAccount2.data);
-        const string = decodeMetadata(accInfomasterEditionAccount2.data)
-        console.log('string  meta : \n ',string);
-        // console.log("accInfomasterEditionAccount2 : \n", accInfomasterEditionAccount2.data);
-        // console.log("accInfomasterEditionAccount2.data : \n", decodeMetadata(accInfomasterEditionAccount2.data));
-        // console.log("accInfomasterEditionAccount : \n",deserialize(METADATA_SCHEMA,accInfomasterEditionAccount2.data));
-
-        // console.log("accInfomasterEditionAccountdeser : \n", deserialize(METADATA_SCHEMA,Metadata,accInfomasterEditionAccount.data));
-
-
-        // finally, decode metadata
-        // console.log("decoded : \n", decodeMetadata(accInfo.data).data);
-
         const linkExploNFT = "https://explorer.solana.com/address/" + mint.toBase58() + "?cluster=devnet";
         console.log('link to MasterEdition account : \n', linkExploNFT);
         alert("congratulation, your NFT have been created under the name : \n" + mintAccount.toBase58() + ' !');
         window.open(linkExploNFT);
     }
 
-    const submitForm = (data,e) => {
+    const submitForm = (data, e) => {
 
         let nName = "";
         if (data.name.length < 20) {
@@ -412,7 +376,8 @@ function Home() {
         const NNN = nName + nSymb;
 
         setMyvar(NNN);
-
+        setMyName(data.name)
+        setMySymb(data.symbol)
         // console.log("data :\n", data);
         const shortData = { ...data };
         delete shortData.photoupload;
@@ -426,19 +391,19 @@ function Home() {
 
         console.log("File loaded :\n", data.photoupload[0].name);
 
-        setMyImg(data.photoupload[0]);  
-            // setTimeout( ()=> console.log("myJson", myJson), 5000)
+        setMyImg(data.photoupload[0]);
+        // setTimeout( ()=> console.log("myJson", myJson), 5000)
         console.log("MyVar onSubmit:", myVar);
         console.log("MyJson onSubmit:", myJson);
         console.log("img onSubmit:", myImg);
-// console.log(e.target,'------------------------------------');
+        // console.log(e.target,'------------------------------------');
         // e.target.reset();
         // console.log('that tha',data);
         // while (myVar === "" && myJson === "" && myImg === "") {
         //     console.log("Oh non, c'est vide par ici!");
         // }
-  
-// debugger
+
+        // debugger
         // mintIt()
 
 
@@ -462,7 +427,7 @@ function Home() {
 
     // }
 
-    
+
 
 
     if (!wallet.connected) {
