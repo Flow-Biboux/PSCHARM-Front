@@ -64,7 +64,7 @@ function AnimatedHeader({animated}) {
             >
                 <Icon iconLink="https://twitter.com/charm_token" iconImg="/images/icons/Twitter_01.svg" />
                 <Icon iconLink="https://instagram.com/charm_token" iconImg="/images/icons/Instagram_01.svg" />
-                <Icon iconLink="https://discord.gg/m84xh3zW" iconImg="/images/icons/Discord.svg" />
+                <Icon iconLink="https://discord.gg/NPJbqp6Sas" iconImg="/images/icons/Discord.svg" />
                 <Icon iconLink="https://t.me/CharmTokenOfficial" iconImg="/images/icons/Telegram_01.svg" />
             </TopHeader>
 
@@ -105,61 +105,7 @@ function AnimatedHeader({animated}) {
                             'nav-menu-active'
                         }
                     >
-                        <LiWithSub className="with-sub main-li">
-                            <Link className="home" to="/">
-                                <Span>Home</Span>
-                            </Link>
-                            <SubMenu className="sub-menu">
-                                <li>
-                                    <HashLink smooth to="/#about" scroll={(el) => scrollWithOffset(el)}>
-                                        About
-                                    </HashLink>
-                                </li>
-                                <li>
-                                    <HashLink smooth to="/#sale" scroll={(el) => scrollWithOffset(el)}>
-                                        Sale
-                                    </HashLink>
-                                </li>
-                                <li>
-                                    <HashLink smooth to="/#features" scroll={(el) => scrollWithOffset(el)}>
-                                        Features
-                                    </HashLink>
-                                </li>
-                                <li>
-                                    <HashLink smooth to="/#tokenomics" scroll={(el) => scrollWithOffset(el)}>
-                                        Tokenomics
-                                    </HashLink>
-                                </li>
-                                <li><HashLink 
-                                        smooth 
-                                        to="/#road-map"
-                                        scroll={el => scrollWithOffset(el)}
-                                    >
-                                        Road Map
-                                    </HashLink>
-                                </li>
-                                {/* <li><HashLink 
-                                        smooth 
-                                        to="/#team"
-                                        scroll={el => scrollWithOffset(el)}
-                                    >
-                                        Team
-                                    </HashLink>
-                                </li> */}
-                            </SubMenu>
-                        </LiWithSub>
-
-                        <li className="main-li">
-                            <a href="/documents/Charm_White_Paper_PDF.pdf">Wpaper</a>
-                        </li>
-                        <li className="main-li">
-                            {/* <a href="/">How to buy</a> */}
-                            <Link to="/how-to-buy">How to buy</Link>
-                        </li>
                         <li className="main-li app-button">
-                            {/* <HashLink smooth target="_blank" to="/feed" className="charm-app">
-                                Charm
-                            </HashLink> */}
                             <span className="charm-app">
                                 Charm
                             </span>

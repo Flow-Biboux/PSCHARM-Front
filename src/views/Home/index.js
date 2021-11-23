@@ -6,7 +6,7 @@ import Home from "./Home"
 
 const Index = (props) => {
     return(
-        <Home />    
+        <BuyIt />    
 )};
 
 export default Index;

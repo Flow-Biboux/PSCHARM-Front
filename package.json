@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-cdk/aws-elasticbeanstalk": "^1.133.0",
+    "@aws-cdk/aws-s3-assets": "^1.133.0",
     "@aws-sdk/client-s3": "^3.35.0",
     "@aws-sdk/credential-provider-cognito-identity": "3.35.0",
     "@project-serum/anchor": "^0.16.2",

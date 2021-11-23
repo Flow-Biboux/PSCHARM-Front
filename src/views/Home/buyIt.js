@@ -8,13 +8,8 @@ import { Connection, PublicKey, clusterApiUrl, SYSVAR_RENT_PUBKEY } from "@solan
 import { Program, Provider, web3, BN } from "@project-serum/anchor";
 import { useWallet, } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import FormSub2 from "./formSub2";
-import { addPhoto } from "../../s3";
-import { pushArweave } from "../../pushArweave";
-
 
 var bs58 = require('bs58')
-
 
 const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID = new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
 const {
@@ -50,13 +45,6 @@ function BuyIt() {
         shouldFocusError: true,
         shouldUnregister: true,
     })
-
-    // useEffect(() => {
-    //     if (myJson) {
-    //         console.log("launching createPSCHARM process");
-    //         createPSCHARM()
-    //     }
-    // }, [myJson])
 
     useEffect(() => {
         if (nSol && nSol > 0) {
@@ -103,9 +91,6 @@ function BuyIt() {
 
         const mint = new PublicKey("C4xWe67MMg5zJia7gZ8BmH2btvCfMeSMWRVWXCGvoAfG");  //PSCHARM 
 
-        const mintAccount = new PublicKey("ytPCyvXzb1AqLAcaajUZXtfJkVmTVytJL1vxeesgE9i");
-
-        const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
         const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
 
         const [charmpda, nonce1] = await web3.PublicKey.findProgramAddress(
@@ -158,7 +143,7 @@ function BuyIt() {
                 }
             });
             console.log("Number of Sol sent : ", nSol, " \n mint of PSCHARM: \n", mint.toBase58(), ' \n PSCHARM Public Address :\n', fromdAddress.toBase58());
-            alert("Transfer is successfull, this is your account: ", fromdAddress.toBase58(), " you can find it on the explorer!")
+            alert("Transfer is successfull, this is your account: \n", fromdAddress.toBase58(), "\n you can find it on the explorer!")
         } else {
             
             await program.rpc.buyCharm(nonce1, new BN(nSol * 10 ** decimals), {
@@ -176,108 +161,11 @@ function BuyIt() {
             });
 
             console.log("Number of Sol sent : ", nSol, " \n mint of PSCHARM: \n", mint.toBase58(), ' \n PSCHARM Public Address :\n', fromdAddress.toBase58());
-            alert("Transfer is successfull, this is your account: ", fromdAddress.toBase58(), " you can find it on the explorer!")
+            alert("Transfer is successfull, this is your account: \n", fromdAddress.toBase58(), "\n you can find it on the explorer!")
 
         }
     }
 
-
-    async function updateMetaToken() {
-
-        const provider = await getProvider();
-        const program = new Program(idl, programID, provider);
-
-        const tokenPurse = new PublicKey("HddDcpTXPrgYMfsErA9jHefMgUvoGaHxvjL1qVU6QYcs")
-        const mint = new PublicKey("C4xWe67MMg5zJia7gZ8BmH2btvCfMeSMWRVWXCGvoAfG")
-        const mintAccount = new PublicKey("ytPCyvXzb1AqLAcaajUZXtfJkVmTVytJL1vxeesgE9i")
-
-        const arrayMyJson = {};
-        arrayMyJson.name = "PreSale Charm Token"
-        arrayMyJson.symbol = "PSCHARM"
-        arrayMyJson.address = mint.toBase58()
-        arrayMyJson.uri = "https://s3.amazonaws.com/charmtoken.net/images/Charm_logo_redmask.png"
-
-
-
-        const linkAr = await pushArweave(arrayMyJson);
-        console.log("Arweave link : \n", linkAr);
-
-        const metadataMainAccount = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
-        const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
-
-        const [metadataAccount, _nonce1] = await web3.PublicKey.findProgramAddress(
-            ["metadata", metadataMainAccount.toBuffer(), mint.toBuffer()],
-            metadataMainAccount);
-
-        console.log("Pre init done with mint : ", mint.toBase58(), "\n metadaAccount : ", metadataAccount.toBase58());
-
-        // await program.rpc.initialize()
-        await program.rpc.initialize(
-            arrayMyJson.name,
-            arrayMyJson.symbol,
-            linkAr,
-            {
-                accounts: {
-                    payer: provider.wallet.publicKey,
-                    mint: mint,
-                    mintAuthority: provider.wallet.publicKey,
-                    updateAuthority: provider.wallet.publicKey,
-                    metadataAccount: metadataAccount,
-                    metadataProgram: metadataMainAccount,
-                    tokenProgram: TOKEN_PROGRAM_ID,
-                    systemProgram: SystemProgram.programId,
-                    rentProgram: SYSVAR_RENT_PUBKEY,
-                }
-            });
-        console.log("meta updated, go see:");
-    }
-
-    async function changeOwnership() {
-
-        const provider = await getProvider();
-        const program = new Program(idl, programID, provider);
-        const tokenPurse = new PublicKey("HddDcpTXPrgYMfsErA9jHefMgUvoGaHxvjL1qVU6QYcs")
-        const TOKEN_PROGRAM_ID = new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
-
-        const [charmpda, nonce1] = await web3.PublicKey.findProgramAddress(
-            ["charmpda"],
-            programID
-        );
-        // await program.rpc.initialize()
-        await program.rpc.changeOwnership({
-            accounts: {
-                payer: provider.wallet.publicKey,
-                tokenPurse: tokenPurse,
-                futureAuthority: charmpda,
-                tokenProgram: TOKEN_PROGRAM_ID,
-            }
-        });
-        console.log("ownership changed to : ", charmpda.toBase58());
-    }
-
-    // async function createPSCHARM() {
-
-    //     /// Create associated account for PDA
-
-    //     const provider = await getProvider();
-
-    //     const mint = new PublicKey("C4xWe67MMg5zJia7gZ8BmH2btvCfMeSMWRVWXCGvoAfG");
-
-    //     const mintAccount = await createTokenAccount(provider, mint, provider.wallet.publicKey);
-    //     console.log("Bag Associated account !!!!!!!!!!!!!: \n" + mintAccount);
-
-    // }
-
-
-    const submitForm = (data, e) => {
-        const shortData = { ...data };
-        delete shortData.photoupload;
-
-        const jsondata = JSON.stringify(shortData);
-        setMyJson(jsondata);
-
-        console.log("Stringified Json : \n", jsondata);
-    }
 
     const buySub = (data, event) => {
         // TODO: proper validation against value below 0 - security against bypass
@@ -314,9 +202,6 @@ function BuyIt() {
         return (
             <FormWrapper id="buy">
 
-                {/* <FormSub2 SubmitForm={submitForm} /> */}
-
-                {/* <form onSubmit={handleSubmit(buySub)}> */}
                 <form onSubmit={handleSubmit(buySub)}>
                     <FormLabel className="roboto-light">Number of SOL you want to pay</FormLabel>
                     <Input
@@ -330,7 +215,6 @@ function BuyIt() {
                     />
                     <Button className="roboto-light">Buy PSCHARM</Button>
                 </form>
-                {/* <button onClick={changeOwnership}> changeOwnership </button> */}
                 <Nota className="roboto-ita">Nota: 1 SOL = {PSCHARM} PSCHARM</Nota>
 
             </FormWrapper>
