@@ -15,7 +15,7 @@ import BuyIt from "./views/Home/buyIt";
 
 
 const wallets = [getPhantomWallet(), getSlopeWallet(), getSolletWallet(), getLedgerWallet()]
-const network = clusterApiUrl('devnet');
+const network = clusterApiUrl("mainnet-beta");
 
 function ScrollToTop() {
   const { pathname } = useLocation();
