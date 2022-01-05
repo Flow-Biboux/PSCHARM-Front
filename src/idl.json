@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "name": "charmtoken",
   "instructions": [
     {
@@ -191,32 +191,29 @@
   ],
   "errors": [
     {
-      "code": 300,
+      "code": 6000,
       "name": "AssociateAccountAlreadyExists",
       "msg": "Associate account already exists"
     },
     {
-      "code": 301,
+      "code": 6001,
       "name": "NotYetAvailable",
       "msg": "Not yet available"
     },
     {
-      "code": 302,
+      "code": 6002,
       "name": "SoldOut",
       "msg": "Sold out"
     },
     {
-      "code": 303,
+      "code": 6003,
       "name": "InvalidInstruction",
       "msg": "Invalid Instruction"
     },
     {
-      "code": 304,
+      "code": 6004,
       "name": "PriceNotFound",
       "msg": "Price Not Found, Please try again"
     }
-  ],
-  "metadata": {
-    "address": "D4gZCnjamagp3VRQMZm3s2uhp3FM6UXPnMVk8ARpMoNk"
-  }
+  ]
 }
